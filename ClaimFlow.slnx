@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ClaimFlow.Api/ClaimFlow.Api.csproj" />
+    <Project Path="src/ClaimFlow.AppHost/ClaimFlow.AppHost.csproj" />
+    <Project Path="src/ClaimFlow.BuildingBlocks/ClaimFlow.BuildingBlocks.csproj" />
+    <Project Path="src/ClaimFlow.ServiceDefaults/ClaimFlow.ServiceDefaults.csproj" />
+    <Project Path="src/ClaimFlow.SharedKernel/ClaimFlow.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Claims/">
+    <Project Path="src/Modules/Claims/ClaimFlow.Claims.Domain/ClaimFlow.Claims.Domain.csproj" />
+    <Project Path="src/Modules/Claims/ClaimFlow.Claims/ClaimFlow.Claims.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ClaimFlow.ArchitectureTests/ClaimFlow.ArchitectureTests.csproj" />
+    <Project Path="tests/ClaimFlow.Claims.Domain.UnitTests/ClaimFlow.Claims.Domain.UnitTests.csproj" />
+    <Project Path="tests/ClaimFlow.IntegrationTests/ClaimFlow.IntegrationTests.csproj" />
+  </Folder>
+</Solution>
