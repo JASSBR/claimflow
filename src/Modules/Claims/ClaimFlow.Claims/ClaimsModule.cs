@@ -3,6 +3,7 @@ using ClaimFlow.Claims.Domain;
 using ClaimFlow.Claims.Features;
 using ClaimFlow.Claims.Persistence;
 using ClaimFlow.Claims.Realtime;
+using ClaimFlow.Claims.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -31,6 +32,13 @@ public static class ClaimsModule
         // Adds Aspire's retries, health check and OpenTelemetry instrumentation to the context registered above.
         builder.EnrichNpgsqlDbContext<ClaimsDbContext>();
 
+        builder.Services.AddOptions<ClaimsOptions>().Bind(builder.Configuration.GetSection(ClaimsOptions.SectionName));
+        builder.Services.AddSingleton<ClaimPermissions>();
+        // The module declares its own policies: the host only knows that endpoints require *some* authorization.
+        builder.Services.AddAuthorizationBuilder()
+            .AddPolicy(ClaimPermissions.ReadPolicy, policy => policy.RequireRole(ClaimPermissions.ReaderRoles))
+            .AddPolicy(ClaimPermissions.WritePolicy, policy => policy.RequireRole(ClaimPermissions.WriterRoles));
+
         builder.Services.AddScoped<IDomainEventHandler<ClaimDeclared>, ClaimChangedNotifier>();
         builder.Services.AddScoped<IDomainEventHandler<ClaimStatusChanged>, ClaimChangedNotifier>();
         return builder;
@@ -41,14 +49,15 @@ public static class ClaimsModule
         ArgumentNullException.ThrowIfNull(api);
         ArgumentNullException.ThrowIfNull(root);
 
-        var claims = api.MapGroup("/claims").WithTags("Claims");
+        var claims = api.MapGroup("/claims").WithTags("Claims").RequireAuthorization(ClaimPermissions.ReadPolicy);
         DeclareClaim.Map(claims);
+        GetClaimCapabilities.Map(claims);
         ListClaims.Map(claims);
         GetClaimStats.Map(claims);
         GetClaim.Map(claims);
         ApplyClaimAction.Map(claims);
 
-        root.MapHub<ClaimsHub>(ClaimsHub.Path);
+        root.MapHub<ClaimsHub>(ClaimsHub.Path).RequireAuthorization(ClaimPermissions.ReadPolicy);
         return api;
     }
 

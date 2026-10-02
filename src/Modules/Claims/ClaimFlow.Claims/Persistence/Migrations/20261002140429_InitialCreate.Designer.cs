@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ClaimFlow.Claims.Persistence.Migrations
 {
     [DbContext(typeof(ClaimsDbContext))]
-    [Migration("20261002133344_AddClaimNumberSequence")]
-    partial class AddClaimNumberSequence
+    [Migration("20261002140429_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,12 +73,26 @@ namespace ClaimFlow.Claims.Persistence.Migrations
                         .HasPrecision(12, 2)
                         .HasColumnType("numeric(12,2)");
 
+                    b.Property<string>("ApprovedById")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
                     b.Property<decimal>("ClaimedAmount")
                         .HasPrecision(12, 2)
                         .HasColumnType("numeric(12,2)");
 
                     b.Property<DateTimeOffset>("DeclaredAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeclaredById")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("DeclaredByName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -140,6 +154,16 @@ namespace ClaimFlow.Claims.Persistence.Migrations
                                 .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("character varying(32)");
+
+                            b1.Property<string>("ActorId")
+                                .IsRequired()
+                                .HasMaxLength(128)
+                                .HasColumnType("character varying(128)");
+
+                            b1.Property<string>("ActorName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)");
 
                             b1.Property<Guid>("ClaimId")
                                 .HasColumnType("uuid");

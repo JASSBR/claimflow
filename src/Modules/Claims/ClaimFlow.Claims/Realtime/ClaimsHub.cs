@@ -20,10 +20,14 @@ internal sealed class ClaimChangedNotifier(IHubContext<ClaimsHub> hub)
     : IDomainEventHandler<ClaimDeclared>, IDomainEventHandler<ClaimStatusChanged>
 {
     public Task HandleAsync(ClaimDeclared domainEvent, CancellationToken cancellationToken) =>
-        PublishAsync(new ClaimChangedNotification(domainEvent.ClaimId.Value, domainEvent.Number, ClaimStatus.Declared), cancellationToken);
+        PublishAsync(
+            new ClaimChangedNotification(domainEvent.ClaimId.Value, domainEvent.Number, ClaimStatus.Declared, domainEvent.ActorName, domainEvent.OccurredAt),
+            cancellationToken);
 
     public Task HandleAsync(ClaimStatusChanged domainEvent, CancellationToken cancellationToken) =>
-        PublishAsync(new ClaimChangedNotification(domainEvent.ClaimId.Value, domainEvent.Number, domainEvent.To), cancellationToken);
+        PublishAsync(
+            new ClaimChangedNotification(domainEvent.ClaimId.Value, domainEvent.Number, domainEvent.To, domainEvent.ActorName, domainEvent.OccurredAt),
+            cancellationToken);
 
     private Task PublishAsync(ClaimChangedNotification notification, CancellationToken cancellationToken) =>
         hub.Clients.All.SendAsync(ClaimsHub.ClaimChangedMethod, notification, cancellationToken);

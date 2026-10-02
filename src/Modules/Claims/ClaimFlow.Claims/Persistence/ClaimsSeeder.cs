@@ -1,4 +1,5 @@
 using ClaimFlow.Claims.Domain;
+using ClaimFlow.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClaimFlow.Claims.Persistence;
@@ -6,6 +7,11 @@ namespace ClaimFlow.Claims.Persistence;
 /// <summary>Demo data so a reviewer opening the live app immediately sees claims in every workflow state.</summary>
 internal static class ClaimsSeeder
 {
+    // Same ids as the demo identity provider's personas, so "who did what" in seeded history matches real logins.
+    private static readonly Actor Lea = new("lea", "Léa Martin");
+    private static readonly Actor Karim = new("karim", "Karim Benali");
+    private static readonly Actor Nadia = new("nadia", "Nadia Haddad");
+
     private static readonly (string Policy, ClaimType Type, int DaysAgo, string Description, decimal Amount, ClaimAction[] Path)[] Samples =
     [
         ("POL-104233", ClaimType.Auto, 3, "Collision par l'arrière à un feu rouge, pare-chocs et hayon endommagés.", 2_350m, []),
@@ -32,6 +38,7 @@ internal static class ClaimsSeeder
             var claim = Claim.Declare(
                 new DeclareClaimData(sample.Policy, sample.Type, DateOnly.FromDateTime(now.UtcDateTime.AddDays(-sample.DaysAgo)), sample.Description, sample.Amount),
                 await dbContext.NextClaimNumberAsync(declaredAt, cancellationToken),
+                Lea,
                 declaredAt).Value;
 
             // One hour between steps, so the history reads in the order it happened.
@@ -41,11 +48,11 @@ internal static class ClaimsSeeder
                 at = at.AddHours(1);
                 _ = action switch
                 {
-                    ClaimAction.StartReview => claim.StartReview(at),
-                    ClaimAction.RequestInformation => claim.RequestInformation("Merci de transmettre le procès-verbal et les photos.", at),
-                    ClaimAction.Approve => claim.Approve(sample.Amount * 0.9m, at),
-                    ClaimAction.Reject => claim.Reject("Dommages antérieurs à la date d'effet du contrat.", at),
-                    ClaimAction.Settle => claim.Settle(at),
+                    ClaimAction.StartReview => claim.StartReview(Lea, at),
+                    ClaimAction.RequestInformation => claim.RequestInformation(Lea, "Merci de transmettre le procès-verbal et les photos.", at),
+                    ClaimAction.Approve => claim.Approve(sample.Amount * 0.9m, new ApprovalAuthority(Karim, Claim.MaxClaimedAmount), at),
+                    ClaimAction.Reject => claim.Reject(Lea, "Dommages antérieurs à la date d'effet du contrat.", at),
+                    ClaimAction.Settle => claim.Settle(Nadia, at),
                     _ => throw new InvalidOperationException($"Seed path does not support {action}."),
                 };
             }

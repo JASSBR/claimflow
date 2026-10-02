@@ -11,6 +11,9 @@ public sealed record DeclareClaimData(
     string Description,
     decimal ClaimedAmount);
 
+/// <summary>The approval power delegated to a person ("délégation de pouvoir"): above <paramref name="Limit"/>, someone more senior must approve.</summary>
+public sealed record ApprovalAuthority(Actor Approver, decimal Limit);
+
 /// <summary>
 /// An insurance claim ("sinistre") and its handling workflow.
 /// Every state change goes through <see cref="Transition"/>, so the workflow table below is the single source of truth:
@@ -61,6 +64,13 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
 
     public DateTimeOffset DeclaredAt { get; private set; }
 
+    public string DeclaredById { get; private set; } = string.Empty;
+
+    public string DeclaredByName { get; private set; } = string.Empty;
+
+    /// <summary>Who approved the claim. Kept to enforce the four-eyes rule at settlement.</summary>
+    public string? ApprovedById { get; private set; }
+
     public DateTimeOffset LastUpdatedAt { get; private set; }
 
     /// <summary>Optimistic concurrency token, mapped to PostgreSQL's xmin system column.</summary>
@@ -72,11 +82,19 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
     public IReadOnlyList<ClaimAction> AllowedActions =>
         [.. Workflow.Where(step => step.Value.From.Contains(Status)).Select(step => step.Key).Order()];
 
+    /// <summary>The workflow actions this person may take now, segregation of duties included (role permissions are applied by the caller).</summary>
+    public IReadOnlyList<ClaimAction> AllowedActionsFor(Actor actor)
+    {
+        ArgumentNullException.ThrowIfNull(actor);
+        return [.. AllowedActions.Where(action => action != ClaimAction.Settle || !IsApprover(actor))];
+    }
+
     /// <param name="number">Business reference allocated by the caller from a database sequence: guaranteed unique and gap-tolerant.</param>
-    public static Result<Claim> Declare(DeclareClaimData data, string number, DateTimeOffset now)
+    public static Result<Claim> Declare(DeclareClaimData data, string number, Actor declaredBy, DateTimeOffset now)
     {
         ArgumentNullException.ThrowIfNull(data);
         ArgumentException.ThrowIfNullOrWhiteSpace(number);
+        ArgumentNullException.ThrowIfNull(declaredBy);
 
         var errors = Validate(data, DateOnly.FromDateTime(now.UtcDateTime));
         if (errors.Count > 0)
@@ -95,23 +113,27 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
             ClaimedAmount = RoundAmount(data.ClaimedAmount),
             Status = ClaimStatus.Declared,
             DeclaredAt = now,
+            DeclaredById = declaredBy.Id,
+            DeclaredByName = declaredBy.Name,
             LastUpdatedAt = now,
         };
-        claim.Raise(new ClaimDeclared(claim.Id, claim.Number, now));
+        claim.Raise(new ClaimDeclared(claim.Id, claim.Number, declaredBy.Name, now));
         return claim;
     }
 
-    public Result StartReview(DateTimeOffset now) => Transition(ClaimAction.StartReview, reason: null, now);
+    public Result StartReview(Actor actor, DateTimeOffset now) => Transition(ClaimAction.StartReview, actor, reason: null, now);
 
-    public Result RequestInformation(string? reason, DateTimeOffset now) =>
+    public Result RequestInformation(Actor actor, string? reason, DateTimeOffset now) =>
         string.IsNullOrWhiteSpace(reason)
             ? ClaimErrors.ReasonRequired
-            : Transition(ClaimAction.RequestInformation, reason.Trim(), now);
+            : Transition(ClaimAction.RequestInformation, actor, reason.Trim(), now);
 
-    public Result ResumeReview(DateTimeOffset now) => Transition(ClaimAction.ResumeReview, reason: null, now);
+    public Result ResumeReview(Actor actor, DateTimeOffset now) => Transition(ClaimAction.ResumeReview, actor, reason: null, now);
 
-    public Result Approve(decimal approvedAmount, DateTimeOffset now)
+    public Result Approve(decimal approvedAmount, ApprovalAuthority authority, DateTimeOffset now)
     {
+        ArgumentNullException.ThrowIfNull(authority);
+
         // Validate the amount that will be stored, not the raw input: 0.001 must not pass "> 0" and then persist as 0.00.
         var amount = RoundAmount(approvedAmount);
         if (amount <= 0 || amount > ClaimedAmount)
@@ -119,21 +141,34 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
             return ClaimErrors.ApprovedAmountOutOfRange;
         }
 
-        var result = Transition(ClaimAction.Approve, reason: null, now);
+        if (amount > authority.Limit)
+        {
+            return ClaimErrors.ApprovalLimitExceeded(authority.Limit);
+        }
+
+        var result = Transition(ClaimAction.Approve, authority.Approver, reason: null, now);
         if (result.IsSuccess)
         {
             ApprovedAmount = amount;
+            ApprovedById = authority.Approver.Id;
         }
 
         return result;
     }
 
-    public Result Reject(string? reason, DateTimeOffset now) =>
+    public Result Reject(Actor actor, string? reason, DateTimeOffset now) =>
         string.IsNullOrWhiteSpace(reason)
             ? ClaimErrors.ReasonRequired
-            : Transition(ClaimAction.Reject, reason.Trim(), now);
+            : Transition(ClaimAction.Reject, actor, reason.Trim(), now);
 
-    public Result Settle(DateTimeOffset now) => Transition(ClaimAction.Settle, reason: null, now);
+    /// <summary>Releases the payment. Four-eyes principle: the person who approved the amount cannot also pay it out.</summary>
+    public Result Settle(Actor actor, DateTimeOffset now)
+    {
+        ArgumentNullException.ThrowIfNull(actor);
+        return Status == ClaimStatus.Approved && IsApprover(actor)
+            ? ClaimErrors.FourEyesViolation
+            : Transition(ClaimAction.Settle, actor, reason: null, now);
+    }
 
     private static List<Error> Validate(DeclareClaimData data, DateOnly today)
     {
@@ -174,8 +209,11 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
 
     private static decimal RoundAmount(decimal amount) => decimal.Round(amount, 2, MidpointRounding.ToEven);
 
-    private Result Transition(ClaimAction action, string? reason, DateTimeOffset now)
+    private bool IsApprover(Actor actor) => string.Equals(ApprovedById, actor.Id, StringComparison.Ordinal);
+
+    private Result Transition(ClaimAction action, Actor actor, string? reason, DateTimeOffset now)
     {
+        ArgumentNullException.ThrowIfNull(actor);
         var (from, to) = Workflow[action];
         if (!from.Contains(Status))
         {
@@ -185,8 +223,8 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
         var previous = Status;
         Status = to;
         LastUpdatedAt = now;
-        _history.Add(new ClaimStatusChange(previous, to, action, reason, now));
-        Raise(new ClaimStatusChanged(Id, Number, previous, to, now));
+        _history.Add(new ClaimStatusChange(previous, to, action, actor, reason, now));
+        Raise(new ClaimStatusChanged(Id, Number, previous, to, actor.Name, now));
         return Result.Success();
     }
 

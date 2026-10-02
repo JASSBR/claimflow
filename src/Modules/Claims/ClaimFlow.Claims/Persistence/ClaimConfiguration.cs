@@ -6,6 +6,10 @@ namespace ClaimFlow.Claims.Persistence;
 
 internal sealed class ClaimConfiguration : IEntityTypeConfiguration<Claim>
 {
+    // Identity-provider subject ids are opaque strings (GUIDs for Entra ID, UUIDs for Keycloak): 128 covers both.
+    private const int ActorIdMaxLength = 128;
+    private const int ActorNameMaxLength = 200;
+
     public void Configure(EntityTypeBuilder<Claim> builder)
     {
         builder.ToTable("claims");
@@ -19,6 +23,9 @@ internal sealed class ClaimConfiguration : IEntityTypeConfiguration<Claim>
         builder.Property(claim => claim.PolicyNumber).HasMaxLength(10);
         builder.HasIndex(claim => claim.PolicyNumber);
         builder.Property(claim => claim.Description).HasMaxLength(Claim.DescriptionMaxLength);
+        builder.Property(claim => claim.DeclaredById).HasMaxLength(ActorIdMaxLength);
+        builder.Property(claim => claim.DeclaredByName).HasMaxLength(ActorNameMaxLength);
+        builder.Property(claim => claim.ApprovedById).HasMaxLength(ActorIdMaxLength);
         builder.Property(claim => claim.ClaimedAmount).HasPrecision(12, 2);
         builder.Property(claim => claim.ApprovedAmount).HasPrecision(12, 2);
 
@@ -41,6 +48,8 @@ internal sealed class ClaimConfiguration : IEntityTypeConfiguration<Claim>
             history.Property(change => change.To).HasConversion<string>().HasMaxLength(32);
             history.Property(change => change.Action).HasConversion<string>().HasMaxLength(32);
             history.Property(change => change.Reason).HasMaxLength(1000);
+            history.Property(change => change.ActorId).HasMaxLength(ActorIdMaxLength);
+            history.Property(change => change.ActorName).HasMaxLength(ActorNameMaxLength);
         });
         builder.Navigation(claim => claim.History).UsePropertyAccessMode(PropertyAccessMode.Field);
 

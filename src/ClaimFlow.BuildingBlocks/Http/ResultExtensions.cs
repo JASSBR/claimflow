@@ -24,7 +24,12 @@ public static class ResultExtensions
         }
 
         return TypedResults.Problem(
-            statusCode: first.Type == ErrorType.NotFound ? StatusCodes.Status404NotFound : StatusCodes.Status409Conflict,
+            statusCode: first.Type switch
+            {
+                ErrorType.NotFound => StatusCodes.Status404NotFound,
+                ErrorType.Forbidden => StatusCodes.Status403Forbidden,
+                _ => StatusCodes.Status409Conflict,
+            },
             title: first.Description,
             extensions: new Dictionary<string, object?>(StringComparer.Ordinal) { ["code"] = first.Code });
     }

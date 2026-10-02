@@ -1,8 +1,10 @@
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 using ClaimFlow.Api;
+using ClaimFlow.Api.Security;
 using ClaimFlow.Claims;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,7 @@ builder.Services.AddRateLimiter(options =>
         }));
 });
 
+builder.AddClaimFlowAuthentication();
 builder.AddClaimsModule();
 
 var app = builder.Build();
@@ -50,6 +53,8 @@ app.UseExceptionHandler();
 app.UseStatusCodePages();
 app.UseSecurityHeaders();
 app.UseRateLimiter();
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -60,7 +65,12 @@ if (app.Environment.IsDevelopment())
 app.MapDefaultEndpoints();
 // Everything a client can call — REST and the SignalR hub — sits behind the per-IP limiter.
 var limited = app.MapGroup(string.Empty).RequireRateLimiting(RateLimiting.ApiPolicy);
-limited.MapGroup("/api").MapClaimsModule(limited);
+var api = limited.MapGroup("/api");
+api.MapClaimsModule(limited);
+if (app.Services.GetRequiredService<IOptions<AuthOptions>>().Value.Mode == AuthMode.Demo)
+{
+    api.MapDemoIdentityProvider();
+}
 
 if (app.Configuration.GetValue<bool>("Database:InitializeOnStartup"))
 {

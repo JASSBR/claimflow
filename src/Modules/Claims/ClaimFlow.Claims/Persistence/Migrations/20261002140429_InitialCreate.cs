@@ -14,6 +14,10 @@ namespace ClaimFlow.Claims.Persistence.Migrations
             migrationBuilder.EnsureSchema(
                 name: "claims");
 
+            migrationBuilder.CreateSequence(
+                name: "claim_number_seq",
+                schema: "claims");
+
             migrationBuilder.CreateTable(
                 name: "claims",
                 schema: "claims",
@@ -29,6 +33,9 @@ namespace ClaimFlow.Claims.Persistence.Migrations
                     ApprovedAmount = table.Column<decimal>(type: "numeric(12,2)", precision: 12, scale: 2, nullable: true),
                     Status = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
                     DeclaredAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    DeclaredById = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    DeclaredByName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    ApprovedById = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
                     LastUpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
                 },
@@ -64,6 +71,8 @@ namespace ClaimFlow.Claims.Persistence.Migrations
                     From = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
                     To = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
                     Action = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    ActorId = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    ActorName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Reason = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     OccurredAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     ClaimId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -126,6 +135,10 @@ namespace ClaimFlow.Claims.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "claims",
+                schema: "claims");
+
+            migrationBuilder.DropSequence(
+                name: "claim_number_seq",
                 schema: "claims");
         }
     }

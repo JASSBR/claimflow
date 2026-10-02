@@ -34,6 +34,12 @@ public static class ClaimErrors
     public static readonly Error ConcurrentUpdate =
         Error.Conflict("claim.concurrent_update", "The claim was modified by someone else. Reload it and try again.");
 
+    public static readonly Error FourEyesViolation =
+        Error.Forbidden("claim.four_eyes_violation", "The person who approved a claim cannot also release its payment (four-eyes principle).");
+
+    public static Error ApprovalLimitExceeded(decimal limit) =>
+        Error.Forbidden("claim.approval_limit_exceeded", $"This amount exceeds your approval authority ({limit:N0} EUR). A claims manager must approve it.");
+
     public static Error TransitionNotAllowed(ClaimAction action, ClaimStatus status) =>
         Error.Conflict("claim.transition_not_allowed", $"Action '{action}' is not allowed while the claim is '{status}'.");
 }

@@ -1,3 +1,8 @@
+using System.Collections.Concurrent;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Security.Cryptography;
+using System.Text.Json;
 using ClaimFlow.BuildingBlocks.Outbox;
 using ClaimFlow.Claims.Domain;
 using ClaimFlow.Claims.Persistence;
@@ -16,7 +21,11 @@ namespace ClaimFlow.IntegrationTests;
 /// </summary>
 public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
+    /// <summary>Random per run: proves nothing depends on a committed key.</summary>
+    public static readonly string DemoSigningKey = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+
     private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:18-alpine").Build();
+    private readonly ConcurrentDictionary<string, string> _tokens = new(StringComparer.Ordinal);
 
     public async ValueTask InitializeAsync()
     {
@@ -29,6 +38,28 @@ public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsync
     {
         await base.DisposeAsync();
         await _postgres.DisposeAsync();
+    }
+
+    /// <summary>An HTTP client authenticated as a demo persona (lea, karim, nadia, sophie) through the real token endpoint.</summary>
+    public async Task<HttpClient> ClientForAsync(string personaId)
+    {
+        var client = CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await TokenForAsync(personaId));
+        return client;
+    }
+
+    public async Task<string> TokenForAsync(string personaId)
+    {
+        if (_tokens.TryGetValue(personaId, out var cached))
+        {
+            return cached;
+        }
+
+        using var anonymous = CreateClient();
+        var response = await anonymous.PostAsJsonAsync("/api/auth/token", new { personaId });
+        response.EnsureSuccessStatusCode();
+        var token = (await response.Content.ReadFromJsonAsync<JsonElement>()).GetProperty("accessToken").GetString()!;
+        return _tokens.GetOrAdd(personaId, token);
     }
 
     /// <summary>Delivers every pending outbox row now instead of waiting for the background poller.</summary>
@@ -66,6 +97,8 @@ public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsync
         // The poller is parked: tests drain the outbox explicitly, so assertions never race a background loop.
         builder.UseSetting("Outbox:PollingInterval", "01:00:00");
         builder.UseSetting("RateLimiting:PermitPerMinute", "100000");
+        builder.UseSetting("Auth:Mode", "Demo");
+        builder.UseSetting("Auth:DemoSigningKey", DemoSigningKey);
         builder.ConfigureTestServices(services => services.AddScoped<IDomainEventHandler<ClaimDeclared>, PoisonHandler>());
     }
 }

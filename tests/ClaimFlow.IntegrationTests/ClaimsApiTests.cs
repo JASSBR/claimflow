@@ -10,9 +10,17 @@ using Microsoft.Extensions.DependencyInjection;
 namespace ClaimFlow.IntegrationTests;
 
 [Collection(ApiTestGroup.Name)]
-public class ClaimsApiTests(ClaimFlowApiFactory factory)
+public sealed class ClaimsApiTests(ClaimFlowApiFactory factory) : IAsyncLifetime
 {
-    private readonly HttpClient _client = factory.CreateClient();
+    private HttpClient _client = null!;
+
+    public async ValueTask InitializeAsync() => _client = await factory.ClientForAsync("lea");
+
+    public ValueTask DisposeAsync()
+    {
+        _client.Dispose();
+        return ValueTask.CompletedTask;
+    }
 
     [Fact]
     public async Task Declare_Returns201_WithLocationOfReadableClaim()
@@ -23,6 +31,7 @@ public class ClaimsApiTests(ClaimFlowApiFactory factory)
         var created = await response.ReadAsync<ClaimDetailsResponse>();
         created.Status.ShouldBe(ClaimStatus.Declared);
         created.AllowedActions.ShouldBe([ClaimAction.StartReview]);
+        created.DeclaredBy.ShouldBe("Léa Martin");
         created.Version.ShouldBeGreaterThan(0u);
 
         var fetched = await _client.GetFromJsonAsync<ClaimDetailsResponse>(response.Headers.Location, ApiClient.Json, TestContext.Current.CancellationToken);
@@ -46,6 +55,7 @@ public class ClaimsApiTests(ClaimFlowApiFactory factory)
         await using var throwingApp = factory.WithWebHostBuilder(builder => builder.ConfigureServices(services =>
             services.Configure<Microsoft.AspNetCore.Routing.RouteHandlerOptions>(options => options.ThrowOnBadRequest = true)));
         using var client = throwingApp.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new("Bearer", await factory.TokenForAsync("lea"));
         using var body = new StringContent("{ not json", System.Text.Encoding.UTF8, "application/json");
 
         var response = await client.PostAsync("/api/claims", body, TestContext.Current.CancellationToken);
@@ -98,13 +108,15 @@ public class ClaimsApiTests(ClaimFlowApiFactory factory)
 
         claim = await (await _client.ActAsync(claim, ClaimAction.StartReview)).ReadAsync<ClaimDetailsResponse>();
         claim = await (await _client.ActAsync(claim, ClaimAction.Approve, amount: 1_200m)).ReadAsync<ClaimDetailsResponse>();
-        var response = await _client.ActAsync(claim, ClaimAction.Settle);
+        using var nadia = await factory.ClientForAsync("nadia");
+        var response = await nadia.ActAsync(claim, ClaimAction.Settle);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var settled = await response.ReadAsync<ClaimDetailsResponse>();
         settled.Status.ShouldBe(ClaimStatus.Settled);
         settled.ApprovedAmount.ShouldBe(1_200m);
         settled.History.Select(h => h.Action).ShouldBe([ClaimAction.StartReview, ClaimAction.Approve, ClaimAction.Settle]);
+        settled.History.Select(h => h.ActorName).ShouldBe(["Léa Martin", "Léa Martin", "Nadia Haddad"]);
         settled.AllowedActions.ShouldBeEmpty();
     }
 
@@ -113,7 +125,9 @@ public class ClaimsApiTests(ClaimFlowApiFactory factory)
     {
         var claim = await _client.DeclareAsync();
 
-        var response = await _client.ActAsync(claim, ClaimAction.Settle);
+        // A manager is allowed to settle in general; the workflow state is what forbids it here.
+        using var karim = await factory.ClientForAsync("karim");
+        var response = await karim.ActAsync(claim, ClaimAction.Settle);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Conflict);
         var problem = await response.ReadAsync<JsonElement>();

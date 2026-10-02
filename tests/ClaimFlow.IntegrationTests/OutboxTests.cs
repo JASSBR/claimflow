@@ -8,9 +8,17 @@ using Microsoft.Extensions.DependencyInjection;
 namespace ClaimFlow.IntegrationTests;
 
 [Collection(ApiTestGroup.Name)]
-public class OutboxTests(ClaimFlowApiFactory factory)
+public sealed class OutboxTests(ClaimFlowApiFactory factory) : IAsyncLifetime
 {
-    private readonly HttpClient _client = factory.CreateClient();
+    private HttpClient _client = null!;
+
+    public async ValueTask InitializeAsync() => _client = await factory.ClientForAsync("lea");
+
+    public ValueTask DisposeAsync()
+    {
+        _client.Dispose();
+        return ValueTask.CompletedTask;
+    }
 
     [Fact]
     public async Task StateChange_WritesOutboxRow_InSameTransaction()
@@ -34,6 +42,7 @@ public class OutboxTests(ClaimFlowApiFactory factory)
             .WithUrl(new Uri(factory.Server.BaseAddress, "/hubs/claims"), options =>
             {
                 options.HttpMessageHandlerFactory = _ => factory.Server.CreateHandler();
+                options.AccessTokenProvider = async () => await factory.TokenForAsync("sophie");
                 options.Transports = HttpTransportType.LongPolling;
             })
             .AddJsonProtocol(options => options.PayloadSerializerOptions = ApiClient.Json)
@@ -49,6 +58,7 @@ public class OutboxTests(ClaimFlowApiFactory factory)
 
         notification.ClaimId.ShouldBe(claim.Id);
         notification.Status.ShouldBe(ClaimStatus.Declared);
+        notification.ActorName.ShouldBe("Léa Martin");
     }
 
     [Fact]
