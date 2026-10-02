@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Technical plumbing shared by modules (outbox, HTTP error mapping). Never referenced by a Domain project. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClaimFlow.SharedKernel\ClaimFlow.SharedKernel.csproj" />
+  </ItemGroup>
+</Project>
