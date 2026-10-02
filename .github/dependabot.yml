@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule: { interval: weekly }
+    groups:
+      aspire: { patterns: ["Aspire.*"] }
+      efcore: { patterns: ["Microsoft.EntityFrameworkCore*", "Npgsql*"] }
+      testing: { patterns: ["xunit*", "Testcontainers*", "Microsoft.Testing.*", "Shouldly", "NetArchTest*"] }
+  - package-ecosystem: npm
+    directory: /web
+    schedule: { interval: weekly }
+    groups:
+      angular: { patterns: ["@angular/*", "@angular-devkit/*", "angular-eslint", "typescript"] }
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: monthly }
