@@ -1,0 +1,63 @@
+<section class="card" aria-labelledby="documents-title">
+  <div class="card-title">
+    <h2 id="documents-title"><app-icon name="file" /> Pièces justificatives</h2>
+    <span class="chip"
+      >{{ documents().length
+      }}{{ settings() ? ' / ' + settings()!.maxDocumentsPerClaim : '' }}</span
+    >
+  </div>
+
+  @if (documents().length > 0) {
+    <ul class="documents">
+      @for (document of documents(); track document.id) {
+        <li>
+          <button
+            type="button"
+            class="document"
+            (click)="open(document)"
+            [title]="'SHA-256 ' + document.sha256"
+          >
+            <span class="file-icon" [class.pdf]="document.contentType === 'application/pdf'">
+              <app-icon [name]="document.contentType === 'application/pdf' ? 'file' : 'image'" />
+            </span>
+            <span class="meta">
+              <strong>{{ document.fileName }}</strong>
+              <small
+                >{{ document.sizeBytes / 1024 | number: '1.0-0' }} Ko · {{ document.uploadedBy }} ·
+                {{ document.uploadedAt | date: 'dd/MM HH:mm' }}</small
+              >
+            </span>
+            <app-icon name="external" [size]="15" class="open" />
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="muted empty">Aucune pièce pour l'instant.</p>
+  }
+
+  @if (canUpload()) {
+    <label
+      class="dropzone"
+      [class.dragging]="dragging()"
+      (dragover)="$event.preventDefault(); dragging.set(true)"
+      (dragleave)="dragging.set(false)"
+      (drop)="onDrop($event)"
+    >
+      <input
+        type="file"
+        class="sr-only"
+        accept="application/pdf,image/png,image/jpeg"
+        multiple
+        (change)="onPick($event)"
+      />
+      @if (uploading() > 0) {
+        <span class="spinner" aria-hidden="true"></span> Envoi en cours…
+      } @else {
+        <app-icon name="upload" />
+        <span><strong>Déposez des fichiers</strong> ou cliquez pour parcourir</span>
+        <small>PDF, PNG, JPEG · 10 Mo max · format vérifié à la réception</small>
+      }
+    </label>
+  }
+</section>

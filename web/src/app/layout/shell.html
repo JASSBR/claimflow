@@ -1,0 +1,105 @@
+<div class="layout">
+  <aside class="sidebar">
+    <a routerLink="/dashboard" class="brand" aria-label="ClaimFlow — tableau de bord">
+      <span class="logo" aria-hidden="true"></span>
+      <span>ClaimFlow</span>
+    </a>
+
+    <nav aria-label="Navigation principale">
+      <a routerLink="/dashboard" routerLinkActive="active"
+        ><app-icon name="dashboard" /> Tableau de bord</a
+      >
+      <a routerLink="/claims" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        ><app-icon name="folder" /> Sinistres</a
+      >
+      @if (capabilities.value()?.canDeclare) {
+        <a routerLink="/claims/new" routerLinkActive="active"><app-icon name="plus" /> Déclarer</a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <a [href]="repositoryUrl" target="_blank" rel="noopener"
+        ><app-icon name="github" /> Code source</a
+      >
+      <a [href]="repositoryUrl + '/tree/main/docs/adr'" target="_blank" rel="noopener"
+        ><app-icon name="file" /> Décisions d'architecture</a
+      >
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <span class="live" [class.on]="realtime.connected()" role="status">
+        <span class="pulse" aria-hidden="true"></span>
+        {{ realtime.connected() ? 'Temps réel' : 'Hors ligne' }}
+      </span>
+
+      <div class="actions">
+        <button
+          type="button"
+          class="icon-button"
+          (click)="theme.toggle()"
+          [attr.aria-label]="theme.theme() === 'dark' ? 'Thème clair' : 'Thème sombre'"
+        >
+          <app-icon [name]="theme.theme() === 'dark' ? 'sun' : 'moon'" />
+        </button>
+
+        @if (auth.user(); as user) {
+          <div class="user-menu">
+            <button
+              type="button"
+              class="user"
+              (click)="menuOpen.set(!menuOpen())"
+              [attr.aria-expanded]="menuOpen()"
+              aria-haspopup="menu"
+            >
+              <app-avatar [name]="user.name" [size]="34" />
+              <span class="who">
+                <strong>{{ user.name }}</strong>
+                <small>{{ user.title }}</small>
+              </span>
+              <app-icon name="chevron" [size]="16" class="caret" />
+            </button>
+
+            @if (menuOpen()) {
+              <div class="menu" role="menu">
+                <p class="menu-label">Changer de profil de démonstration</p>
+                @for (persona of personas.value() ?? []; track persona.id) {
+                  <button
+                    type="button"
+                    role="menuitem"
+                    class="persona"
+                    [class.current]="persona.id === user.id"
+                    (click)="switchTo(persona)"
+                  >
+                    <app-avatar [name]="persona.name" [size]="28" />
+                    <span
+                      ><strong>{{ persona.name }}</strong
+                      ><small>{{ persona.title }}</small></span
+                    >
+                  </button>
+                }
+                <button type="button" role="menuitem" class="logout" (click)="auth.logout()">
+                  <app-icon name="logout" /> Se déconnecter
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </header>
+
+    @if (capabilities.value(); as caps) {
+      @if (!caps.canDeclare) {
+        <div class="role-banner">
+          <app-icon name="lock" [size]="16" /> Profil en lecture seule : vous consultez sans pouvoir
+          modifier.
+        </div>
+      }
+    }
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

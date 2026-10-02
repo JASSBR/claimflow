@@ -1,0 +1,106 @@
+<header class="page-header">
+  <div>
+    <span class="eyebrow">Portefeuille</span>
+    <h1>Sinistres</h1>
+    @if (stats.value(); as s) {
+      <p class="muted">
+        {{ s.totalClaimedAmount | currency: 'EUR' : 'symbol' : '1.0-0' }} réclamés ·
+        {{ s.totalApprovedAmount | currency: 'EUR' : 'symbol' : '1.0-0' }} accordés
+      </p>
+    }
+  </div>
+  @if (capabilities.value()?.canDeclare) {
+    <a class="button primary" routerLink="/claims/new"
+      ><app-icon name="plus" /> Déclarer un sinistre</a
+    >
+  }
+</header>
+
+<section class="tiles" aria-label="Filtrer par statut">
+  @for (s of statuses; track s) {
+    <button
+      type="button"
+      class="tile"
+      [attr.data-status]="s"
+      [class.active]="statusFilter() === s"
+      [attr.aria-pressed]="statusFilter() === s"
+      (click)="toggleStatus(s)"
+    >
+      <span class="tile-count">{{ stats.value()?.countByStatus?.[s] ?? '–' }}</span>
+      <span class="tile-label">{{ statusLabels[s] }}</span>
+    </button>
+  }
+</section>
+
+<div class="toolbar">
+  <label class="search">
+    <app-icon name="search" [size]="16" />
+    <span class="sr-only">Rechercher</span>
+    <input
+      type="search"
+      placeholder="N° de sinistre ou de contrat…"
+      [value]="search()"
+      (input)="search.set($any($event.target).value)"
+    />
+  </label>
+  @if (statusFilter(); as s) {
+    <button type="button" class="chip-button" (click)="toggleStatus(s)">
+      {{ statusLabels[s] }} <app-icon name="x" [size]="14" />
+    </button>
+  }
+</div>
+
+@if (claims.error()) {
+  <p class="alert" role="alert">Impossible de charger les sinistres.</p>
+} @else {
+  <div class="table-wrap card" [class.loading]="claims.isLoading()">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">N°</th>
+          <th scope="col">Contrat</th>
+          <th scope="col">Type</th>
+          <th scope="col">Survenance</th>
+          <th scope="col" class="num">Montant</th>
+          <th scope="col">Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (claim of claims.value()?.items; track claim.id) {
+          <tr>
+            <td>
+              <a class="number" [routerLink]="['/claims', claim.id]">{{ claim.number }}</a>
+            </td>
+            <td>{{ claim.policyNumber }}</td>
+            <td>{{ typeLabels[claim.type] }}</td>
+            <td>{{ claim.incidentDate | date: 'dd/MM/yyyy' }}</td>
+            <td class="num">{{ claim.claimedAmount | currency: 'EUR' }}</td>
+            <td><app-status-badge [status]="claim.status" /></td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty">
+              {{ claims.isLoading() ? 'Chargement…' : 'Aucun sinistre ne correspond.' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <nav class="pager" aria-label="Pagination">
+    <span class="muted">{{ claims.value()?.totalCount ?? 0 }} résultat(s)</span>
+    <button type="button" class="button sm" (click)="goTo(page() - 1)" [disabled]="page() <= 1">
+      Précédent
+    </button>
+    <span>Page {{ page() }} / {{ pageCount() }}</span>
+    <button
+      type="button"
+      class="button sm"
+      (click)="goTo(page() + 1)"
+      [disabled]="page() >= pageCount()"
+    >
+      Suivant
+    </button>
+  </nav>
+}

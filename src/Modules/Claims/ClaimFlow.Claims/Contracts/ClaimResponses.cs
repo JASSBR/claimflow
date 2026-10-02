@@ -65,8 +65,11 @@ public sealed record PagedResponse<T>(IReadOnlyList<T> Items, int Page, int Page
 
 public sealed record ClaimStatsResponse(
     IReadOnlyDictionary<ClaimStatus, int> CountByStatus,
+    IReadOnlyDictionary<ClaimType, ClaimTypeStats> ByType,
     decimal TotalClaimedAmount,
     decimal TotalApprovedAmount);
+
+public sealed record ClaimTypeStats(int Count, decimal ClaimedAmount);
 
 /// <summary>Pushed to SignalR clients after a claim change is committed.</summary>
 public sealed record ClaimChangedNotification(Guid ClaimId, string Number, ClaimStatus Status, string ActorName, DateTimeOffset OccurredAt);

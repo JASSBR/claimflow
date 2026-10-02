@@ -1,0 +1,100 @@
+<div class="page">
+  <section class="hero">
+    <div class="brand"><span class="logo" aria-hidden="true"></span> ClaimFlow</div>
+
+    <span class="eyebrow">Démo interactive · données fictives</span>
+    <h1>La gestion de sinistres, <span class="gradient">en temps réel et explicable.</span></h1>
+    <p class="lead">
+      Déclarez, instruisez, acceptez et indemnisez des sinistres d'assurance — avec les garde-fous
+      d'un vrai métier régulé et un assistant IA qui justifie chacun de ses constats.
+    </p>
+
+    <ul class="highlights">
+      @for (item of highlights; track item.title) {
+        <li>
+          <span class="icon"><app-icon [name]="item.icon" /></span>
+          <div>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.text }}</p>
+          </div>
+        </li>
+      }
+    </ul>
+
+    <ul class="stack" aria-label="Technologies">
+      @for (tech of stack; track tech) {
+        <li>{{ tech }}</li>
+      }
+    </ul>
+
+    <div class="links">
+      <a [href]="repositoryUrl" target="_blank" rel="noopener" class="button"
+        ><app-icon name="github" /> Code source</a
+      >
+      <a
+        [href]="repositoryUrl + '/tree/main/docs/adr'"
+        target="_blank"
+        rel="noopener"
+        class="button ghost"
+        >Décisions d'architecture <app-icon name="external" [size]="14"
+      /></a>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="choose">
+    <div class="panel-card">
+      <h2 id="choose">Choisissez un profil</h2>
+      <p class="muted">
+        Chaque profil a des droits différents. Aucun mot de passe : c'est une démo.
+      </p>
+
+      @if (error(); as message) {
+        <p class="alert" role="alert">{{ message }}</p>
+      }
+
+      <div class="personas">
+        @if (personas.isLoading()) {
+          @for (i of [1, 2, 3, 4]; track i) {
+            <div class="persona skeleton" style="height: 92px"></div>
+          }
+        } @else if (personas.error()) {
+          <p class="alert" role="alert">
+            L'API de démonstration ne répond pas. Elle se réveille peut-être : réessayez dans
+            quelques secondes.
+          </p>
+          <button type="button" class="button" (click)="personas.reload()">Réessayer</button>
+        } @else {
+          @for (persona of personas.value(); track persona.id) {
+            <button
+              type="button"
+              class="persona"
+              (click)="enter(persona)"
+              [disabled]="pending() !== null"
+            >
+              <app-avatar [name]="persona.name" [size]="44" />
+              <span class="body">
+                <span class="name"
+                  >{{ persona.name }} <span class="chip">{{ roleLabel(persona) }}</span></span
+                >
+                <span class="title">{{ persona.title }}</span>
+                <span class="summary">{{ persona.summary }}</span>
+              </span>
+              <span class="go">
+                @if (pending() === persona.id) {
+                  <span class="spinner" aria-label="Connexion…"></span>
+                } @else {
+                  <app-icon name="chevron" />
+                }
+              </span>
+            </button>
+          }
+        }
+      </div>
+
+      <p class="tip">
+        <app-icon name="bolt" [size]="16" /> Astuce : ouvrez deux onglets avec deux profils
+        différents pour voir les décisions arriver en direct.
+      </p>
+    </div>
+  </section>
+</div>

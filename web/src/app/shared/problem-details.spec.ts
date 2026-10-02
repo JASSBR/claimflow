@@ -5,24 +5,25 @@ describe('problemMessages', () => {
   it('lists every violated business rule of a validation problem', () => {
     const error = new HttpErrorResponse({
       status: 400,
-      error: { title: 'Invalid', errors: { a: ['Rule A'], b: ['Rule B1', 'Rule B2'] } },
+      error: { errors: { a: ['Rule A'], b: ['Rule B1', 'Rule B2'] } },
     });
-
     expect(problemMessages(error)).toEqual(['Rule A', 'Rule B1', 'Rule B2']);
   });
 
-  it('falls back to the problem title', () => {
+  it('falls back to the problem title and recognises conflicts', () => {
     const error = new HttpErrorResponse({
       status: 409,
       error: { title: 'Modified by someone else.' },
     });
-
     expect(problemMessages(error)).toEqual(['Modified by someone else.']);
     expect(isConflict(error)).toBe(true);
   });
 
-  it('explains a network failure instead of showing status 0', () => {
+  it('translates network failures and rate limiting into actionable messages', () => {
     expect(problemMessages(new HttpErrorResponse({ status: 0 }))[0]).toContain('injoignable');
+    expect(problemMessages(new HttpErrorResponse({ status: 429 }))[0]).toContain(
+      'Trop de demandes',
+    );
   });
 
   it('handles non-HTTP errors', () => {

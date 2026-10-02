@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { ClaimsRealtime } from './claims/claims-realtime';
+import { RouterOutlet } from '@angular/router';
+import { ThemeService } from './core/theme';
+import { ToastHost } from './shared/toast-host';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
-  templateUrl: './app.html',
-  styleUrl: './app.scss',
+  imports: [RouterOutlet, ToastHost],
+  template: `<router-outlet /><app-toast-host />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  protected readonly realtime = inject(ClaimsRealtime);
-
-  constructor() {
-    void this.realtime.connect();
-  }
+  // Instantiated at startup so the saved or system theme applies before the first paint of any page.
+  protected readonly theme = inject(ThemeService);
 }

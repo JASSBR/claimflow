@@ -15,8 +15,8 @@ internal sealed class ClaimDirectory(ClaimsDbContext dbContext) : IClaimDirector
 
         // Policy numbers are stored upper-case: normalise the input once, keep an index-friendly equality in SQL.
         var normalized = policyNumber.Trim().ToUpperInvariant();
-        return await Snapshots(dbContext.Claims.Where(claim => claim.PolicyNumber == normalized))
-            .OrderByDescending(snapshot => snapshot.DeclaredAt)
+        // Order before projecting: EF cannot translate a sort on a constructed record.
+        return await Snapshots(dbContext.Claims.Where(claim => claim.PolicyNumber == normalized).OrderByDescending(claim => claim.DeclaredAt))
             .ToListAsync(cancellationToken);
     }
 

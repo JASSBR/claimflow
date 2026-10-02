@@ -100,7 +100,8 @@ public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsync
         // Enables the assistant; the real Claude client is replaced below, CI never calls a paid API.
         builder.UseSetting("Ai:ApiKey", "test-key");
         builder.UseSetting("Database:InitializeOnStartup", "true");
-        builder.UseSetting("Database:SeedDemoData", "false");
+        // Seeding runs too: it exercises the cross-module directory and real PDF generation on every CI run.
+        builder.UseSetting("Database:SeedDemoData", "true");
         // The poller is parked: tests drain the outbox explicitly, so assertions never race a background loop.
         builder.UseSetting("Outbox:PollingInterval", "01:00:00");
         builder.UseSetting("RateLimiting:PermitPerMinute", "100000");

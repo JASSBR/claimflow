@@ -1,0 +1,55 @@
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.stepper-card {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+.column {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.description {
+  white-space: pre-line;
+  line-height: 1.6;
+  margin: 0;
+}
+.amounts {
+  display: flex;
+  gap: 2.5rem;
+  margin: 1.1rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.amounts dt {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.amounts dd {
+  margin: 0.15rem 0 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.amounts dd.granted {
+  color: var(--success);
+}
+
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

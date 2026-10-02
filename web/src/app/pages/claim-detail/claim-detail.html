@@ -1,0 +1,80 @@
+<a routerLink="/claims" class="back"><app-icon name="back" [size]="16" /> Sinistres</a>
+
+@if (claim.error()) {
+  <p class="alert" role="alert">Sinistre introuvable.</p>
+} @else if (claim.value(); as c) {
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">{{ typeLabels[c.type] }} · contrat {{ c.policyNumber }}</span>
+      <h1 class="title">{{ c.number }} <app-status-badge [status]="c.status" /></h1>
+      <p class="muted">
+        Survenu le {{ c.incidentDate | date: 'dd/MM/yyyy' }} · déclaré par {{ c.declaredBy }} le
+        {{ c.declaredAt | date: 'dd/MM/yyyy' }}
+      </p>
+    </div>
+  </header>
+
+  <div class="card stepper-card"><app-workflow-stepper [status]="c.status" /></div>
+
+  <div class="layout">
+    <div class="column">
+      <section class="card">
+        <div class="card-title"><h2>Circonstances</h2></div>
+        <p class="description">{{ c.description }}</p>
+        <dl class="amounts">
+          <div>
+            <dt>Montant réclamé</dt>
+            <dd>{{ c.claimedAmount | currency: 'EUR' }}</dd>
+          </div>
+          <div>
+            <dt>Montant accordé</dt>
+            <dd [class.granted]="c.approvedAmount !== null">
+              {{ c.approvedAmount === null ? '—' : (c.approvedAmount | currency: 'EUR') }}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <app-analysis-panel
+        [claimId]="c.id"
+        [analysis]="analysis.value()"
+        [settings]="settings.value()"
+        [documentCount]="documents.value().length"
+        [canAnalyze]="canWrite()"
+        (analyzed)="analysis.value.set($event)"
+      />
+
+      <app-documents-panel
+        [claimId]="c.id"
+        [documents]="documents.value()"
+        [settings]="settings.value()"
+        [canUpload]="canWrite()"
+        (uploaded)="documents.reload()"
+      />
+    </div>
+
+    <div class="column">
+      <app-decision-panel
+        [claim]="c"
+        [userName]="auth.user()?.name ?? ''"
+        [approvalLimit]="capabilities.value()?.approvalLimit ?? null"
+        [readOnly]="auth.isAuditor()"
+        [busy]="busy()"
+        [errors]="errors()"
+        (decide)="decide($event)"
+      />
+
+      <section class="card">
+        <div class="card-title">
+          <h2>Historique</h2>
+          <span class="chip">piste d'audit</span>
+        </div>
+        <app-claim-timeline [claim]="c" />
+      </section>
+    </div>
+  </div>
+} @else {
+  <div class="skeleton" style="height: 90px; margin-bottom: 1rem"></div>
+  <div class="skeleton" style="height: 70px; margin-bottom: 1rem"></div>
+  <div class="skeleton" style="height: 320px"></div>
+}

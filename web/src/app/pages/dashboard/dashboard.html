@@ -1,0 +1,129 @@
+<header class="page-header">
+  <div>
+    <span class="eyebrow">Tableau de bord</span>
+    <h1>{{ greeting() }}</h1>
+    <p class="muted">Vue d'ensemble du portefeuille de sinistres, mise à jour en direct.</p>
+  </div>
+  <a class="button" routerLink="/claims"
+    >Tous les sinistres <app-icon name="chevron" [size]="16"
+  /></a>
+</header>
+
+<section class="kpis" aria-label="Indicateurs clés">
+  @if (kpis(); as k) {
+    <article class="kpi">
+      <span class="kpi-icon"><app-icon name="folder" /></span>
+      <span class="label">Dossiers ouverts</span>
+      <strong>{{ k.open }}</strong>
+      <span class="sub">sur {{ k.total }} sinistres</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi-icon"><app-icon name="euro" /></span>
+      <span class="label">Montants réclamés</span>
+      <strong>{{ k.claimed | currency: 'EUR' : 'symbol' : '1.0-0' }}</strong>
+      <span class="sub">tous dossiers confondus</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi-icon"><app-icon name="check" /></span>
+      <span class="label">Montants accordés</span>
+      <strong>{{ k.approved | currency: 'EUR' : 'symbol' : '1.0-0' }}</strong>
+      <span class="sub">acceptés ou indemnisés</span>
+    </article>
+    <article class="kpi">
+      <span class="kpi-icon"><app-icon name="activity" /></span>
+      <span class="label">Taux d'acceptation</span>
+      <strong>{{ k.acceptance === null ? '—' : (k.acceptance | percent: '1.0-0') }}</strong>
+      <span class="sub">sur {{ k.decided }} décisions</span>
+    </article>
+  } @else {
+    @for (i of [1, 2, 3, 4]; track i) {
+      <div class="kpi skeleton" style="height: 128px"></div>
+    }
+  }
+</section>
+
+<div class="grid">
+  <section class="card">
+    <div class="card-title"><h2>Répartition par statut</h2></div>
+    <div class="donut-row">
+      <app-donut-chart [slices]="slices()" caption="sinistres" />
+      <ul class="legend">
+        @for (slice of slices(); track slice.key) {
+          <li>
+            <a [routerLink]="['/claims']" [queryParams]="{ status: slice.key }">
+              <span class="swatch" [style.background]="slice.color"></span>
+              <span>{{ slice.label }}</span>
+              <strong>{{ slice.value }}</strong>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-title"><h2>Montants réclamés par type</h2></div>
+    <app-bar-list [items]="byType()" />
+  </section>
+
+  <section class="card activity">
+    <div class="card-title">
+      <h2><app-icon name="activity" /> Activité en direct</h2>
+      <span class="chip" [class.on]="realtime.connected()">{{
+        realtime.connected() ? 'connecté' : 'hors ligne'
+      }}</span>
+    </div>
+    @if (realtime.activity().length === 0) {
+      <div class="empty">
+        <app-icon name="bolt" [size]="28" />
+        <p>Les décisions prises par vos collègues apparaîtront ici instantanément.</p>
+        <p class="muted small">Ouvrez un second onglet avec un autre profil pour essayer.</p>
+      </div>
+    } @else {
+      <ol class="feed">
+        @for (event of realtime.activity(); track event.claimId + event.occurredAt) {
+          <li>
+            <app-avatar [name]="event.actorName" [size]="30" />
+            <div>
+              <p>
+                <strong>{{ event.actorName }}</strong> {{ statusVerbs[event.status] }}
+                <a [routerLink]="['/claims', event.claimId]">{{ event.number }}</a>
+              </p>
+              <time [attr.datetime]="event.occurredAt">{{ event.occurredAt | relativeTime }}</time>
+            </div>
+          </li>
+        }
+      </ol>
+    }
+  </section>
+
+  <section class="card recent">
+    <div class="card-title">
+      <h2>Derniers sinistres</h2>
+      <a routerLink="/claims" class="button ghost sm">Voir tout</a>
+    </div>
+    <ul class="recent-list">
+      @for (claim of recent.value()?.items; track claim.id) {
+        <li>
+          <a [routerLink]="['/claims', claim.id]">
+            <span class="type-icon" [attr.data-type]="claim.type">{{
+              typeLabels[claim.type][0]
+            }}</span>
+            <span class="what">
+              <strong>{{ claim.number }}</strong>
+              <small>{{ typeLabels[claim.type] }} · {{ claim.declaredAt | date: 'd MMM' }}</small>
+            </span>
+            <span class="amount">{{
+              claim.claimedAmount | currency: 'EUR' : 'symbol' : '1.0-0'
+            }}</span>
+            <app-status-badge [status]="claim.status" />
+          </a>
+        </li>
+      } @empty {
+        @for (i of [1, 2, 3, 4]; track i) {
+          <li class="skeleton" style="height: 52px"></li>
+        }
+      }
+    </ul>
+  </section>
+</div>

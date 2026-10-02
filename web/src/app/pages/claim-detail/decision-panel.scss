@@ -1,0 +1,58 @@
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+.form {
+  display: grid;
+  gap: 0.8rem;
+}
+.form label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.note {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.four-eyes {
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.four-eyes app-icon {
+  color: var(--accent);
+  margin-top: 0.15rem;
+}
+.limit {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.limit.over {
+  color: var(--status-info);
+  font-weight: 600;
+}
+.alert {
+  margin-top: 0.9rem;
+}

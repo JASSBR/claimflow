@@ -1,0 +1,199 @@
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.kpi {
+  position: relative;
+  display: grid;
+  gap: 0.15rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.kpi::after {
+  content: '';
+  position: absolute;
+  inset: auto -30% -60% auto;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  background: radial-gradient(color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+}
+.kpi-icon {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+.label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.kpi strong {
+  font-size: 1.65rem;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  gap: 1rem;
+}
+
+.donut-row {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+.donut-row app-donut-chart {
+  flex: 0 0 170px;
+}
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  min-width: 12rem;
+  display: grid;
+  gap: 0.15rem;
+}
+.legend a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+.legend a:hover {
+  background: var(--surface-2);
+}
+.legend strong {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.swatch {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 3px;
+}
+
+.activity .chip.on {
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  color: var(--success);
+}
+.empty {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 0.4rem;
+  padding: 1.5rem 1rem;
+  color: var(--muted);
+}
+.empty app-icon {
+  color: var(--accent);
+}
+.empty p {
+  margin: 0;
+  max-width: 22rem;
+  font-size: 0.9rem;
+}
+.small {
+  font-size: 0.8rem;
+}
+
+.feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.feed li {
+  display: flex;
+  gap: 0.7rem;
+  animation: enter 0.35s ease-out;
+}
+.feed p {
+  margin: 0;
+  font-size: 0.88rem;
+}
+.feed time {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+
+.recent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+.recent-list a {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  text-decoration: none;
+}
+.recent-list a:hover {
+  background: var(--surface-2);
+}
+.type-icon {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  background: var(--surface-2);
+  color: var(--accent);
+}
+.what {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.25;
+}
+.what strong {
+  font-size: 0.88rem;
+}
+.what small {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+.amount {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.88rem;
+  font-weight: 600;
+}

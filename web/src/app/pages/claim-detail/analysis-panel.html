@@ -1,0 +1,115 @@
+<section class="card ai" aria-labelledby="ai-title">
+  <div class="card-title">
+    <h2 id="ai-title">
+      <span class="spark"><app-icon name="sparkles" [size]="16" /></span> Revue IA du dossier
+    </h2>
+    @if (analysis(); as a) {
+      <span class="chip">{{ a.model }}</span>
+    }
+  </div>
+
+  @if (settings() && !settings()!.aiEnabled) {
+    <p class="note">
+      L'assistant IA n'est pas activé sur cet environnement (clé API absente). Le reste de
+      l'application fonctionne normalement ; l'activation est décrite dans le README.
+    </p>
+  } @else if (running()) {
+    <ol class="progress" aria-live="polite">
+      @for (label of steps; track label) {
+        <li [class.done]="$index < step()" [class.current]="$index === step()">
+          <span class="bullet">
+            @if ($index < step()) {
+              <app-icon name="check" [size]="12" />
+            }
+          </span>
+          {{ label }}
+        </li>
+      }
+    </ol>
+    <div class="skeleton line" style="width: 90%"></div>
+    <div class="skeleton line" style="width: 75%"></div>
+    <div class="skeleton line" style="width: 82%"></div>
+  } @else if (analysis(); as a) {
+    @if (a.refused) {
+      <p class="note">
+        Le modèle a décliné cette analyse. Les pièces peuvent être examinées manuellement.
+      </p>
+    } @else {
+      <article class="report">
+        @for (block of blocks(); track $index) {
+          @switch (block.kind) {
+            @case ('heading') {
+              <h3>{{ block.text }}</h3>
+            }
+            @default {
+              <p [class.bullet]="block.kind === 'bullet'">
+                @for (inline of block.inlines; track $index) {
+                  @if (inline.kind === 'cite') {
+                    <button
+                      type="button"
+                      class="cite"
+                      [class.active]="selected()?.number === inline.number"
+                      (click)="toggle(inline.number)"
+                      [attr.aria-label]="'Source ' + inline.number"
+                    >
+                      {{ inline.number }}
+                    </button>
+                  } @else if (inline.bold) {
+                    <strong>{{ inline.text }}</strong>
+                  } @else {
+                    {{ inline.text }}
+                  }
+                }
+              </p>
+            }
+          }
+        }
+      </article>
+
+      @if (selected(); as c) {
+        <aside class="source" aria-live="polite">
+          <div class="source-head">
+            <strong>[{{ c.number }}] {{ c.documentTitle }}</strong>
+            @if (c.startPage) {
+              <span class="chip">page {{ c.startPage }}</span>
+            }
+          </div>
+          <blockquote>{{ c.citedText }}</blockquote>
+          <button type="button" class="button sm" (click)="openSource(c)">
+            <app-icon name="external" [size]="14" /> Ouvrir la pièce
+          </button>
+        </aside>
+      }
+
+      <p class="footer">
+        Demandée par {{ a.requestedBy }} le {{ a.createdAt | date: 'dd/MM/yyyy HH:mm' }} ·
+        {{ a.documentCount }} pièce(s) · {{ a.inputTokens + a.outputTokens | number }} tokens · avis
+        consultatif, la décision reste humaine.
+      </p>
+    }
+  } @else {
+    <p class="intro">
+      L'assistant compare la déclaration aux pièces (dates, lieux, circonstances, montants) et
+      justifie chaque constat par une citation de la page source.
+    </p>
+  }
+
+  @if (error(); as message) {
+    <p class="alert" role="alert">{{ message }}</p>
+  }
+
+  @if (canAnalyze() && settings()?.aiEnabled && !running()) {
+    <button
+      type="button"
+      class="button primary run"
+      [disabled]="documentCount() === 0"
+      (click)="run()"
+    >
+      <app-icon name="sparkles" [size]="16" />
+      {{ analysis() ? 'Relancer la revue' : 'Analyser le dossier' }}
+    </button>
+    @if (documentCount() === 0) {
+      <p class="muted small">Ajoutez au moins une pièce pour lancer la revue.</p>
+    }
+  }
+</section>

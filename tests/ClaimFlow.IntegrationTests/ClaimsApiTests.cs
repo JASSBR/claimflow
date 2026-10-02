@@ -189,6 +189,9 @@ public sealed class ClaimsApiTests(ClaimFlowApiFactory factory) : IAsyncLifetime
         var stats = await _client.GetFromJsonAsync<ClaimStatsResponse>("/api/claims/stats", ApiClient.Json, TestContext.Current.CancellationToken);
 
         stats!.CountByStatus.Keys.ShouldBe(Enum.GetValues<ClaimStatus>(), ignoreOrder: true);
+        stats.ByType.Keys.ShouldBe(Enum.GetValues<ClaimType>(), ignoreOrder: true);
+        stats.ByType[ClaimType.Home].Count.ShouldBeGreaterThan(0);
+        stats.ByType.Values.Sum(type => type.Count).ShouldBe(stats.CountByStatus.Values.Sum());
         stats.CountByStatus[ClaimStatus.Declared].ShouldBeGreaterThan(0);
         stats.TotalClaimedAmount.ShouldBeGreaterThan(0m);
     }

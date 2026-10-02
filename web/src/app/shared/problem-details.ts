@@ -16,6 +16,9 @@ export function problemMessages(error: unknown): string[] {
   if (error.status === 0) {
     return ["L'API est injoignable. Vérifiez votre connexion."];
   }
+  if (error.status === 429) {
+    return ['Trop de demandes en peu de temps. Réessayez dans quelques minutes.'];
+  }
   const problem = (error.error ?? {}) as ProblemDetails;
   const fieldMessages = Object.values(problem.errors ?? {}).flat();
   if (fieldMessages.length > 0) {

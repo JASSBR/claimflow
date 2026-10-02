@@ -1,4 +1,4 @@
-// Mirrors ClaimFlow.Claims.Contracts. Enums travel as strings (JsonStringEnumConverter on the API).
+// Mirrors ClaimFlow.Claims.Contracts. Enums travel as names (JsonStringEnumConverter, integers rejected).
 
 export const CLAIM_STATUSES = [
   'Declared',
@@ -33,13 +33,16 @@ export interface ClaimHistoryEntry {
   readonly from: ClaimStatus;
   readonly to: ClaimStatus;
   readonly action: ClaimAction;
+  readonly actorName: string;
   readonly reason: string | null;
   readonly occurredAt: string;
 }
 
 export interface ClaimDetails extends ClaimSummary {
   readonly description: string;
+  readonly declaredBy: string;
   readonly version: number;
+  /** Already filtered for the current user: workflow ∩ role ∩ four-eyes. */
   readonly allowedActions: readonly ClaimAction[];
   readonly history: readonly ClaimHistoryEntry[];
 }
@@ -53,8 +56,17 @@ export interface PagedResponse<T> {
 
 export interface ClaimStats {
   readonly countByStatus: Readonly<Record<ClaimStatus, number>>;
+  readonly byType: Readonly<
+    Record<ClaimType, { readonly count: number; readonly claimedAmount: number }>
+  >;
   readonly totalClaimedAmount: number;
   readonly totalApprovedAmount: number;
+}
+
+export interface ClaimCapabilities {
+  readonly canDeclare: boolean;
+  readonly approvalLimit: number;
+  readonly roles: readonly string[];
 }
 
 export interface DeclareClaimRequest {
@@ -76,4 +88,6 @@ export interface ClaimChangedNotification {
   readonly claimId: string;
   readonly number: string;
   readonly status: ClaimStatus;
+  readonly actorName: string;
+  readonly occurredAt: string;
 }

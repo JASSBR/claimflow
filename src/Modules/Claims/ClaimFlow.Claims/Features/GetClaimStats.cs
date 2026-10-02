@@ -18,12 +18,14 @@ internal static class GetClaimStats
 
     private static async Task<IResult> HandleAsync(ClaimsDbContext dbContext, CancellationToken cancellationToken)
     {
-        // One GROUP BY round trip; statuses with no claim are filled in memory so the client always gets every key.
+        // One GROUP BY (status, type) round trip feeds every figure; missing keys are filled in memory
+        // so the client always receives every status and type.
         var rows = await dbContext.Claims
-            .GroupBy(claim => claim.Status)
+            .GroupBy(claim => new { claim.Status, claim.Type })
             .Select(group => new
             {
-                Status = group.Key,
+                group.Key.Status,
+                group.Key.Type,
                 Count = group.Count(),
                 Claimed = group.Sum(claim => claim.ClaimedAmount),
                 Approved = group.Sum(claim => claim.ApprovedAmount ?? 0),
@@ -31,10 +33,17 @@ internal static class GetClaimStats
             .ToListAsync(cancellationToken);
 
         var countByStatus = Enum.GetValues<ClaimStatus>()
-            .ToDictionary(status => status, status => rows.Find(row => row.Status == status)?.Count ?? 0);
+            .ToDictionary(status => status, status => rows.Where(row => row.Status == status).Sum(row => row.Count));
+        var byType = Enum.GetValues<ClaimType>()
+            .ToDictionary(
+                type => type,
+                type => new ClaimTypeStats(
+                    rows.Where(row => row.Type == type).Sum(row => row.Count),
+                    rows.Where(row => row.Type == type).Sum(row => row.Claimed)));
 
         return TypedResults.Ok(new ClaimStatsResponse(
             countByStatus,
+            byType,
             rows.Sum(row => row.Claimed),
             rows.Sum(row => row.Approved)));
     }
