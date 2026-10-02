@@ -9,7 +9,7 @@ type StepState = 'done' | 'current' | 'todo' | 'rejected';
   selector: 'app-workflow-stepper',
   imports: [Icon],
   template: `
-    <ol class="stepper" aria-label="Avancement du dossier">
+    <ol class="stepper" i18n-aria-label="@@stepper.label" aria-label="Avancement du dossier">
       @for (step of steps(); track step.status) {
         <li
           [attr.data-state]="step.state"

@@ -1,10 +1,12 @@
-<a routerLink="/claims" class="back"><app-icon name="back" [size]="16" /> Sinistres</a>
+<a routerLink="/claims" class="back"
+  ><app-icon name="back" [size]="16" /> <span i18n="@@nav.claims">Sinistres</span></a
+>
 
 <header class="page-header">
   <div>
-    <span class="eyebrow">Première déclaration</span>
-    <h1>Déclarer un sinistre</h1>
-    <p class="muted">
+    <span class="eyebrow" i18n="@@declare.eyebrow">Première déclaration</span>
+    <h1 i18n="@@declare.title">Déclarer un sinistre</h1>
+    <p class="muted" i18n="@@declare.subtitle">
       Les règles du domaine sont vérifiées ici pour vous guider, puis appliquées par l'API.
     </p>
   </div>
@@ -13,7 +15,7 @@
 <form class="card" novalidate (submit)="onSubmit($event)">
   <div class="grid">
     <label>
-      N° de contrat
+      <span i18n="@@declare.policy">N° de contrat</span>
       <input [formField]="form.policyNumber" placeholder="POL-104233" autocomplete="off" />
       @for (
         error of form.policyNumber().touched() ? form.policyNumber().errors() : [];
@@ -24,7 +26,7 @@
     </label>
 
     <label>
-      Type de sinistre
+      <span i18n="@@declare.type">Type de sinistre</span>
       <select [formField]="form.type">
         @for (type of types; track type) {
           <option [value]="type">{{ typeLabels[type] }}</option>
@@ -33,7 +35,7 @@
     </label>
 
     <label>
-      Date de survenance
+      <span i18n="@@declare.date">Date de survenance</span>
       <input type="date" [formField]="form.incidentDate" />
       @for (
         error of form.incidentDate().touched() ? form.incidentDate().errors() : [];
@@ -44,7 +46,7 @@
     </label>
 
     <label>
-      Montant estimé (€)
+      <span i18n="@@declare.amount">Montant estimé (€)</span>
       <input type="number" step="0.01" [formField]="form.claimedAmount" />
       @for (
         error of form.claimedAmount().touched() ? form.claimedAmount().errors() : [];
@@ -56,10 +58,11 @@
   </div>
 
   <label>
-    Circonstances
+    <span i18n="@@declare.circumstances">Circonstances</span>
     <textarea
       rows="5"
       [formField]="form.description"
+      i18n-placeholder="@@declare.circumstancesPlaceholder"
       placeholder="Que s'est-il passé ? Où, quand, quels dommages ?"
     ></textarea>
     @for (
@@ -71,8 +74,11 @@
   </label>
 
   <p class="rule">
-    <app-icon name="clock" [size]="16" /> Prescription biennale : un sinistre survenu il y a plus de
-    deux ans ne peut plus être déclaré (art. L114-1 du Code des assurances).
+    <app-icon name="clock" [size]="16" />
+    <span i18n="@@declare.timeBar"
+      >Prescription biennale : un sinistre survenu il y a plus de deux ans ne peut plus être déclaré
+      (art. L114-1 du Code des assurances).</span
+    >
   </p>
 
   @if (serverErrors().length > 0) {
@@ -84,9 +90,13 @@
   }
 
   <div class="actions">
-    <a class="button" routerLink="/claims">Annuler</a>
+    <a class="button" routerLink="/claims" i18n="@@common.cancel">Annuler</a>
     <button type="submit" class="button primary" [disabled]="form().submitting()">
-      {{ form().submitting() ? 'Envoi…' : 'Déclarer le sinistre' }}
+      @if (form().submitting()) {
+        <span i18n="@@declare.sending">Envoi…</span>
+      } @else {
+        <span i18n="@@declare.submit">Déclarer le sinistre</span>
+      }
     </button>
   </div>
 </form>

@@ -1,39 +1,42 @@
 <header class="page-header">
   <div>
-    <span class="eyebrow">Tableau de bord</span>
+    <span class="eyebrow" i18n="@@nav.dashboard">Tableau de bord</span>
     <h1>{{ greeting() }}</h1>
-    <p class="muted">Vue d'ensemble du portefeuille de sinistres, mise à jour en direct.</p>
+    <p class="muted" i18n="@@dashboard.subtitle">
+      Vue d'ensemble du portefeuille de sinistres, mise à jour en direct.
+    </p>
   </div>
   <a class="button" routerLink="/claims"
-    >Tous les sinistres <app-icon name="chevron" [size]="16"
+    ><span i18n="@@dashboard.allClaims">Tous les sinistres</span>
+    <app-icon name="chevron" [size]="16"
   /></a>
 </header>
 
-<section class="kpis" aria-label="Indicateurs clés">
+<section class="kpis" i18n-aria-label="@@dashboard.kpis" aria-label="Indicateurs clés">
   @if (kpis(); as k) {
     <article class="kpi">
       <span class="kpi-icon"><app-icon name="folder" /></span>
-      <span class="label">Dossiers ouverts</span>
+      <span class="label" i18n="@@kpi.open">Dossiers ouverts</span>
       <strong>{{ k.open }}</strong>
-      <span class="sub">sur {{ k.total }} sinistres</span>
+      <span class="sub" i18n="@@kpi.openOf">sur {{ k.total }} sinistres</span>
     </article>
     <article class="kpi">
       <span class="kpi-icon"><app-icon name="euro" /></span>
-      <span class="label">Montants réclamés</span>
+      <span class="label" i18n="@@kpi.claimed">Montants réclamés</span>
       <strong>{{ k.claimed | currency: 'EUR' : 'symbol' : '1.0-0' }}</strong>
-      <span class="sub">tous dossiers confondus</span>
+      <span class="sub" i18n="@@kpi.claimedSub">tous dossiers confondus</span>
     </article>
     <article class="kpi">
       <span class="kpi-icon"><app-icon name="check" /></span>
-      <span class="label">Montants accordés</span>
+      <span class="label" i18n="@@kpi.approved">Montants accordés</span>
       <strong>{{ k.approved | currency: 'EUR' : 'symbol' : '1.0-0' }}</strong>
-      <span class="sub">acceptés ou indemnisés</span>
+      <span class="sub" i18n="@@kpi.approvedSub">acceptés ou indemnisés</span>
     </article>
     <article class="kpi">
       <span class="kpi-icon"><app-icon name="activity" /></span>
-      <span class="label">Taux d'acceptation</span>
+      <span class="label" i18n="@@kpi.acceptance">Taux d'acceptation</span>
       <strong>{{ k.acceptance === null ? '—' : (k.acceptance | percent: '1.0-0') }}</strong>
-      <span class="sub">sur {{ k.decided }} décisions</span>
+      <span class="sub" i18n="@@kpi.decisions">sur {{ k.decided }} décisions</span>
     </article>
   } @else {
     @for (i of [1, 2, 3, 4]; track i) {
@@ -44,9 +47,13 @@
 
 <div class="grid">
   <section class="card">
-    <div class="card-title"><h2>Répartition par statut</h2></div>
+    <div class="card-title"><h2 i18n="@@dashboard.byStatus">Répartition par statut</h2></div>
     <div class="donut-row">
-      <app-donut-chart [slices]="slices()" caption="sinistres" />
+      <app-donut-chart
+        [slices]="slices()"
+        i18n-caption="@@dashboard.claimsUnit"
+        caption="sinistres"
+      />
       <ul class="legend">
         @for (slice of slices(); track slice.key) {
           <li>
@@ -62,22 +69,30 @@
   </section>
 
   <section class="card">
-    <div class="card-title"><h2>Montants réclamés par type</h2></div>
+    <div class="card-title"><h2 i18n="@@dashboard.byType">Montants réclamés par type</h2></div>
     <app-bar-list [items]="byType()" />
   </section>
 
   <section class="card activity">
     <div class="card-title">
-      <h2><app-icon name="activity" /> Activité en direct</h2>
-      <span class="chip" [class.on]="realtime.connected()">{{
-        realtime.connected() ? 'connecté' : 'hors ligne'
-      }}</span>
+      <h2><app-icon name="activity" /> <span i18n="@@dashboard.live">Activité en direct</span></h2>
+      <span class="chip" [class.on]="realtime.connected()">
+        @if (realtime.connected()) {
+          <span i18n="@@dashboard.connected">connecté</span>
+        } @else {
+          <span i18n="@@dashboard.offline">hors ligne</span>
+        }
+      </span>
     </div>
     @if (realtime.activity().length === 0) {
       <div class="empty">
         <app-icon name="bolt" [size]="28" />
-        <p>Les décisions prises par vos collègues apparaîtront ici instantanément.</p>
-        <p class="muted small">Ouvrez un second onglet avec un autre profil pour essayer.</p>
+        <p i18n="@@dashboard.emptyFeed">
+          Les décisions prises par vos collègues apparaîtront ici instantanément.
+        </p>
+        <p class="muted small" i18n="@@dashboard.emptyFeedHint">
+          Ouvrez un second onglet avec un autre profil pour essayer.
+        </p>
       </div>
     } @else {
       <ol class="feed">
@@ -99,8 +114,8 @@
 
   <section class="card recent">
     <div class="card-title">
-      <h2>Derniers sinistres</h2>
-      <a routerLink="/claims" class="button ghost sm">Voir tout</a>
+      <h2 i18n="@@dashboard.recent">Derniers sinistres</h2>
+      <a routerLink="/claims" class="button ghost sm" i18n="@@dashboard.seeAll">Voir tout</a>
     </div>
     <ul class="recent-list">
       @for (claim of recent.value()?.items; track claim.id) {

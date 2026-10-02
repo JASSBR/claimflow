@@ -1,0 +1,1414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="fr" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="status.declared" datatype="html">
+        <source>Déclaré</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="status.underReview" datatype="html">
+        <source>En instruction</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="status.informationRequested" datatype="html">
+        <source>Pièces demandées</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="status.approved" datatype="html">
+        <source>Accepté</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="status.rejected" datatype="html">
+        <source>Refusé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="status.settled" datatype="html">
+        <source>Indemnisé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="verb.declared" datatype="html">
+        <source>a déclaré</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="verb.underReview" datatype="html">
+        <source>instruit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="verb.informationRequested" datatype="html">
+        <source>a demandé des pièces pour</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="verb.approved" datatype="html">
+        <source>a accepté</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="verb.rejected" datatype="html">
+        <source>a refusé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="verb.settled" datatype="html">
+        <source>a indemnisé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="type.auto" datatype="html">
+        <source>Automobile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="type.home" datatype="html">
+        <source>Habitation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="type.liability" datatype="html">
+        <source>Responsabilité civile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.startReview" datatype="html">
+        <source>Prendre en charge</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.startReview.hint" datatype="html">
+        <source>Ouvre l&apos;instruction du dossier.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.requestInformation" datatype="html">
+        <source>Demander des pièces</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.requestInformation.hint" datatype="html">
+        <source>Suspend l&apos;instruction en attendant l&apos;assuré.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.resumeReview" datatype="html">
+        <source>Reprendre l&apos;instruction</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.resumeReview.hint" datatype="html">
+        <source>Les pièces ont été reçues.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.approve" datatype="html">
+        <source>Accepter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.approve.hint" datatype="html">
+        <source>Fixe le montant indemnisé.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.reject" datatype="html">
+        <source>Refuser</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.reject.hint" datatype="html">
+        <source>Clôt le dossier ; le motif est communiqué à l&apos;assuré.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.settle" datatype="html">
+        <source>Verser l&apos;indemnité</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.settle.hint" datatype="html">
+        <source>Seconde signature : libère le paiement.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="toast.colleague" datatype="html">
+        <source><x id="actor" equiv-text="change.actorName"/> <x id="verb" equiv-text="STATUS_VERBS[change.status]"/> <x id="number" equiv-text="change.number"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/realtime/claims-realtime.ts</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.main" datatype="html">
+        <source>Navigation principale</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.dashboard" datatype="html">
+        <source>Tableau de bord</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.claims" datatype="html">
+        <source>Sinistres</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">13,15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">2,5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">2,5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">4,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.declare" datatype="html">
+        <source>Déclarer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">17,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.sourceCode" datatype="html">
+        <source>Code source</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">34,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nav.adr" datatype="html">
+        <source>Décisions d&apos;architecture</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="live.on" datatype="html">
+        <source>Temps réel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="live.off" datatype="html">
+        <source>Hors ligne</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">39,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="theme.toggle" datatype="html">
+        <source>Changer de thème</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">56,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menu.switch" datatype="html">
+        <source>Changer de profil de démonstration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">80,81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menu.logout" datatype="html">
+        <source>Se déconnecter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">97,98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="banner.readOnly" datatype="html">
+        <source>Profil en lecture seule : vous consultez sans pouvoir modifier.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">111,113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.eyebrow" datatype="html">
+        <source>Première déclaration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">7,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.title" datatype="html">
+        <source>Déclarer un sinistre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.subtitle" datatype="html">
+        <source> Les règles du domaine sont vérifiées ici pour vous guider, puis appliquées par l&apos;API. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">10,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.policy" datatype="html">
+        <source>N° de contrat</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.type" datatype="html">
+        <source>Type de sinistre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.date" datatype="html">
+        <source>Date de survenance</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.amount" datatype="html">
+        <source>Montant estimé (€)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">49,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.circumstances" datatype="html">
+        <source>Circonstances</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">61,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.circumstancesPlaceholder" datatype="html">
+        <source>Que s&apos;est-il passé ? Où, quand, quels dommages ?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">66,69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.timeBar" datatype="html">
+        <source>Prescription biennale : un sinistre survenu il y a plus de deux ans ne peut plus être déclaré (art. L114-1 du Code des assurances).</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">79,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.cancel" datatype="html">
+        <source>Annuler</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">93,94</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">54,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.sending" datatype="html">
+        <source>Envoi…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">96,98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.submit" datatype="html">
+        <source>Déclarer le sinistre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.html</context>
+          <context context-type="linenumber">98,100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.policyRequired" datatype="html">
+        <source>Le numéro de contrat est obligatoire.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.policyFormat" datatype="html">
+        <source>Format attendu : POL-000000.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.dateRequired" datatype="html">
+        <source>La date de survenance est obligatoire.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.dateFuture" datatype="html">
+        <source>La date ne peut pas être dans le futur.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.descriptionRequired" datatype="html">
+        <source>Les circonstances sont obligatoires.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.descriptionMin" datatype="html">
+        <source>Décrivez le sinistre en 10 caractères minimum.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.descriptionMax" datatype="html">
+        <source>2000 caractères maximum.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="declare.amountPositive" datatype="html">
+        <source>Le montant doit être positif.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="toast.declared" datatype="html">
+        <source>Sinistre <x id="number" equiv-text="claim.number"/> déclaré</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-declare/claim-declare.ts</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.title" datatype="html">
+        <source>Revue IA du dossier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.disabled" datatype="html">
+        <source> L&apos;assistant IA n&apos;est pas activé sur cet environnement (clé API absente). Le reste de l&apos;application fonctionne normalement ; l&apos;activation est décrite dans le README. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">14,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.refused" datatype="html">
+        <source> Le modèle a décliné cette analyse. Les pièces peuvent être examinées manuellement. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.page" datatype="html">
+        <source>page <x id="INTERPOLATION" equiv-text="{{ c.startPage }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">75,76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.openSource" datatype="html">
+        <source>Ouvrir la pièce</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">81,83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.footer" datatype="html">
+        <source> Demandée par <x id="INTERPOLATION" equiv-text="{{ a.requestedBy }}"/> le <x id="INTERPOLATION_1" equiv-text="{{ a.createdAt | date: &apos;short&apos; }}"/> · <x id="INTERPOLATION_2" equiv-text="{{ a.documentCount }}"/> pièce(s) · <x id="INTERPOLATION_3" equiv-text="{{ a.inputTokens + a.outputTokens | number }}"/> tokens · avis consultatif, la décision reste humaine. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">87,91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.intro" datatype="html">
+        <source> L&apos;assistant compare la déclaration aux pièces (dates, lieux, circonstances, montants) et justifie chaque constat par une citation de la page source. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">94,99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.rerun" datatype="html">
+        <source>Relancer la revue</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">112,114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.run" datatype="html">
+        <source>Analyser le dossier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">114,116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.needDocument" datatype="html">
+        <source> Ajoutez au moins une pièce pour lancer la revue. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
+          <context context-type="linenumber">119,123</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.step1" datatype="html">
+        <source>Lecture des pièces</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.step2" datatype="html">
+        <source>Comparaison avec la déclaration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.step3" datatype="html">
+        <source>Recherche des incohérences</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.step4" datatype="html">
+        <source>Rédaction de la synthèse</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="analysis.source" datatype="html">
+        <source>Source</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.notFound" datatype="html">
+        <source>Sinistre introuvable.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.eyebrow" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ typeLabels[c.type] }}"/> · contrat <x id="INTERPOLATION_1" equiv-text="{{ c.policyNumber }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">11,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.meta" datatype="html">
+        <source> Survenu le <x id="INTERPOLATION" equiv-text="{{ c.incidentDate | date: &apos;shortDate&apos; }}"/> · déclaré par <x id="INTERPOLATION_1" equiv-text="{{ c.declaredBy }}"/> le <x id="INTERPOLATION_2" equiv-text="{{ c.declaredAt | date: &apos;shortDate&apos; }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">15,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.circumstances" datatype="html">
+        <source>Circonstances</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.claimedAmount" datatype="html">
+        <source>Montant réclamé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.approvedAmount" datatype="html">
+        <source>Montant accordé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.history" datatype="html">
+        <source>Historique</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.auditTrail" datatype="html">
+        <source>piste d&apos;audit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">75,77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="toast.decisionDone" datatype="html">
+        <source><x id="action" equiv-text="ACTION_META[decision.action].label"/> : c&apos;est fait</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.ts</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="timeline.declared" datatype="html">
+        <source>Déclaration du sinistre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-timeline.ts</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.title" datatype="html">
+        <source>Décision</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">4,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.readOnly" datatype="html">
+        <source>Votre profil est en lecture seule.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">11,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.reason" datatype="html">
+        <source>Motif</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">18,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.reasonPlaceholder" datatype="html">
+        <source>Visible dans l&apos;historique du dossier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.amount" datatype="html">
+        <source>Montant accordé (€)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">30,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.delegation" datatype="html">
+        <source>Votre délégation : <x id="INTERPOLATION" equiv-text="{{ limit | currency: &apos;EUR&apos; : &apos;symbol&apos; : &apos;1.0-0&apos; }}"/>.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.overLimit" datatype="html">
+        <source>Au-delà, un responsable doit accepter.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">47,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.fourEyes" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Principe des quatre yeux.<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Vous avez accepté ce dossier : un autre responsable doit libérer le paiement.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">85,86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.managersOnly" datatype="html">
+        <source>Le versement est réservé aux responsables indemnisation.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">93,96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.closed" datatype="html">
+        <source>Dossier clos.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">99,101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="decision.none" datatype="html">
+        <source>Aucune action disponible pour votre profil.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/decision-panel.html</context>
+          <context context-type="linenumber">102,105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.title" datatype="html">
+        <source>Pièces justificatives</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/documents-panel.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.meta" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ document.sizeBytes / 1024 | number: &apos;1.0-0&apos; }}"/> Ko · <x id="INTERPOLATION_1" equiv-text="{{ document.uploadedBy }}"/> · <x id="INTERPOLATION_2" equiv-text="{{ document.uploadedAt | date: &apos;short&apos; }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/documents-panel.html</context>
+          <context context-type="linenumber">28,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.empty" datatype="html">
+        <source>Aucune pièce pour l&apos;instant.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/documents-panel.html</context>
+          <context context-type="linenumber">38,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.uploading" datatype="html">
+        <source>Envoi en cours…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/documents-panel.html</context>
+          <context context-type="linenumber">58,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.drop" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Déposez des fichiers<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> ou cliquez pour parcourir</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/documents-panel.html</context>
+          <context context-type="linenumber">62,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documents.limits" datatype="html">
+        <source>PDF, PNG, JPEG · 10 Mo max · format vérifié à la réception</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/documents-panel.html</context>
+          <context context-type="linenumber">65,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="toast.uploaded" datatype="html">
+        <source><x id="file" equiv-text="file.name"/> ajouté au dossier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/documents-panel.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="toast.uploadRejected" datatype="html">
+        <source><x id="file" equiv-text="file.name"/> refusé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/documents-panel.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stepper.label" datatype="html">
+        <source>Avancement du dossier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/workflow-stepper.ts</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.eyebrow" datatype="html">
+        <source>Portefeuille</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.totals" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="{{ s.totalClaimedAmount | currency: &apos;EUR&apos; : &apos;symbol&apos; : &apos;1.0-0&apos; }}"/> réclamés · <x id="INTERPOLATION_1" equiv-text="{{ s.totalApprovedAmount | currency: &apos;EUR&apos; : &apos;symbol&apos; : &apos;1.0-0&apos; }}"/> accordés </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">7,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.declare" datatype="html">
+        <source>Déclarer un sinistre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">14,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.filterByStatus" datatype="html">
+        <source>Filtrer par statut</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.search" datatype="html">
+        <source>Rechercher</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">38,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.searchPlaceholder" datatype="html">
+        <source>N° de sinistre ou de contrat…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">42,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.loadError" datatype="html">
+        <source>Impossible de charger les sinistres.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">55,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="col.number" datatype="html">
+        <source>N°</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="col.policy" datatype="html">
+        <source>Contrat</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="col.type" datatype="html">
+        <source>Type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="col.incident" datatype="html">
+        <source>Survenance</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="col.amount" datatype="html">
+        <source>Montant</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="col.status" datatype="html">
+        <source>Statut</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">66,68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.loading" datatype="html">
+        <source>Chargement…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">85,86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.noMatch" datatype="html">
+        <source>Aucun sinistre ne correspond.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">87,89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.pagination" datatype="html">
+        <source>Pagination</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.results" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ claims.value()?.totalCount ?? 0 }}"/> résultat(s)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">98,100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.previous" datatype="html">
+        <source> Précédent </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">107,109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.page" datatype="html">
+        <source>Page <x id="INTERPOLATION" equiv-text="{{ page() }}"/> / <x id="INTERPOLATION_1" equiv-text="{{ pageCount() }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">109,110</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="list.next" datatype="html">
+        <source> Suivant </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claims-list/claims-list.html</context>
+          <context context-type="linenumber">117,119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.subtitle" datatype="html">
+        <source> Vue d&apos;ensemble du portefeuille de sinistres, mise à jour en direct. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">6,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.allClaims" datatype="html">
+        <source>Tous les sinistres</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.kpis" datatype="html">
+        <source>Indicateurs clés</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">15,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="kpi.open" datatype="html">
+        <source>Dossiers ouverts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="kpi.openOf" datatype="html">
+        <source>sur <x id="INTERPOLATION" equiv-text="{{ k.total }}"/> sinistres</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="kpi.claimed" datatype="html">
+        <source>Montants réclamés</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="kpi.claimedSub" datatype="html">
+        <source>tous dossiers confondus</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="kpi.approved" datatype="html">
+        <source>Montants accordés</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">31,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="kpi.approvedSub" datatype="html">
+        <source>acceptés ou indemnisés</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">33,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="kpi.acceptance" datatype="html">
+        <source>Taux d&apos;acceptation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="kpi.decisions" datatype="html">
+        <source>sur <x id="INTERPOLATION" equiv-text="{{ k.decided }}"/> décisions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">39,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.byStatus" datatype="html">
+        <source>Répartition par statut</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.claimsUnit" datatype="html">
+        <source>sinistres</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">55,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.byType" datatype="html">
+        <source>Montants réclamés par type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.live" datatype="html">
+        <source>Activité en direct</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">78,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.connected" datatype="html">
+        <source>connecté</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">81,83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.offline" datatype="html">
+        <source>hors ligne</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">83,86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.emptyFeed" datatype="html">
+        <source> Les décisions prises par vos collègues apparaîtront ici instantanément. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">91,93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.emptyFeedHint" datatype="html">
+        <source> Ouvrez un second onglet avec un autre profil pour essayer. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">94,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.recent" datatype="html">
+        <source>Derniers sinistres</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">117,118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.seeAll" datatype="html">
+        <source>Voir tout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.html</context>
+          <context context-type="linenumber">118,120</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.goodMorning" datatype="html">
+        <source>Bonjour, <x id="name" equiv-text="name"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.ts</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dashboard.goodEvening" datatype="html">
+        <source>Bonsoir, <x id="name" equiv-text="name"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/dashboard/dashboard.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.eyebrow" datatype="html">
+        <source>Démo interactive · données fictives</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.title" datatype="html">
+        <source> La gestion de sinistres, <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;gradient&quot;&gt;"/>en temps réel et explicable.<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">7,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.lead" datatype="html">
+        <source> Déclarez, instruisez, acceptez et indemnisez des sinistres d&apos;assurance — avec les garde-fous d&apos;un vrai métier régulé et un assistant IA qui justifie chacun de ses constats. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">10,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.choose" datatype="html">
+        <source>Choisissez un profil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.chooseHint" datatype="html">
+        <source> Chaque profil a des droits différents. Aucun mot de passe : c&apos;est une démo. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">54,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.waking" datatype="html">
+        <source> L&apos;API de démonstration ne répond pas. Elle se réveille peut-être : réessayez dans quelques secondes. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">68,70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.retry" datatype="html">
+        <source> Réessayer </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.connecting" datatype="html">
+        <source>Connexion…</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">95,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.tip" datatype="html">
+        <source>Astuce : ouvrez deux onglets avec deux profils différents pour voir les décisions arriver en direct.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">109,111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.h1.title" datatype="html">
+        <source>Règles métier réelles</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.h1.text" datatype="html">
+        <source>Délégation de pouvoir, principe des quatre yeux, prescription biennale, piste d’audit.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.h2.title" datatype="html">
+        <source>Temps réel fiable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.h2.text" datatype="html">
+        <source>Chaque décision se propage instantanément, via une outbox transactionnelle et SignalR.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.h3.title" datatype="html">
+        <source>IA explicable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.h3.text" datatype="html">
+        <source>La revue de dossier cite la page exacte de chaque pièce. L’humain décide.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.h4.title" datatype="html">
+        <source>Qualité vérifiée</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.h4.text" datatype="html">
+        <source>Plus de 150 tests automatisés, architecture imposée par des tests, tests de charge publiés.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="role.manager" datatype="html">
+        <source>Responsable</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="role.auditor" datatype="html">
+        <source>Lecture seule</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="role.handler" datatype="html">
+        <source>Gestionnaire</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.policyNumber" datatype="html">
+        <source>Le numéro de contrat doit respecter le format POL-000000.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.futureDate" datatype="html">
+        <source>La date de survenance ne peut pas être dans le futur.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.timeBarred" datatype="html">
+        <source>Sinistre prescrit : plus de deux ans se sont écoulés (art. L114-1 du Code des assurances).</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.descriptionLength" datatype="html">
+        <source>Les circonstances doivent faire entre 10 et 2000 caractères.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.claimedAmount" datatype="html">
+        <source>Le montant réclamé doit être positif et inférieur à 1 000 000 €.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.type" datatype="html">
+        <source>Type de sinistre inconnu.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.reason" datatype="html">
+        <source>Un motif est obligatoire pour cette décision.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.approvedAmount" datatype="html">
+        <source>Le montant accordé doit être positif et ne peut pas dépasser le montant réclamé.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.approvalLimit" datatype="html">
+        <source>Ce montant dépasse votre délégation de pouvoir : un responsable doit accepter ce dossier.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.fourEyes" datatype="html">
+        <source>Principe des quatre yeux : la personne qui a accepté un dossier ne peut pas en verser l&apos;indemnité.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.actionForbidden" datatype="html">
+        <source>Votre rôle ne permet pas cette action.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.transition" datatype="html">
+        <source>Cette action n&apos;est pas possible dans l&apos;état actuel du dossier.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.concurrent" datatype="html">
+        <source>Le dossier vient d&apos;être modifié par quelqu&apos;un d&apos;autre. Sa nouvelle version est affichée : vérifiez-la avant de décider.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.claimNotFound" datatype="html">
+        <source>Ce sinistre n&apos;existe pas.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.documentFormat" datatype="html">
+        <source>Seuls les PDF, PNG et JPEG sont acceptés (format vérifié sur le contenu du fichier, pas sur son nom).</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.documentSize" datatype="html">
+        <source>Un document ne peut pas dépasser 10 Mo.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.documentEmpty" datatype="html">
+        <source>Le fichier est vide.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.documentCount" datatype="html">
+        <source>Le dossier a atteint le nombre maximal de pièces.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.documentNotFound" datatype="html">
+        <source>Cette pièce n&apos;existe pas sur ce dossier.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.aiDisabled" datatype="html">
+        <source>L&apos;assistant IA n&apos;est pas configuré sur cet environnement.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.noDocuments" datatype="html">
+        <source>Ajoutez au moins une pièce avant de lancer la revue.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.unexpected" datatype="html">
+        <source>Erreur inattendue.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.network" datatype="html">
+        <source>L&apos;API est injoignable. Vérifiez votre connexion.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.rateLimited" datatype="html">
+        <source>Trop de demandes en peu de temps. Réessayez dans quelques minutes.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.status" datatype="html">
+        <source>Erreur <x id="status" equiv-text="error.status"/>.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="toast.region" datatype="html">
+        <source>Notifications</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/toast-host.ts</context>
+          <context context-type="linenumber">13,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.close" datatype="html">
+        <source>Fermer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/toast-host.ts</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

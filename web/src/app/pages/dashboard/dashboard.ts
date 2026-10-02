@@ -1,6 +1,6 @@
 import { CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Auth } from '../../core/auth/auth';
 import { ClaimsRealtime } from '../../core/realtime/claims-realtime';
@@ -30,12 +30,6 @@ const STATUS_COLORS: Record<string, string> = {
   Settled: 'var(--status-settled)',
 };
 
-const euros = new Intl.NumberFormat('fr-FR', {
-  style: 'currency',
-  currency: 'EUR',
-  maximumFractionDigits: 0,
-});
-
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -56,6 +50,11 @@ const euros = new Intl.NumberFormat('fr-FR', {
 })
 export class Dashboard {
   protected readonly auth = inject(Auth);
+  private readonly euros = new Intl.NumberFormat(inject(LOCALE_ID), {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0,
+  });
   protected readonly realtime = inject(ClaimsRealtime);
   protected readonly statusLabels = STATUS_LABELS;
   protected readonly statusVerbs = STATUS_VERBS;
@@ -74,7 +73,10 @@ export class Dashboard {
 
   protected readonly greeting = computed(() => {
     const hour = new Date().getHours();
-    return `${hour < 18 ? 'Bonjour' : 'Bonsoir'}, ${this.auth.user()?.name.split(' ')[0] ?? ''}`;
+    const name = this.auth.user()?.name.split(' ')[0] ?? '';
+    return hour < 18
+      ? $localize`:@@dashboard.goodMorning:Bonjour, ${name}:name:`
+      : $localize`:@@dashboard.goodEvening:Bonsoir, ${name}:name:`;
   });
 
   protected readonly kpis = computed(() => {
@@ -112,7 +114,7 @@ export class Dashboard {
           key: type,
           label: `${TYPE_LABELS[type]} · ${byType[type].count}`,
           value: byType[type].claimedAmount,
-          display: euros.format(byType[type].claimedAmount),
+          display: this.euros.format(byType[type].claimedAmount),
         }))
       : [];
   });

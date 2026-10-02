@@ -21,10 +21,10 @@ import { Icon } from '../../shared/icon';
 import { problemMessages } from '../../shared/problem-details';
 
 const STEPS = [
-  'Lecture des pièces',
-  'Comparaison avec la déclaration',
-  'Recherche des incohérences',
-  'Rédaction de la synthèse',
+  $localize`:@@analysis.step1:Lecture des pièces`,
+  $localize`:@@analysis.step2:Comparaison avec la déclaration`,
+  $localize`:@@analysis.step3:Recherche des incohérences`,
+  $localize`:@@analysis.step4:Rédaction de la synthèse`,
 ];
 
 @Component({
@@ -49,6 +49,7 @@ export class AnalysisPanel implements OnDestroy {
   protected readonly error = signal<string | null>(null);
   protected readonly selected = signal<AnalysisCitation | null>(null);
   protected readonly steps = STEPS;
+  protected readonly sourceLabel = $localize`:@@analysis.source:Source`;
 
   protected readonly blocks = computed(() => {
     const analysis = this.analysis();

@@ -6,7 +6,12 @@ import { Icon } from './icon';
   selector: 'app-toast-host',
   imports: [Icon],
   template: `
-    <section class="host" aria-live="polite" aria-label="Notifications">
+    <section
+      class="host"
+      aria-live="polite"
+      i18n-aria-label="@@toast.region"
+      aria-label="Notifications"
+    >
       @for (toast of toasts.toasts(); track toast.id) {
         <div class="toast" [attr.data-tone]="toast.tone">
           <app-icon
@@ -24,6 +29,7 @@ import { Icon } from './icon';
             type="button"
             class="close"
             (click)="toasts.dismiss(toast.id)"
+            i18n-aria-label="@@common.close"
             aria-label="Fermer"
           >
             <app-icon name="x" [size]="14" />

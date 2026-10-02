@@ -1,15 +1,19 @@
-<a routerLink="/claims" class="back"><app-icon name="back" [size]="16" /> Sinistres</a>
+<a routerLink="/claims" class="back"
+  ><app-icon name="back" [size]="16" /> <span i18n="@@nav.claims">Sinistres</span></a
+>
 
 @if (claim.error()) {
-  <p class="alert" role="alert">Sinistre introuvable.</p>
+  <p class="alert" role="alert" i18n="@@detail.notFound">Sinistre introuvable.</p>
 } @else if (claim.value(); as c) {
   <header class="page-header">
     <div>
-      <span class="eyebrow">{{ typeLabels[c.type] }} · contrat {{ c.policyNumber }}</span>
+      <span class="eyebrow" i18n="@@detail.eyebrow"
+        >{{ typeLabels[c.type] }} · contrat {{ c.policyNumber }}</span
+      >
       <h1 class="title">{{ c.number }} <app-status-badge [status]="c.status" /></h1>
-      <p class="muted">
-        Survenu le {{ c.incidentDate | date: 'dd/MM/yyyy' }} · déclaré par {{ c.declaredBy }} le
-        {{ c.declaredAt | date: 'dd/MM/yyyy' }}
+      <p class="muted" i18n="@@detail.meta">
+        Survenu le {{ c.incidentDate | date: 'shortDate' }} · déclaré par {{ c.declaredBy }} le
+        {{ c.declaredAt | date: 'shortDate' }}
       </p>
     </div>
   </header>
@@ -19,15 +23,15 @@
   <div class="layout">
     <div class="column">
       <section class="card">
-        <div class="card-title"><h2>Circonstances</h2></div>
+        <div class="card-title"><h2 i18n="@@detail.circumstances">Circonstances</h2></div>
         <p class="description">{{ c.description }}</p>
         <dl class="amounts">
           <div>
-            <dt>Montant réclamé</dt>
+            <dt i18n="@@detail.claimedAmount">Montant réclamé</dt>
             <dd>{{ c.claimedAmount | currency: 'EUR' }}</dd>
           </div>
           <div>
-            <dt>Montant accordé</dt>
+            <dt i18n="@@detail.approvedAmount">Montant accordé</dt>
             <dd [class.granted]="c.approvedAmount !== null">
               {{ c.approvedAmount === null ? '—' : (c.approvedAmount | currency: 'EUR') }}
             </dd>
@@ -67,8 +71,8 @@
 
       <section class="card">
         <div class="card-title">
-          <h2>Historique</h2>
-          <span class="chip">piste d'audit</span>
+          <h2 i18n="@@detail.history">Historique</h2>
+          <span class="chip" i18n="@@detail.auditTrail">piste d'audit</span>
         </div>
         <app-claim-timeline [claim]="c" />
       </section>

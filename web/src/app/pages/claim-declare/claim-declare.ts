@@ -55,18 +55,35 @@ export class ClaimDeclare {
 
   // Client rules mirror the domain for instant feedback; the API stays the authority (its errors are shown too).
   protected readonly form = form(this.model, (path) => {
-    required(path.policyNumber, { message: 'Le numéro de contrat est obligatoire.' });
-    pattern(path.policyNumber, /^POL-\d{6}$/i, { message: 'Format attendu : POL-000000.' });
-    required(path.incidentDate, { message: 'La date de survenance est obligatoire.' });
+    required(path.policyNumber, {
+      message: $localize`:@@declare.policyRequired:Le numéro de contrat est obligatoire.`,
+    });
+    pattern(path.policyNumber, /^POL-\d{6}$/i, {
+      message: $localize`:@@declare.policyFormat:Format attendu : POL-000000.`,
+    });
+    required(path.incidentDate, {
+      message: $localize`:@@declare.dateRequired:La date de survenance est obligatoire.`,
+    });
     validate(path.incidentDate, ({ value }) =>
       value() > today()
-        ? { kind: 'future', message: 'La date ne peut pas être dans le futur.' }
+        ? {
+            kind: 'future',
+            message: $localize`:@@declare.dateFuture:La date ne peut pas être dans le futur.`,
+          }
         : null,
     );
-    required(path.description, { message: 'Les circonstances sont obligatoires.' });
-    minLength(path.description, 10, { message: 'Décrivez le sinistre en 10 caractères minimum.' });
-    maxLength(path.description, 2000, { message: '2000 caractères maximum.' });
-    min(path.claimedAmount, 0.01, { message: 'Le montant doit être positif.' });
+    required(path.description, {
+      message: $localize`:@@declare.descriptionRequired:Les circonstances sont obligatoires.`,
+    });
+    minLength(path.description, 10, {
+      message: $localize`:@@declare.descriptionMin:Décrivez le sinistre en 10 caractères minimum.`,
+    });
+    maxLength(path.description, 2000, {
+      message: $localize`:@@declare.descriptionMax:2000 caractères maximum.`,
+    });
+    min(path.claimedAmount, 0.01, {
+      message: $localize`:@@declare.amountPositive:Le montant doit être positif.`,
+    });
   });
 
   protected async onSubmit(event: Event): Promise<void> {
@@ -75,7 +92,10 @@ export class ClaimDeclare {
     await submit(this.form, async () => {
       try {
         const claim = await firstValueFrom(this.api.declare(this.model()));
-        this.toasts.show({ tone: 'success', title: `Sinistre ${claim.number} déclaré` });
+        this.toasts.show({
+          tone: 'success',
+          title: $localize`:@@toast.declared:Sinistre ${claim.number}:number: déclaré`,
+        });
         await this.router.navigate(['/claims', claim.id]);
       } catch (error) {
         this.serverErrors.set(problemMessages(error));

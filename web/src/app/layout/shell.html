@@ -1,28 +1,30 @@
 <div class="layout">
   <aside class="sidebar">
-    <a routerLink="/dashboard" class="brand" aria-label="ClaimFlow — tableau de bord">
+    <a routerLink="/dashboard" class="brand" aria-label="ClaimFlow">
       <span class="logo" aria-hidden="true"></span>
       <span>ClaimFlow</span>
     </a>
 
-    <nav aria-label="Navigation principale">
+    <nav i18n-aria-label="@@nav.main" aria-label="Navigation principale">
       <a routerLink="/dashboard" routerLinkActive="active"
-        ><app-icon name="dashboard" /> Tableau de bord</a
+        ><app-icon name="dashboard" /> <span i18n="@@nav.dashboard">Tableau de bord</span></a
       >
       <a routerLink="/claims" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-        ><app-icon name="folder" /> Sinistres</a
+        ><app-icon name="folder" /> <span i18n="@@nav.claims">Sinistres</span></a
       >
       @if (capabilities.value()?.canDeclare) {
-        <a routerLink="/claims/new" routerLinkActive="active"><app-icon name="plus" /> Déclarer</a>
+        <a routerLink="/claims/new" routerLinkActive="active"
+          ><app-icon name="plus" /> <span i18n="@@nav.declare">Déclarer</span></a
+        >
       }
     </nav>
 
     <div class="sidebar-footer">
       <a [href]="repositoryUrl" target="_blank" rel="noopener"
-        ><app-icon name="github" /> Code source</a
+        ><app-icon name="github" /> <span i18n="@@nav.sourceCode">Code source</span></a
       >
       <a [href]="repositoryUrl + '/tree/main/docs/adr'" target="_blank" rel="noopener"
-        ><app-icon name="file" /> Décisions d'architecture</a
+        ><app-icon name="file" /> <span i18n="@@nav.adr">Décisions d'architecture</span></a
       >
     </div>
   </aside>
@@ -31,15 +33,27 @@
     <header class="topbar">
       <span class="live" [class.on]="realtime.connected()" role="status">
         <span class="pulse" aria-hidden="true"></span>
-        {{ realtime.connected() ? 'Temps réel' : 'Hors ligne' }}
+        @if (realtime.connected()) {
+          <span i18n="@@live.on">Temps réel</span>
+        } @else {
+          <span i18n="@@live.off">Hors ligne</span>
+        }
       </span>
 
       <div class="actions">
+        <a
+          class="icon-button lang"
+          [href]="otherLocale.href"
+          [attr.hreflang]="otherLocale.code"
+          [title]="otherLocale.label"
+          >{{ otherLocale.code.toUpperCase() }}</a
+        >
         <button
           type="button"
           class="icon-button"
           (click)="theme.toggle()"
-          [attr.aria-label]="theme.theme() === 'dark' ? 'Thème clair' : 'Thème sombre'"
+          i18n-aria-label="@@theme.toggle"
+          aria-label="Changer de thème"
         >
           <app-icon [name]="theme.theme() === 'dark' ? 'sun' : 'moon'" />
         </button>
@@ -63,7 +77,7 @@
 
             @if (menuOpen()) {
               <div class="menu" role="menu">
-                <p class="menu-label">Changer de profil de démonstration</p>
+                <p class="menu-label" i18n="@@menu.switch">Changer de profil de démonstration</p>
                 @for (persona of personas.value() ?? []; track persona.id) {
                   <button
                     type="button"
@@ -80,7 +94,7 @@
                   </button>
                 }
                 <button type="button" role="menuitem" class="logout" (click)="auth.logout()">
-                  <app-icon name="logout" /> Se déconnecter
+                  <app-icon name="logout" /> <span i18n="@@menu.logout">Se déconnecter</span>
                 </button>
               </div>
             }
@@ -92,8 +106,10 @@
     @if (capabilities.value(); as caps) {
       @if (!caps.canDeclare) {
         <div class="role-banner">
-          <app-icon name="lock" [size]="16" /> Profil en lecture seule : vous consultez sans pouvoir
-          modifier.
+          <app-icon name="lock" [size]="16" />
+          <span i18n="@@banner.readOnly"
+            >Profil en lecture seule : vous consultez sans pouvoir modifier.</span
+          >
         </div>
       }
     }

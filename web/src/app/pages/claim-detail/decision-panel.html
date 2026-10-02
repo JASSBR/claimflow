@@ -1,27 +1,33 @@
 <section class="card" aria-labelledby="decision-title">
   <div class="card-title">
-    <h2 id="decision-title"><app-icon name="shield" /> Décision</h2>
+    <h2 id="decision-title">
+      <app-icon name="shield" /> <span i18n="@@decision.title">Décision</span>
+    </h2>
   </div>
 
   @if (readOnly()) {
-    <p class="note"><app-icon name="lock" [size]="16" /> Votre profil est en lecture seule.</p>
+    <p class="note">
+      <app-icon name="lock" [size]="16" />
+      <span i18n="@@decision.readOnly">Votre profil est en lecture seule.</span>
+    </p>
   } @else if (pendingMeta(); as m) {
     <div class="form">
       <p class="hint">{{ m.hint }}</p>
       @if (m.needsReason) {
         <label>
-          Motif
+          <span i18n="@@decision.reason">Motif</span>
           <textarea
             rows="3"
             [value]="reason()"
             (input)="reason.set($any($event.target).value)"
+            i18n-placeholder="@@decision.reasonPlaceholder"
             placeholder="Visible dans l'historique du dossier"
           ></textarea>
         </label>
       }
       @if (m.needsAmount) {
         <label>
-          Montant accordé (€)
+          <span i18n="@@decision.amount">Montant accordé (€)</span>
           <input
             type="number"
             step="0.01"
@@ -34,15 +40,19 @@
         @if (approvalLimit(); as limit) {
           <p class="limit" [class.over]="exceedsLimit()">
             <app-icon [name]="exceedsLimit() ? 'alert' : 'shield'" [size]="15" />
-            Votre délégation : {{ limit | currency: 'EUR' : 'symbol' : '1.0-0' }}.
+            <span i18n="@@decision.delegation"
+              >Votre délégation : {{ limit | currency: 'EUR' : 'symbol' : '1.0-0' }}.</span
+            >
             @if (exceedsLimit()) {
-              Au-delà, un responsable doit accepter.
+              <span i18n="@@decision.overLimit">Au-delà, un responsable doit accepter.</span>
             }
           </p>
         }
       }
       <div class="row">
-        <button type="button" class="button" (click)="pending.set(null)">Annuler</button>
+        <button type="button" class="button" (click)="pending.set(null)" i18n="@@common.cancel">
+          Annuler
+        </button>
         <button
           type="button"
           class="button"
@@ -71,20 +81,25 @@
         @if (fourEyesNotice()) {
           <p class="note four-eyes">
             <app-icon name="users" [size]="16" />
-            <span
+            <span i18n="@@decision.fourEyes"
               ><strong>Principe des quatre yeux.</strong> Vous avez accepté ce dossier : un autre
               responsable doit libérer le paiement.</span
             >
           </p>
         } @else if (claim().status === 'Approved') {
           <p class="note">
-            <app-icon name="lock" [size]="16" /> Le versement est réservé aux responsables
-            indemnisation.
+            <app-icon name="lock" [size]="16" />
+            <span i18n="@@decision.managersOnly"
+              >Le versement est réservé aux responsables indemnisation.</span
+            >
           </p>
         } @else if (claim().status === 'Settled' || claim().status === 'Rejected') {
-          <p class="note"><app-icon name="check" [size]="16" /> Dossier clos.</p>
+          <p class="note">
+            <app-icon name="check" [size]="16" />
+            <span i18n="@@decision.closed">Dossier clos.</span>
+          </p>
         } @else {
-          <p class="note">Aucune action disponible pour votre profil.</p>
+          <p class="note" i18n="@@decision.none">Aucune action disponible pour votre profil.</p>
         }
       }
     </div>

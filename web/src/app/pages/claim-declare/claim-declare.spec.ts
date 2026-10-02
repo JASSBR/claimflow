@@ -87,6 +87,7 @@ describe('ClaimDeclare', () => {
     await settle();
     await fixture.whenStable();
 
-    expect(element.querySelector('[role=alert]')?.textContent).toContain('time-barred');
+    // The API sends a stable code; the UI words it in the user's language.
+    expect(element.querySelector('[role=alert]')?.textContent).toContain('Sinistre prescrit');
   });
 });

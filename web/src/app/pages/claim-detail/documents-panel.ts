@@ -48,11 +48,14 @@ export class DocumentsPanel {
       this.uploading.update((count) => count + 1);
       try {
         await firstValueFrom(this.api.upload(this.claimId(), file));
-        this.toasts.show({ tone: 'success', title: `${file.name} ajouté au dossier` });
+        this.toasts.show({
+          tone: 'success',
+          title: $localize`:@@toast.uploaded:${file.name}:file: ajouté au dossier`,
+        });
       } catch (error) {
         this.toasts.show({
           tone: 'error',
-          title: `${file.name} refusé`,
+          title: $localize`:@@toast.uploadRejected:${file.name}:file: refusé`,
           message: problemMessages(error).join(' '),
         });
       } finally {

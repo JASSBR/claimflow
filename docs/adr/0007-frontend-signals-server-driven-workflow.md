@@ -16,6 +16,11 @@
   destroyed open forms mid-action — a bug the Playwright suite caught intermittently before it was fixed.
 - **Server-driven workflow**: the API returns `allowedActions` computed from the domain's workflow table; the UI renders
   one button per allowed action and contains **no workflow logic**. Changing the workflow is a backend-only change.
+- **Internationalisation (FR/EN) with Angular's built-in i18n**: `$localize` and `i18n` attributes with stable ids
+  (`@@decision.fourEyes`), one compiled build per language served under `/fr/` and `/en/` — translations cost nothing at
+  runtime. The API returns stable error **codes**; the UI owns their wording in each language and falls back to the
+  server's description for a code it does not know yet. `tools/build-translation.py` regenerates `messages.en.xlf` from
+  the extraction and fails on any missing translation or unknown placeholder.
 - The hub connection is injected through an `InjectionToken` factory, so the service is testable without a server.
 
 ## Consequences

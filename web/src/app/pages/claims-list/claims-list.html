@@ -1,9 +1,9 @@
 <header class="page-header">
   <div>
-    <span class="eyebrow">Portefeuille</span>
-    <h1>Sinistres</h1>
+    <span class="eyebrow" i18n="@@list.eyebrow">Portefeuille</span>
+    <h1 i18n="@@nav.claims">Sinistres</h1>
     @if (stats.value(); as s) {
-      <p class="muted">
+      <p class="muted" i18n="@@list.totals">
         {{ s.totalClaimedAmount | currency: 'EUR' : 'symbol' : '1.0-0' }} réclamés ·
         {{ s.totalApprovedAmount | currency: 'EUR' : 'symbol' : '1.0-0' }} accordés
       </p>
@@ -11,12 +11,12 @@
   </div>
   @if (capabilities.value()?.canDeclare) {
     <a class="button primary" routerLink="/claims/new"
-      ><app-icon name="plus" /> Déclarer un sinistre</a
+      ><app-icon name="plus" /> <span i18n="@@list.declare">Déclarer un sinistre</span></a
     >
   }
 </header>
 
-<section class="tiles" aria-label="Filtrer par statut">
+<section class="tiles" i18n-aria-label="@@list.filterByStatus" aria-label="Filtrer par statut">
   @for (s of statuses; track s) {
     <button
       type="button"
@@ -35,9 +35,10 @@
 <div class="toolbar">
   <label class="search">
     <app-icon name="search" [size]="16" />
-    <span class="sr-only">Rechercher</span>
+    <span class="sr-only" i18n="@@list.search">Rechercher</span>
     <input
       type="search"
+      i18n-placeholder="@@list.searchPlaceholder"
       placeholder="N° de sinistre ou de contrat…"
       [value]="search()"
       (input)="search.set($any($event.target).value)"
@@ -51,18 +52,18 @@
 </div>
 
 @if (claims.error()) {
-  <p class="alert" role="alert">Impossible de charger les sinistres.</p>
+  <p class="alert" role="alert" i18n="@@list.loadError">Impossible de charger les sinistres.</p>
 } @else {
   <div class="table-wrap card" [class.loading]="claims.isLoading()">
     <table>
       <thead>
         <tr>
-          <th scope="col">N°</th>
-          <th scope="col">Contrat</th>
-          <th scope="col">Type</th>
-          <th scope="col">Survenance</th>
-          <th scope="col" class="num">Montant</th>
-          <th scope="col">Statut</th>
+          <th scope="col" i18n="@@col.number">N°</th>
+          <th scope="col" i18n="@@col.policy">Contrat</th>
+          <th scope="col" i18n="@@col.type">Type</th>
+          <th scope="col" i18n="@@col.incident">Survenance</th>
+          <th scope="col" class="num" i18n="@@col.amount">Montant</th>
+          <th scope="col" i18n="@@col.status">Statut</th>
         </tr>
       </thead>
       <tbody>
@@ -73,14 +74,18 @@
             </td>
             <td>{{ claim.policyNumber }}</td>
             <td>{{ typeLabels[claim.type] }}</td>
-            <td>{{ claim.incidentDate | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ claim.incidentDate | date: 'shortDate' }}</td>
             <td class="num">{{ claim.claimedAmount | currency: 'EUR' }}</td>
             <td><app-status-badge [status]="claim.status" /></td>
           </tr>
         } @empty {
           <tr>
             <td colspan="6" class="empty">
-              {{ claims.isLoading() ? 'Chargement…' : 'Aucun sinistre ne correspond.' }}
+              @if (claims.isLoading()) {
+                <span i18n="@@common.loading">Chargement…</span>
+              } @else {
+                <span i18n="@@list.noMatch">Aucun sinistre ne correspond.</span>
+              }
             </td>
           </tr>
         }
@@ -88,17 +93,26 @@
     </table>
   </div>
 
-  <nav class="pager" aria-label="Pagination">
-    <span class="muted">{{ claims.value()?.totalCount ?? 0 }} résultat(s)</span>
-    <button type="button" class="button sm" (click)="goTo(page() - 1)" [disabled]="page() <= 1">
+  <nav class="pager" i18n-aria-label="@@list.pagination" aria-label="Pagination">
+    <span class="muted" i18n="@@list.results"
+      >{{ claims.value()?.totalCount ?? 0 }} résultat(s)</span
+    >
+    <button
+      type="button"
+      class="button sm"
+      (click)="goTo(page() - 1)"
+      [disabled]="page() <= 1"
+      i18n="@@list.previous"
+    >
       Précédent
     </button>
-    <span>Page {{ page() }} / {{ pageCount() }}</span>
+    <span i18n="@@list.page">Page {{ page() }} / {{ pageCount() }}</span>
     <button
       type="button"
       class="button sm"
       (click)="goTo(page() + 1)"
       [disabled]="page() >= pageCount()"
+      i18n="@@list.next"
     >
       Suivant
     </button>

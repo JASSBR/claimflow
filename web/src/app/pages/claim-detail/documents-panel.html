@@ -1,6 +1,8 @@
 <section class="card" aria-labelledby="documents-title">
   <div class="card-title">
-    <h2 id="documents-title"><app-icon name="file" /> Pièces justificatives</h2>
+    <h2 id="documents-title">
+      <app-icon name="file" /> <span i18n="@@documents.title">Pièces justificatives</span>
+    </h2>
     <span class="chip"
       >{{ documents().length
       }}{{ settings() ? ' / ' + settings()!.maxDocumentsPerClaim : '' }}</span
@@ -22,9 +24,9 @@
             </span>
             <span class="meta">
               <strong>{{ document.fileName }}</strong>
-              <small
+              <small i18n="@@documents.meta"
                 >{{ document.sizeBytes / 1024 | number: '1.0-0' }} Ko · {{ document.uploadedBy }} ·
-                {{ document.uploadedAt | date: 'dd/MM HH:mm' }}</small
+                {{ document.uploadedAt | date: 'short' }}</small
               >
             </span>
             <app-icon name="external" [size]="15" class="open" />
@@ -33,7 +35,7 @@
       }
     </ul>
   } @else {
-    <p class="muted empty">Aucune pièce pour l'instant.</p>
+    <p class="muted empty" i18n="@@documents.empty">Aucune pièce pour l'instant.</p>
   }
 
   @if (canUpload()) {
@@ -52,11 +54,16 @@
         (change)="onPick($event)"
       />
       @if (uploading() > 0) {
-        <span class="spinner" aria-hidden="true"></span> Envoi en cours…
+        <span class="spinner" aria-hidden="true"></span>
+        <span i18n="@@documents.uploading">Envoi en cours…</span>
       } @else {
         <app-icon name="upload" />
-        <span><strong>Déposez des fichiers</strong> ou cliquez pour parcourir</span>
-        <small>PDF, PNG, JPEG · 10 Mo max · format vérifié à la réception</small>
+        <span i18n="@@documents.drop"
+          ><strong>Déposez des fichiers</strong> ou cliquez pour parcourir</span
+        >
+        <small i18n="@@documents.limits"
+          >PDF, PNG, JPEG · 10 Mo max · format vérifié à la réception</small
+        >
       }
     </label>
   }

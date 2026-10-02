@@ -35,6 +35,6 @@ test('the server blocks an approval above the delegated limit', async ({ browser
   await expect(lea.getByText('Au-delà, un responsable doit accepter.')).toBeVisible();
   await lea.getByRole('button', { name: 'Accepter', exact: true }).click();
 
-  await expect(lea.getByRole('alert')).toContainText('approval authority');
+  await expect(lea.getByRole('alert')).toContainText('délégation de pouvoir');
   await expect(lea.locator('h1')).toContainText('En instruction');
 });

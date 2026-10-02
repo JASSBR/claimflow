@@ -20,9 +20,7 @@ import { Avatar } from '../../shared/avatar';
             @if (entry.reason) {
               <q>{{ entry.reason }}</q>
             }
-            <time [attr.datetime]="entry.occurredAt">{{
-              entry.occurredAt | date: 'dd/MM/yyyy HH:mm'
-            }}</time>
+            <time [attr.datetime]="entry.occurredAt">{{ entry.occurredAt | date: 'short' }}</time>
           </div>
         </li>
       }
@@ -30,11 +28,10 @@ import { Avatar } from '../../shared/avatar';
         <app-avatar [name]="claim().declaredBy" [size]="30" />
         <div>
           <p>
-            <strong>{{ claim().declaredBy }}</strong> · Déclaration du sinistre
+            <strong>{{ claim().declaredBy }}</strong> ·
+            <span i18n="@@timeline.declared">Déclaration du sinistre</span>
           </p>
-          <time [attr.datetime]="claim().declaredAt">{{
-            claim().declaredAt | date: 'dd/MM/yyyy HH:mm'
-          }}</time>
+          <time [attr.datetime]="claim().declaredAt">{{ claim().declaredAt | date: 'short' }}</time>
         </div>
       </li>
     </ol>

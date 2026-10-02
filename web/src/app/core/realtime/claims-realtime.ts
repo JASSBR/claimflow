@@ -83,7 +83,7 @@ export class ClaimsRealtime {
     if (change.actorName !== this.auth.user()?.name) {
       this.toasts.show({
         tone: 'info',
-        title: `${change.actorName} ${STATUS_VERBS[change.status]} ${change.number}`,
+        title: $localize`:@@toast.colleague:${change.actorName}:actor: ${STATUS_VERBS[change.status]}:verb: ${change.number}:number:`,
       });
     }
   }

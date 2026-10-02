@@ -1,6 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { LOCALE_ID, Pipe, PipeTransform, inject } from '@angular/core';
 
-const formatter = new Intl.RelativeTimeFormat('fr', { numeric: 'auto' });
 const STEPS: readonly [Intl.RelativeTimeFormatUnit, number][] = [
   ['second', 60],
   ['minute', 60],
@@ -9,16 +8,18 @@ const STEPS: readonly [Intl.RelativeTimeFormatUnit, number][] = [
   ['month', 12],
 ];
 
-/** "il y a 5 minutes". Pure: re-evaluated when its input changes, which realtime refreshes do often enough. */
+/** "il y a 5 minutes" / "5 minutes ago", in the build's locale. */
 @Pipe({ name: 'relativeTime' })
 export class RelativeTimePipe implements PipeTransform {
+  private readonly formatter = new Intl.RelativeTimeFormat(inject(LOCALE_ID), { numeric: 'auto' });
+
   transform(value: string | Date | null | undefined, now: Date = new Date()): string {
     if (!value) return '';
     let delta = (new Date(value).getTime() - now.getTime()) / 1000;
     for (const [unit, size] of STEPS) {
-      if (Math.abs(delta) < size) return formatter.format(Math.round(delta), unit);
+      if (Math.abs(delta) < size) return this.formatter.format(Math.round(delta), unit);
       delta /= size;
     }
-    return formatter.format(Math.round(delta), 'year');
+    return this.formatter.format(Math.round(delta), 'year');
   }
 }

@@ -104,7 +104,7 @@ export class ClaimDetail {
       this.decisionPanel()?.reset();
       this.toasts.show({
         tone: 'success',
-        title: `${ACTION_META[decision.action].label} : c'est fait`,
+        title: $localize`:@@toast.decisionDone:${ACTION_META[decision.action].label}:action: : c'est fait`,
         message: updated.number,
       });
     } catch (error) {

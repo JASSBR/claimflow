@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { httpResource } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { otherLocaleLink } from '../../core/locale';
 import { Auth } from '../../core/auth/auth';
 import { Persona, ROLES } from '../../core/auth/auth.models';
 import { Avatar } from '../../shared/avatar';
@@ -26,6 +27,7 @@ export class Login {
   private readonly router = inject(Router);
 
   protected readonly repositoryUrl = environment.repositoryUrl;
+  protected readonly otherLocale = otherLocaleLink();
   protected readonly personas = httpResource<Persona[]>(() => '/api/auth/personas');
   protected readonly pending = signal<string | null>(null);
   protected readonly error = signal<string | null>(null);
@@ -33,23 +35,23 @@ export class Login {
   protected readonly highlights: readonly Highlight[] = [
     {
       icon: 'shield',
-      title: 'Règles métier réelles',
-      text: 'Délégation de pouvoir, principe des quatre yeux, prescription biennale, piste d’audit.',
+      title: $localize`:@@login.h1.title:Règles métier réelles`,
+      text: $localize`:@@login.h1.text:Délégation de pouvoir, principe des quatre yeux, prescription biennale, piste d’audit.`,
     },
     {
       icon: 'bolt',
-      title: 'Temps réel fiable',
-      text: 'Chaque décision se propage instantanément, via une outbox transactionnelle et SignalR.',
+      title: $localize`:@@login.h2.title:Temps réel fiable`,
+      text: $localize`:@@login.h2.text:Chaque décision se propage instantanément, via une outbox transactionnelle et SignalR.`,
     },
     {
       icon: 'sparkles',
-      title: 'IA explicable',
-      text: 'La revue de dossier cite la page exacte de chaque pièce. L’humain décide.',
+      title: $localize`:@@login.h3.title:IA explicable`,
+      text: $localize`:@@login.h3.text:La revue de dossier cite la page exacte de chaque pièce. L’humain décide.`,
     },
     {
       icon: 'lock',
-      title: 'Qualité vérifiée',
-      text: '120+ tests, architecture imposée par des tests, CI avec seuil de couverture.',
+      title: $localize`:@@login.h4.title:Qualité vérifiée`,
+      text: $localize`:@@login.h4.text:Plus de 150 tests automatisés, architecture imposée par des tests, tests de charge publiés.`,
     },
   ];
 
@@ -67,9 +69,9 @@ export class Login {
   ];
 
   protected roleLabel(persona: Persona): string {
-    if (persona.roles.includes(ROLES.manager)) return 'Responsable';
-    if (persona.roles.includes(ROLES.auditor)) return 'Lecture seule';
-    return 'Gestionnaire';
+    if (persona.roles.includes(ROLES.manager)) return $localize`:@@role.manager:Responsable`;
+    if (persona.roles.includes(ROLES.auditor)) return $localize`:@@role.auditor:Lecture seule`;
+    return $localize`:@@role.handler:Gestionnaire`;
   }
 
   protected enter(persona: Persona): void {

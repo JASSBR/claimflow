@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '
 import { httpResource } from '@angular/common/http';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { otherLocaleLink } from '../core/locale';
 import { Auth } from '../core/auth/auth';
 import { Persona } from '../core/auth/auth.models';
 import { ClaimsRealtime } from '../core/realtime/claims-realtime';
@@ -24,6 +25,7 @@ export class Shell {
   private readonly router = inject(Router);
 
   protected readonly repositoryUrl = environment.repositoryUrl;
+  protected readonly otherLocale = otherLocaleLink();
   protected readonly menuOpen = signal(false);
   protected readonly capabilities = httpResource<ClaimCapabilities>(
     () => '/api/claims/capabilities',

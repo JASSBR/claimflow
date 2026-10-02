@@ -1,7 +1,8 @@
 <section class="card ai" aria-labelledby="ai-title">
   <div class="card-title">
     <h2 id="ai-title">
-      <span class="spark"><app-icon name="sparkles" [size]="16" /></span> Revue IA du dossier
+      <span class="spark"><app-icon name="sparkles" [size]="16" /></span>
+      <span i18n="@@analysis.title">Revue IA du dossier</span>
     </h2>
     @if (analysis(); as a) {
       <span class="chip">{{ a.model }}</span>
@@ -9,7 +10,7 @@
   </div>
 
   @if (settings() && !settings()!.aiEnabled) {
-    <p class="note">
+    <p class="note" i18n="@@analysis.disabled">
       L'assistant IA n'est pas activé sur cet environnement (clé API absente). Le reste de
       l'application fonctionne normalement ; l'activation est décrite dans le README.
     </p>
@@ -31,7 +32,7 @@
     <div class="skeleton line" style="width: 82%"></div>
   } @else if (analysis(); as a) {
     @if (a.refused) {
-      <p class="note">
+      <p class="note" i18n="@@analysis.refused">
         Le modèle a décliné cette analyse. Les pièces peuvent être examinées manuellement.
       </p>
     } @else {
@@ -50,7 +51,7 @@
                       class="cite"
                       [class.active]="selected()?.number === inline.number"
                       (click)="toggle(inline.number)"
-                      [attr.aria-label]="'Source ' + inline.number"
+                      [attr.aria-label]="sourceLabel + ' ' + inline.number"
                     >
                       {{ inline.number }}
                     </button>
@@ -71,24 +72,25 @@
           <div class="source-head">
             <strong>[{{ c.number }}] {{ c.documentTitle }}</strong>
             @if (c.startPage) {
-              <span class="chip">page {{ c.startPage }}</span>
+              <span class="chip" i18n="@@analysis.page">page {{ c.startPage }}</span>
             }
           </div>
           <blockquote>{{ c.citedText }}</blockquote>
           <button type="button" class="button sm" (click)="openSource(c)">
-            <app-icon name="external" [size]="14" /> Ouvrir la pièce
+            <app-icon name="external" [size]="14" />
+            <span i18n="@@analysis.openSource">Ouvrir la pièce</span>
           </button>
         </aside>
       }
 
-      <p class="footer">
-        Demandée par {{ a.requestedBy }} le {{ a.createdAt | date: 'dd/MM/yyyy HH:mm' }} ·
+      <p class="footer" i18n="@@analysis.footer">
+        Demandée par {{ a.requestedBy }} le {{ a.createdAt | date: 'short' }} ·
         {{ a.documentCount }} pièce(s) · {{ a.inputTokens + a.outputTokens | number }} tokens · avis
         consultatif, la décision reste humaine.
       </p>
     }
   } @else {
-    <p class="intro">
+    <p class="intro" i18n="@@analysis.intro">
       L'assistant compare la déclaration aux pièces (dates, lieux, circonstances, montants) et
       justifie chaque constat par une citation de la page source.
     </p>
@@ -106,10 +108,16 @@
       (click)="run()"
     >
       <app-icon name="sparkles" [size]="16" />
-      {{ analysis() ? 'Relancer la revue' : 'Analyser le dossier' }}
+      @if (analysis()) {
+        <span i18n="@@analysis.rerun">Relancer la revue</span>
+      } @else {
+        <span i18n="@@analysis.run">Analyser le dossier</span>
+      }
     </button>
     @if (documentCount() === 0) {
-      <p class="muted small">Ajoutez au moins une pièce pour lancer la revue.</p>
+      <p class="muted small" i18n="@@analysis.needDocument">
+        Ajoutez au moins une pièce pour lancer la revue.
+      </p>
     }
   }
 </section>

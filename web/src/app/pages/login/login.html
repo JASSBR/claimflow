@@ -2,9 +2,11 @@
   <section class="hero">
     <div class="brand"><span class="logo" aria-hidden="true"></span> ClaimFlow</div>
 
-    <span class="eyebrow">Démo interactive · données fictives</span>
-    <h1>La gestion de sinistres, <span class="gradient">en temps réel et explicable.</span></h1>
-    <p class="lead">
+    <span class="eyebrow" i18n="@@login.eyebrow">Démo interactive · données fictives</span>
+    <h1 i18n="@@login.title">
+      La gestion de sinistres, <span class="gradient">en temps réel et explicable.</span>
+    </h1>
+    <p class="lead" i18n="@@login.lead">
       Déclarez, instruisez, acceptez et indemnisez des sinistres d'assurance — avec les garde-fous
       d'un vrai métier régulé et un assistant IA qui justifie chacun de ses constats.
     </p>
@@ -29,22 +31,26 @@
 
     <div class="links">
       <a [href]="repositoryUrl" target="_blank" rel="noopener" class="button"
-        ><app-icon name="github" /> Code source</a
+        ><app-icon name="github" /> <span i18n="@@nav.sourceCode">Code source</span></a
       >
       <a
         [href]="repositoryUrl + '/tree/main/docs/adr'"
         target="_blank"
         rel="noopener"
         class="button ghost"
-        >Décisions d'architecture <app-icon name="external" [size]="14"
+        ><span i18n="@@nav.adr">Décisions d'architecture</span>
+        <app-icon name="external" [size]="14"
       /></a>
+      <a [href]="otherLocale.href" class="button ghost" [attr.hreflang]="otherLocale.code">{{
+        otherLocale.label
+      }}</a>
     </div>
   </section>
 
   <section class="panel" aria-labelledby="choose">
     <div class="panel-card">
-      <h2 id="choose">Choisissez un profil</h2>
-      <p class="muted">
+      <h2 id="choose" i18n="@@login.choose">Choisissez un profil</h2>
+      <p class="muted" i18n="@@login.chooseHint">
         Chaque profil a des droits différents. Aucun mot de passe : c'est une démo.
       </p>
 
@@ -58,11 +64,13 @@
             <div class="persona skeleton" style="height: 92px"></div>
           }
         } @else if (personas.error()) {
-          <p class="alert" role="alert">
+          <p class="alert" role="alert" i18n="@@login.waking">
             L'API de démonstration ne répond pas. Elle se réveille peut-être : réessayez dans
             quelques secondes.
           </p>
-          <button type="button" class="button" (click)="personas.reload()">Réessayer</button>
+          <button type="button" class="button" (click)="personas.reload()" i18n="@@login.retry">
+            Réessayer
+          </button>
         } @else {
           @for (persona of personas.value(); track persona.id) {
             <button
@@ -81,7 +89,11 @@
               </span>
               <span class="go">
                 @if (pending() === persona.id) {
-                  <span class="spinner" aria-label="Connexion…"></span>
+                  <span
+                    class="spinner"
+                    i18n-aria-label="@@login.connecting"
+                    aria-label="Connexion…"
+                  ></span>
                 } @else {
                   <app-icon name="chevron" />
                 }
@@ -92,8 +104,11 @@
       </div>
 
       <p class="tip">
-        <app-icon name="bolt" [size]="16" /> Astuce : ouvrez deux onglets avec deux profils
-        différents pour voir les décisions arriver en direct.
+        <app-icon name="bolt" [size]="16" />
+        <span i18n="@@login.tip"
+          >Astuce : ouvrez deux onglets avec deux profils différents pour voir les décisions arriver
+          en direct.</span
+        >
       </p>
     </div>
   </section>
