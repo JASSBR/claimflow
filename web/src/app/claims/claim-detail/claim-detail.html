@@ -1,0 +1,122 @@
+<a routerLink="/claims" class="back">← Sinistres</a>
+
+@if (claim.error()) {
+  <p class="alert" role="alert">Sinistre introuvable.</p>
+} @else if (claim.value(); as c) {
+  <header class="page-header">
+    <div>
+      <h1>{{ c.number }} <app-status-badge [status]="c.status" /></h1>
+      <p class="muted">
+        Contrat {{ c.policyNumber }} · {{ typeLabels[c.type] }} · survenu le
+        {{ c.incidentDate | date: 'dd/MM/yyyy' }}
+      </p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <section class="card">
+      <h2>Circonstances</h2>
+      <p class="description">{{ c.description }}</p>
+      <dl class="amounts">
+        <div>
+          <dt>Montant déclaré</dt>
+          <dd>{{ c.claimedAmount | currency: 'EUR' }}</dd>
+        </div>
+        <div>
+          <dt>Montant accordé</dt>
+          <dd>{{ c.approvedAmount === null ? '—' : (c.approvedAmount | currency: 'EUR') }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="card" aria-labelledby="decision-title">
+      <h2 id="decision-title">Décision</h2>
+      @if (pendingMeta(); as meta) {
+        <div class="decision-form">
+          @if (meta.needsReason) {
+            <label>
+              Motif
+              <textarea
+                rows="3"
+                [value]="reason()"
+                (input)="reason.set($any($event.target).value)"
+              ></textarea>
+            </label>
+          }
+          @if (meta.needsAmount) {
+            <label>
+              Montant accordé (€)
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                [max]="c.claimedAmount"
+                [value]="approvedAmount()"
+                (input)="approvedAmount.set($any($event.target).valueAsNumber)"
+              />
+            </label>
+          }
+          <div class="row">
+            <button type="button" class="button" (click)="cancel()">Annuler</button>
+            <button
+              type="button"
+              class="button"
+              [class]="meta.tone"
+              [disabled]="busy()"
+              (click)="confirm(pendingAction()!)"
+            >
+              {{ meta.label }}
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="row wrap">
+          @for (action of c.allowedActions; track action) {
+            <button
+              type="button"
+              class="button"
+              [class]="actionMeta[action].tone"
+              [disabled]="busy()"
+              (click)="choose(action)"
+            >
+              {{ actionMeta[action].label }}
+            </button>
+          } @empty {
+            <p class="muted">Dossier clos : aucune action possible.</p>
+          }
+        </div>
+      }
+      @if (errors().length > 0) {
+        <ul class="alert" role="alert">
+          @for (message of errors(); track message) {
+            <li>{{ message }}</li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Historique</h2>
+    <ol class="timeline">
+      <li>
+        <time>{{ c.declaredAt | date: 'dd/MM/yyyy HH:mm' }}</time>
+        <span>Sinistre déclaré</span>
+      </li>
+      @for (entry of c.history; track entry.occurredAt) {
+        <li>
+          <time>{{ entry.occurredAt | date: 'dd/MM/yyyy HH:mm' }}</time>
+          <span
+            >{{ actionMeta[entry.action].label }} →
+            <strong>{{ statusLabels[entry.to] }}</strong></span
+          >
+          @if (entry.reason) {
+            <q>{{ entry.reason }}</q>
+          }
+        </li>
+      }
+    </ol>
+  </section>
+} @else {
+  <p class="muted">Chargement…</p>
+}

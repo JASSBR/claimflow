@@ -1,0 +1,78 @@
+<header class="page-header">
+  <div>
+    <a routerLink="/claims" class="back">← Sinistres</a>
+    <h1>Déclarer un sinistre</h1>
+  </div>
+</header>
+
+<form class="card" novalidate (submit)="onSubmit($event)">
+  <div class="grid">
+    <label>
+      N° de contrat
+      <input [formField]="form.policyNumber" placeholder="POL-104233" autocomplete="off" />
+      @for (
+        error of form.policyNumber().touched() ? form.policyNumber().errors() : [];
+        track error.kind
+      ) {
+        <span class="field-error">{{ error.message }}</span>
+      }
+    </label>
+
+    <label>
+      Type
+      <select [formField]="form.type">
+        @for (type of types; track type) {
+          <option [value]="type">{{ typeLabels[type] }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Date de survenance
+      <input type="date" [formField]="form.incidentDate" />
+      @for (
+        error of form.incidentDate().touched() ? form.incidentDate().errors() : [];
+        track error.kind
+      ) {
+        <span class="field-error">{{ error.message }}</span>
+      }
+    </label>
+
+    <label>
+      Montant estimé (€)
+      <input type="number" step="0.01" [formField]="form.claimedAmount" />
+      @for (
+        error of form.claimedAmount().touched() ? form.claimedAmount().errors() : [];
+        track error.kind
+      ) {
+        <span class="field-error">{{ error.message }}</span>
+      }
+    </label>
+  </div>
+
+  <label>
+    Circonstances
+    <textarea rows="5" [formField]="form.description" placeholder="Que s'est-il passé ?"></textarea>
+    @for (
+      error of form.description().touched() ? form.description().errors() : [];
+      track error.kind
+    ) {
+      <span class="field-error">{{ error.message }}</span>
+    }
+  </label>
+
+  @if (serverErrors().length > 0) {
+    <ul class="alert" role="alert">
+      @for (message of serverErrors(); track message) {
+        <li>{{ message }}</li>
+      }
+    </ul>
+  }
+
+  <div class="actions">
+    <a class="button" routerLink="/claims">Annuler</a>
+    <button type="submit" class="button primary" [disabled]="form().submitting()">
+      {{ form().submitting() ? 'Envoi…' : 'Déclarer' }}
+    </button>
+  </div>
+</form>
