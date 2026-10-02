@@ -18,6 +18,17 @@ and an AI reviewer that backs every finding with a quoted page.
 
 ![Dashboard](docs/images/dashboard.png)
 
+<table>
+  <tr>
+    <td width="50%"><img src="docs/images/claim-detail.png" alt="Claim file with evidence, decision panel and audit trail"></td>
+    <td width="50%"><img src="docs/images/dashboard-dark-en.png" alt="Dashboard in English, dark theme"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Claim file: workflow, evidence, AI review, decision rules, audit trail</sub></td>
+    <td align="center"><sub>English build, dark theme</sub></td>
+  </tr>
+</table>
+
 </div>
 
 ## Try it in 3 minutes

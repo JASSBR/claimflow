@@ -68,8 +68,17 @@ az acr login -n "$ACR" >/dev/null
 docker buildx build --platform linux/amd64 -t "$IMAGE" --push . >/dev/null
 
 echo "→ Container Apps environment $ENVIRONMENT"
-az containerapp env show -n "$ENVIRONMENT" -g "$RG" --only-show-errors >/dev/null 2>&1 || \
-  az containerapp env create -n "$ENVIRONMENT" -g "$RG" -l "$LOCATION" --logs-destination none --only-show-errors >/dev/null
+# Recent CLIs default to "Express" environments, which reject revision suffixes and did not reliably roll out
+# configuration changes. Ask for a standard workload-profiles environment (Consumption profile: pay per use).
+MODE="$(az containerapp env show -n "$ENVIRONMENT" -g "$RG" --query properties.environmentMode -o tsv 2>/dev/null || true)"
+if [ "$MODE" = "Express" ]; then
+  echo "  replacing Express environment"
+  az containerapp delete -n "$APP" -g "$RG" --yes --only-show-errors >/dev/null 2>&1 || true
+  az containerapp env delete -n "$ENVIRONMENT" -g "$RG" --yes --only-show-errors >/dev/null
+  MODE=""
+fi
+[ -n "$MODE" ] || az containerapp env create -n "$ENVIRONMENT" -g "$RG" -l "$LOCATION" \
+  --environment-mode WorkloadProfiles --logs-destination none --only-show-errors >/dev/null
 
 SECRETS=(db="$DB_CONNECTION" blobs="$BLOB_CONNECTION" demokey="$DEMO_SIGNING_KEY")
 ENV_VARS=(

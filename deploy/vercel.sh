@@ -45,7 +45,10 @@ JSON
 
 cd "$OUT"
 VERCEL=$(command -v vercel || echo "npx --yes vercel")
-DEPLOYMENT=$($VERCEL deploy --prod --yes 2>/dev/null | grep -Eo 'https://claimflow-[a-z0-9]+-[a-z0-9-]+\.vercel\.app' | head -1)
+# The build wipes dist/, and with it the .vercel link: re-link to the existing project, never create a new one.
+$VERCEL link --yes --project claimflow >/dev/null 2>&1
+DEPLOYMENT=$($VERCEL deploy --prod --yes 2>&1 | grep -Eo 'https://claimflow-[a-z0-9]+-[a-z0-9-]+\.vercel\.app' | head -1)
+[ -n "$DEPLOYMENT" ] || { echo "✗ Vercel deployment failed"; exit 1; }
 # Stable public name for the CV and the README (the project's default alias is auto-generated).
 $VERCEL alias set "$DEPLOYMENT" "${ALIAS:-claimflow-insurance.vercel.app}" >/dev/null
 echo "✓ SPA: https://${ALIAS:-claimflow-insurance.vercel.app}  (deployment $DEPLOYMENT)"
