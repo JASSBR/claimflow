@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Pure building blocks shared by every module's domain: zero infrastructure dependency (enforced by ArchitectureTests). -->
+</Project>

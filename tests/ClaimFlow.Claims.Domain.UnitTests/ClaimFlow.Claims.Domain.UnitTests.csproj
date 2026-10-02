@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\Claims\ClaimFlow.Claims.Domain\ClaimFlow.Claims.Domain.csproj" />
+  </ItemGroup>
+</Project>
