@@ -6,7 +6,12 @@ var builder = DistributedApplication.CreateBuilder(args);
 var postgres = builder.AddPostgres("postgres")
     .WithDataVolume()
     .WithLifetime(ContainerLifetime.Persistent);
-var claimsDb = postgres.AddDatabase("claimsdb");
+var database = postgres.AddDatabase("claimflow");
+
+// Azurite locally; a real storage account when deployed.
+var blobs = builder.AddAzureStorage("storage")
+    .RunAsEmulator(emulator => emulator.WithDataVolume().WithLifetime(ContainerLifetime.Persistent))
+    .AddBlobs("blobs");
 
 // Generated once, persisted in user-secrets: the demo identity provider's signing key never lives in the repo.
 var demoSigningKey = builder.AddParameter(
@@ -16,11 +21,19 @@ var demoSigningKey = builder.AddParameter(
     persist: true);
 
 var api = builder.AddProject<Projects.ClaimFlow_Api>("api")
-    .WithReference(claimsDb)
-    .WaitFor(claimsDb)
+    .WithReference(database)
+    .WaitFor(database)
+    .WithReference(blobs)
+    .WaitFor(blobs)
     .WithEnvironment("Auth__Mode", "Demo")
     .WithEnvironment("Auth__DemoSigningKey", demoSigningKey)
     .WithHttpHealthCheck("/health");
+
+// The AI assistant is optional: without a key the API runs and the UI explains how to enable it.
+if (builder.Configuration["ANTHROPIC_API_KEY"] is { Length: > 0 } anthropicApiKey)
+{
+    api.WithEnvironment("Ai__ApiKey", anthropicApiKey);
+}
 
 builder.AddJavaScriptApp("web", "../../web", "start")
     .WithHttpEndpoint(env: "PORT")

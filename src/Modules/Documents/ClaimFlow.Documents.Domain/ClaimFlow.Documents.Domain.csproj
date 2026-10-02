@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Documents domain model: depends on SharedKernel only (enforced by ArchitectureTests). -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ClaimFlow.SharedKernel\ClaimFlow.SharedKernel.csproj" />
+  </ItemGroup>
+</Project>

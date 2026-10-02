@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Documents module: evidence files of a claim and the AI file review. Talks to Claims only through Claims.Contracts. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Anthropic" />
+    <PackageReference Include="Aspire.Azure.Storage.Blobs" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="QuestPDF" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClaimFlow.Documents.Domain\ClaimFlow.Documents.Domain.csproj" />
+    <ProjectReference Include="..\..\Claims\ClaimFlow.Claims\ClaimFlow.Claims.csproj" />
+    <ProjectReference Include="..\..\..\ClaimFlow.BuildingBlocks\ClaimFlow.BuildingBlocks.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="ClaimFlow.IntegrationTests" />
+    <InternalsVisibleTo Include="ClaimFlow.Documents.UnitTests" />
+  </ItemGroup>
+</Project>

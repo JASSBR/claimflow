@@ -3,6 +3,7 @@ using System.Threading.RateLimiting;
 using ClaimFlow.Api;
 using ClaimFlow.Api.Security;
 using ClaimFlow.Claims;
+using ClaimFlow.Documents;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
@@ -44,6 +45,7 @@ builder.Services.AddRateLimiter(options =>
 
 builder.AddClaimFlowAuthentication();
 builder.AddClaimsModule();
+builder.AddDocumentsModule();
 
 var app = builder.Build();
 
@@ -52,8 +54,9 @@ app.UseForwardedHeaders();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 app.UseSecurityHeaders();
-app.UseRateLimiter();
 app.UseAuthentication();
+// After authentication: per-user partitions (the AI budget) need the caller's identity, not just their IP.
+app.UseRateLimiter();
 app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
@@ -67,6 +70,7 @@ app.MapDefaultEndpoints();
 var limited = app.MapGroup(string.Empty).RequireRateLimiting(RateLimiting.ApiPolicy);
 var api = limited.MapGroup("/api");
 api.MapClaimsModule(limited);
+api.MapDocumentsModule();
 if (app.Services.GetRequiredService<IOptions<AuthOptions>>().Value.Mode == AuthMode.Demo)
 {
     api.MapDemoIdentityProvider();
@@ -74,7 +78,9 @@ if (app.Services.GetRequiredService<IOptions<AuthOptions>>().Value.Mode == AuthM
 
 if (app.Configuration.GetValue<bool>("Database:InitializeOnStartup"))
 {
-    await app.Services.InitializeClaimsDatabaseAsync(seed: app.Configuration.GetValue<bool>("Database:SeedDemoData"));
+    var seed = app.Configuration.GetValue<bool>("Database:SeedDemoData");
+    await app.Services.InitializeClaimsDatabaseAsync(seed);
+    await app.Services.InitializeDocumentsAsync(seed);
 }
 
 await app.RunAsync();

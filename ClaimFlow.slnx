@@ -11,9 +11,14 @@
     <Project Path="src/Modules/Claims/ClaimFlow.Claims.Domain/ClaimFlow.Claims.Domain.csproj" />
     <Project Path="src/Modules/Claims/ClaimFlow.Claims/ClaimFlow.Claims.csproj" />
   </Folder>
+  <Folder Name="/src/Modules/Documents/">
+    <Project Path="src/Modules/Documents/ClaimFlow.Documents.Domain/ClaimFlow.Documents.Domain.csproj" />
+    <Project Path="src/Modules/Documents/ClaimFlow.Documents/ClaimFlow.Documents.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/ClaimFlow.ArchitectureTests/ClaimFlow.ArchitectureTests.csproj" />
     <Project Path="tests/ClaimFlow.Claims.Domain.UnitTests/ClaimFlow.Claims.Domain.UnitTests.csproj" />
+    <Project Path="tests/ClaimFlow.Documents.UnitTests/ClaimFlow.Documents.UnitTests.csproj" />
     <Project Path="tests/ClaimFlow.IntegrationTests/ClaimFlow.IntegrationTests.csproj" />
   </Folder>
 </Solution>

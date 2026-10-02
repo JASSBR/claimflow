@@ -23,6 +23,18 @@ public class ModuleBoundaryTests
     private static readonly Assembly ClaimsDomain = typeof(Claim).Assembly;
     private static readonly Assembly ClaimsModuleAssembly = typeof(ClaimsModule).Assembly;
     private static readonly Assembly ApiHost = Assembly.Load("ClaimFlow.Api");
+    private static readonly Assembly DocumentsDomain = Assembly.Load("ClaimFlow.Documents.Domain");
+    private static readonly Assembly DocumentsModuleAssembly = Assembly.Load("ClaimFlow.Documents");
+
+    /// <summary>Everything in the Claims module except its published contract.</summary>
+    private static readonly string[] ClaimsInternals =
+    [
+        "ClaimFlow.Claims.Domain",
+        "ClaimFlow.Claims.Features",
+        "ClaimFlow.Claims.Persistence",
+        "ClaimFlow.Claims.Realtime",
+        "ClaimFlow.Claims.Security",
+    ];
 
     [Fact]
     public void SharedKernel_HasNoInfrastructureDependency() =>
@@ -46,10 +58,28 @@ public class ModuleBoundaryTests
     public void ApiHost_NeverReachesIntoModuleInternals() =>
         AssertNoViolation(Types.InAssembly(ApiHost)
             .ShouldNot().HaveDependencyOnAny(
-                "ClaimFlow.Claims.Domain",
-                "ClaimFlow.Claims.Features",
-                "ClaimFlow.Claims.Persistence",
-                "Microsoft.EntityFrameworkCore")
+                [.. ClaimsInternals,
+                "ClaimFlow.Documents.Domain",
+                "ClaimFlow.Documents.Analysis",
+                "ClaimFlow.Documents.Features",
+                "ClaimFlow.Documents.Persistence",
+                "Microsoft.EntityFrameworkCore"])
+            .GetResult());
+
+    [Fact]
+    public void DocumentsDomain_HasNoInfrastructureDependency() =>
+        AssertNoViolation(Types.InAssembly(DocumentsDomain).ShouldNot().HaveDependencyOnAny(InfrastructureNamespaces).GetResult());
+
+    [Fact]
+    public void DocumentsModule_TalksToClaims_OnlyThroughItsContract() =>
+        AssertNoViolation(Types.InAssembly(DocumentsModuleAssembly).ShouldNot().HaveDependencyOnAny(ClaimsInternals).GetResult());
+
+    [Fact]
+    public void DocumentsModule_ExposesOnlyItsEntryPointAndContracts() =>
+        AssertNoViolation(Types.InAssembly(DocumentsModuleAssembly)
+            .That().ArePublic()
+            .And().DoNotResideInNamespace("ClaimFlow.Documents.Persistence.Migrations")
+            .Should().ResideInNamespaceMatching(@"^ClaimFlow\.Documents$")
             .GetResult());
 
     [Fact]

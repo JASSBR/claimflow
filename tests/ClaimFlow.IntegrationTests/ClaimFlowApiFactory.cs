@@ -6,11 +6,13 @@ using System.Text.Json;
 using ClaimFlow.BuildingBlocks.Outbox;
 using ClaimFlow.Claims.Domain;
 using ClaimFlow.Claims.Persistence;
+using ClaimFlow.Documents.Analysis;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Testcontainers.Azurite;
 using Testcontainers.PostgreSql;
 
 namespace ClaimFlow.IntegrationTests;
@@ -25,11 +27,12 @@ public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsync
     public static readonly string DemoSigningKey = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
 
     private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:18-alpine").Build();
+    private readonly AzuriteContainer _azurite = new AzuriteBuilder("mcr.microsoft.com/azure-storage/azurite:latest").Build();
     private readonly ConcurrentDictionary<string, string> _tokens = new(StringComparer.Ordinal);
 
     public async ValueTask InitializeAsync()
     {
-        await _postgres.StartAsync();
+        await Task.WhenAll(_postgres.StartAsync(), _azurite.StartAsync());
         // Forces host start-up (migrations run) before the first test.
         _ = Server;
     }
@@ -38,6 +41,7 @@ public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsync
     {
         await base.DisposeAsync();
         await _postgres.DisposeAsync();
+        await _azurite.DisposeAsync();
     }
 
     /// <summary>An HTTP client authenticated as a demo persona (lea, karim, nadia, sophie) through the real token endpoint.</summary>
@@ -91,7 +95,10 @@ public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsync
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
-        builder.UseSetting("ConnectionStrings:claimsdb", _postgres.GetConnectionString());
+        builder.UseSetting("ConnectionStrings:claimflow", _postgres.GetConnectionString());
+        builder.UseSetting("ConnectionStrings:blobs", _azurite.GetConnectionString());
+        // Enables the assistant; the real Claude client is replaced below, CI never calls a paid API.
+        builder.UseSetting("Ai:ApiKey", "test-key");
         builder.UseSetting("Database:InitializeOnStartup", "true");
         builder.UseSetting("Database:SeedDemoData", "false");
         // The poller is parked: tests drain the outbox explicitly, so assertions never race a background loop.
@@ -99,7 +106,11 @@ public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsync
         builder.UseSetting("RateLimiting:PermitPerMinute", "100000");
         builder.UseSetting("Auth:Mode", "Demo");
         builder.UseSetting("Auth:DemoSigningKey", DemoSigningKey);
-        builder.ConfigureTestServices(services => services.AddScoped<IDomainEventHandler<ClaimDeclared>, PoisonHandler>());
+        builder.ConfigureTestServices(services =>
+        {
+            services.AddScoped<IDomainEventHandler<ClaimDeclared>, PoisonHandler>();
+            services.AddScoped<IClaimAnalyst, FakeClaimAnalyst>();
+        });
     }
 }
 

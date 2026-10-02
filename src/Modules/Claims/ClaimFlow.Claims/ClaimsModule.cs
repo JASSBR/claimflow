@@ -1,4 +1,5 @@
 using ClaimFlow.BuildingBlocks.Outbox;
+using ClaimFlow.Claims.Contracts;
 using ClaimFlow.Claims.Domain;
 using ClaimFlow.Claims.Features;
 using ClaimFlow.Claims.Persistence;
@@ -19,7 +20,8 @@ namespace ClaimFlow.Claims;
 /// <summary>The module's only public entry point: the host registers and maps it, and knows nothing else about it.</summary>
 public static class ClaimsModule
 {
-    public const string ConnectionStringName = "claimsdb";
+    /// <summary>One database for the whole monolith; each module owns a schema in it (ADR 0001).</summary>
+    public const string ConnectionStringName = "claimflow";
 
     public static IHostApplicationBuilder AddClaimsModule(this IHostApplicationBuilder builder)
     {
@@ -34,6 +36,7 @@ public static class ClaimsModule
 
         builder.Services.AddOptions<ClaimsOptions>().Bind(builder.Configuration.GetSection(ClaimsOptions.SectionName));
         builder.Services.AddSingleton<ClaimPermissions>();
+        builder.Services.AddScoped<IClaimDirectory, ClaimDirectory>();
         // The module declares its own policies: the host only knows that endpoints require *some* authorization.
         builder.Services.AddAuthorizationBuilder()
             .AddPolicy(ClaimPermissions.ReadPolicy, policy => policy.RequireRole(ClaimPermissions.ReaderRoles))

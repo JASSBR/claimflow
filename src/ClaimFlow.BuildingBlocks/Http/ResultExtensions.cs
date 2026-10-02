@@ -28,6 +28,7 @@ public static class ResultExtensions
             {
                 ErrorType.NotFound => StatusCodes.Status404NotFound,
                 ErrorType.Forbidden => StatusCodes.Status403Forbidden,
+                ErrorType.Unavailable => StatusCodes.Status503ServiceUnavailable,
                 _ => StatusCodes.Status409Conflict,
             },
             title: first.Description,

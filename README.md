@@ -91,7 +91,7 @@ In development, the API reference (Scalar) is at `/scalar` on the `api` endpoint
 
 ```bash
 docker run -d --name claimflow-pg -e POSTGRES_PASSWORD=dev -p 5432:5432 postgres:18-alpine
-ConnectionStrings__claimsdb="Host=localhost;Database=claimflow;Username=postgres;Password=dev" \
+ConnectionStrings__claimflow="Host=localhost;Database=claimflow;Username=postgres;Password=dev" \
   dotnet run --project src/ClaimFlow.Api          # http://localhost:5180
 cd web && npm start                                # http://localhost:4200 (proxies /api and /hubs)
 ```

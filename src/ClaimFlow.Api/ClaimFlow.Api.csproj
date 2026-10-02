@@ -13,5 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ClaimFlow.ServiceDefaults\ClaimFlow.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Modules\Claims\ClaimFlow.Claims\ClaimFlow.Claims.csproj" />
+    <ProjectReference Include="..\Modules\Documents\ClaimFlow.Documents\ClaimFlow.Documents.csproj" />
   </ItemGroup>
 </Project>
