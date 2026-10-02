@@ -106,6 +106,7 @@ public sealed class ClaimFlowApiFactory : WebApplicationFactory<Program>, IAsync
         builder.UseSetting("Outbox:PollingInterval", "01:00:00");
         builder.UseSetting("RateLimiting:PermitPerMinute", "100000");
         builder.UseSetting("Auth:Mode", "Demo");
+        builder.UseSetting("Cors:AllowedOrigins:0", "https://claimflow.example");
         builder.UseSetting("Auth:DemoSigningKey", DemoSigningKey);
         builder.ConfigureTestServices(services =>
         {

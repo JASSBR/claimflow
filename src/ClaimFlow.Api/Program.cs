@@ -43,6 +43,16 @@ builder.Services.AddRateLimiter(options =>
         }));
 });
 
+// The SPA is served from another origin (Vercel) in production. An explicit allow-list, never "*":
+// SignalR negotiates with credentials, which browsers only allow for a named origin.
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy
+    .WithOrigins(allowedOrigins)
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+    .WithExposedHeaders("Location")));
+
 builder.AddClaimFlowAuthentication();
 builder.AddClaimsModule();
 builder.AddDocumentsModule();
@@ -54,6 +64,7 @@ app.UseForwardedHeaders();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 app.UseSecurityHeaders();
+app.UseCors();
 app.UseAuthentication();
 // After authentication: per-user partitions (the AI budget) need the caller's identity, not just their IP.
 app.UseRateLimiter();

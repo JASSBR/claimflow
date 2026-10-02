@@ -117,4 +117,26 @@ public sealed class SecurityTests(ClaimFlowApiFactory factory)
         capabilities!.CanDeclare.ShouldBe(canDeclare);
         capabilities.ApprovalLimit.ShouldBe(approvalLimit);
     }
+
+    [Fact]
+    public async Task Cors_AllowsTheConfiguredSpaOrigin_Only()
+    {
+        using var client = factory.CreateClient();
+
+        var allowed = await PreflightAsync(client, "https://claimflow.example");
+        var foreign = await PreflightAsync(client, "https://evil.example");
+
+        allowed.Headers.GetValues("Access-Control-Allow-Origin").ShouldBe(["https://claimflow.example"]);
+        allowed.Headers.GetValues("Access-Control-Allow-Credentials").ShouldBe(["true"]);
+        foreign.Headers.Contains("Access-Control-Allow-Origin").ShouldBeFalse();
+    }
+
+    private static async Task<HttpResponseMessage> PreflightAsync(HttpClient client, string origin)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Options, "/api/claims");
+        request.Headers.Add("Origin", origin);
+        request.Headers.Add("Access-Control-Request-Method", "POST");
+        request.Headers.Add("Access-Control-Request-Headers", "authorization,content-type");
+        return await client.SendAsync(request, TestContext.Current.CancellationToken);
+    }
 }

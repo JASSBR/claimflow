@@ -11,8 +11,12 @@ dotnet run --project src/ClaimFlow.AppHost  # whole system (needs Docker)
 dotnet build ClaimFlow.slnx                 # must stay at 0 warnings
 dotnet test --solution ClaimFlow.slnx       # integration tests need Docker
 dotnet format ClaimFlow.slnx --verify-no-changes
-cd web && nvm use && npm run lint && npm test && npm run build
-dotnet ef migrations add <Name> --project src/Modules/Claims/ClaimFlow.Claims --startup-project src/Modules/Claims/ClaimFlow.Claims --output-dir Persistence/Migrations
+cd web && nvm use && npm run format:check && npm run lint && npm test && npm run build
+cd web && E2E_BASE_URL=<web endpoint of the running AppHost> npm run e2e   # Playwright, full stack
+cd web && npm run i18n                     # after any UI text change: re-extract + rebuild messages.en.xlf (fails on a missing translation)
+dotnet ef migrations add <Name> --project src/Modules/<Module>/ClaimFlow.<Module> --startup-project src/Modules/<Module>/ClaimFlow.<Module> --output-dir Persistence/Migrations
+./deploy/azure.sh                          # API → Azure Container Apps (needs az login); SPA_ORIGIN / ANTHROPIC_API_KEY optional
+API_URL=https://… ./deploy/vercel.sh       # SPA → Vercel (FR + EN builds)
 ```
 
 ## ECC setup in this repo
@@ -36,6 +40,12 @@ instead of an `ApiResponse<T>` envelope (0005), Shouldly instead of FluentAssert
 
 ## Hard rules
 
+- Modules: **Claims** and **Documents**. A module talks to another only through its public contract
+  (`IClaimDirectory` in `ClaimFlow.Claims.Contracts`), never its Domain/Features/Persistence (ArchitectureTests).
+- Every UI string goes through `i18n="@@id"` / `$localize` with a stable id, then `npm run i18n`; API errors are worded
+  client-side from their code (`shared/problem-details.ts`).
+- Realtime refresh: `reloadWhen(trigger, resource)` — never make a resource's request depend on a notification (it resets to an empty loading state).
+- AI review: `IClaimAnalyst` is the seam; tests use `FakeClaimAnalyst`, CI never calls the paid API.
 - `*.Domain` projects reference `SharedKernel` only — never EF Core, ASP.NET Core or BuildingBlocks (ArchitectureTests enforce it).
 - Only `ClaimsModule` and the `Contracts` namespace are public in a module. Features, persistence, realtime stay `internal`.
 - Business failures are `Result` values mapped by `ToProblem()`; exceptions are for bugs only.
