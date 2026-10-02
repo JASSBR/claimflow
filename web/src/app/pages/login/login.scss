@@ -224,6 +224,11 @@ h1 {
   .page {
     grid-template-columns: 1fr;
   }
+  // On a phone the visitor came to try the demo: profiles first, the pitch right below.
+  .panel {
+    order: -1;
+    padding-bottom: 0;
+  }
   .brand {
     margin-bottom: 1.5rem;
   }
