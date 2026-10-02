@@ -30,6 +30,8 @@ export class DecisionPanel {
   readonly claim = input.required<ClaimDetails>();
   readonly userName = input.required<string>();
   readonly approvalLimit = input<number | null>(null);
+  /** Whether the user's role may release payments at all; the four-eyes notice only makes sense if it does. */
+  readonly canSettle = input(false);
   readonly readOnly = input(false);
   readonly busy = input(false);
   readonly errors = input<readonly string[]>([]);
@@ -55,7 +57,8 @@ export class DecisionPanel {
   /** Why the "release payment" button is missing, so the rule is visible instead of feeling like a bug. */
   protected readonly fourEyesNotice = computed(() => {
     const claim = this.claim();
-    if (claim.status !== 'Approved' || claim.allowedActions.includes('Settle')) return false;
+    if (!this.canSettle() || claim.status !== 'Approved' || claim.allowedActions.includes('Settle'))
+      return false;
     const approval = [...claim.history].reverse().find((entry) => entry.action === 'Approve');
     return approval?.actorName === this.userName();
   });

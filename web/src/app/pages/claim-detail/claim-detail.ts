@@ -12,7 +12,9 @@ import {
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Auth } from '../../core/auth/auth';
+import { ROLES } from '../../core/auth/auth.models';
 import { ClaimsRealtime } from '../../core/realtime/claims-realtime';
+import { reloadWhen } from '../../core/realtime/reload-when';
 import { ToastService } from '../../core/toast';
 import { ACTION_META, TYPE_LABELS } from '../../claims/claim-labels';
 import { ClaimCapabilities, ClaimDetails } from '../../claims/claim.models';
@@ -65,10 +67,7 @@ export class ClaimDetail {
     return change?.claimId === this.id() ? change : undefined;
   });
 
-  protected readonly claim = httpResource<ClaimDetails>(() => {
-    this.ownChange();
-    return `${CLAIMS_URL}/${this.id()}`;
-  });
+  protected readonly claim = httpResource<ClaimDetails>(() => `${CLAIMS_URL}/${this.id()}`);
 
   protected readonly documents = httpResource<ClaimDocument[]>(
     () => `${CLAIMS_URL}/${this.id()}/documents`,
@@ -82,7 +81,14 @@ export class ClaimDetail {
     () => `${CLAIMS_URL}/capabilities`,
   );
 
+  constructor() {
+    reloadWhen(this.ownChange, this.claim);
+  }
+
   protected readonly canWrite = computed(() => this.capabilities.value()?.canDeclare ?? false);
+  protected readonly canSettle = computed(
+    () => this.capabilities.value()?.roles.includes(ROLES.manager) ?? false,
+  );
 
   protected async decide(decision: DecisionRequest): Promise<void> {
     const current = this.claim.value();

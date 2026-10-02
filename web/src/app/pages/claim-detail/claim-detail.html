@@ -58,6 +58,7 @@
         [claim]="c"
         [userName]="auth.user()?.name ?? ''"
         [approvalLimit]="capabilities.value()?.approvalLimit ?? null"
+        [canSettle]="canSettle()"
         [readOnly]="auth.isAuditor()"
         [busy]="busy()"
         [errors]="errors()"

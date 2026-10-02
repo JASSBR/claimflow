@@ -16,15 +16,13 @@ describe('ClaimDetail', () => {
     http.expectOne(`/api/claims/${claim.id}`).flush(claim);
     http.expectOne(`/api/claims/${claim.id}/documents`).flush([]);
     http.expectOne(`/api/claims/${claim.id}/analysis`).flush(null);
-    http
-      .expectOne('/api/documents/settings')
-      .flush({
-        aiEnabled: true,
-        aiModel: 'claude-opus-5-5',
-        maxSizeBytes: 1,
-        maxDocumentsPerClaim: 12,
-        acceptedContentTypes: [],
-      });
+    http.expectOne('/api/documents/settings').flush({
+      aiEnabled: true,
+      aiModel: 'claude-opus-5-5',
+      maxSizeBytes: 1,
+      maxDocumentsPerClaim: 12,
+      acceptedContentTypes: [],
+    });
     http
       .expectOne('/api/claims/capabilities')
       .flush({ canDeclare: true, approvalLimit: 10_000, roles: ['claims.handler'] });

@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { RouterLink } from '@angular/router';
 import { Auth } from '../../core/auth/auth';
 import { ClaimsRealtime } from '../../core/realtime/claims-realtime';
+import { reloadWhen } from '../../core/realtime/reload-when';
 import { STATUS_LABELS, STATUS_VERBS, TYPE_LABELS } from '../../claims/claim-labels';
 import {
   CLAIM_STATUSES,
@@ -60,16 +61,16 @@ export class Dashboard {
   protected readonly statusVerbs = STATUS_VERBS;
   protected readonly typeLabels = TYPE_LABELS;
 
-  // Reading lastChange() makes any committed change, by anyone, refresh the figures.
-  protected readonly stats = httpResource<ClaimStats>(() => {
-    this.realtime.lastChange();
-    return `${CLAIMS_URL}/stats`;
-  });
+  protected readonly stats = httpResource<ClaimStats>(() => `${CLAIMS_URL}/stats`);
+  protected readonly recent = httpResource<PagedResponse<ClaimSummary>>(() => ({
+    url: CLAIMS_URL,
+    params: { pageSize: 6 },
+  }));
 
-  protected readonly recent = httpResource<PagedResponse<ClaimSummary>>(() => {
-    this.realtime.lastChange();
-    return { url: CLAIMS_URL, params: { pageSize: 6 } };
-  });
+  constructor() {
+    // Any committed change, by anyone, refreshes the figures.
+    reloadWhen(this.realtime.lastChange, this.stats, this.recent);
+  }
 
   protected readonly greeting = computed(() => {
     const hour = new Date().getHours();

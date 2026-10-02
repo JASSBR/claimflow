@@ -61,8 +61,28 @@ describe('DecisionPanel', () => {
         },
       ],
     });
-    const { element } = render({ claim });
+    const { element } = render({ claim, canSettle: true });
     expect(element.querySelector('.four-eyes')?.textContent).toContain('Principe des quatre yeux');
+  });
+
+  it('tells a handler that payments are a manager’s job, even on a claim she approved', () => {
+    const claim = claimDetails({
+      status: 'Approved',
+      allowedActions: [],
+      history: [
+        {
+          from: 'UnderReview',
+          to: 'Approved',
+          action: 'Approve',
+          actorName: 'Karim Benali',
+          reason: null,
+          occurredAt: '2026-10-01T10:00:00Z',
+        },
+      ],
+    });
+    const { element } = render({ claim, canSettle: false });
+    expect(element.querySelector('.four-eyes')).toBeNull();
+    expect(element.textContent).toContain('réservé aux responsables');
   });
 
   it('shows a read-only notice to auditors', () => {

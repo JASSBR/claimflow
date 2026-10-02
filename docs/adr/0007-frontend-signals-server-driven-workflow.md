@@ -9,9 +9,11 @@
 - **Signal Forms** (`@angular/forms/signals`, stable since v22) for the declaration form: the schema is the single source
   of client-side rules (Angular refuses `min`/`max` attributes on bound fields), the API remains the authority and its
   problem details are displayed as-is.
-- **Realtime without subscriptions**: `ClaimsRealtime` exposes the last SignalR notification as a signal. Resources
-  *read* it inside their request function, so a committed change refetches exactly what is on screen; the detail page
-  filters through a `computed` so another claim's notification triggers nothing.
+- **Realtime without subscriptions**: `ClaimsRealtime` exposes the last SignalR notification as a signal, and
+  `reloadWhen(trigger, ...resources)` reloads the resources on screen when it changes; the detail page filters through a
+  `computed` so another claim's notification triggers nothing. It calls `reload()` rather than making the request depend
+  on the notification: a changed request resets the resource to "loading" with no value, which flashed a skeleton and
+  destroyed open forms mid-action — a bug the Playwright suite caught intermittently before it was fixed.
 - **Server-driven workflow**: the API returns `allowedActions` computed from the domain's workflow table; the UI renders
   one button per allowed action and contains **no workflow logic**. Changing the workflow is a backend-only change.
 - The hub connection is injected through an `InjectionToken` factory, so the service is testable without a server.

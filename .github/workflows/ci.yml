@@ -64,6 +64,63 @@ jobs:
       - run: npm run build
       - run: npm audit --audit-level=high
 
+  e2e:
+    name: End-to-end · Playwright on the full stack
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: claimflow
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U postgres" --health-interval 5s --health-retries 10
+      azurite:
+        image: mcr.microsoft.com/azure-storage/azurite
+        ports: ["10000:10000"]
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__claimflow: Host=localhost;Database=claimflow;Username=postgres;Password=ci
+      # Azurite's published well-known development key, not a secret.
+      ConnectionStrings__blobs: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;
+      Auth__Mode: Demo
+      Auth__DemoSigningKey: ci-only-${{ github.run_id }}-${{ github.run_attempt }}-signing-key
+      RateLimiting__PermitPerMinute: "5000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Start API (migrates and seeds)
+        run: |
+          dotnet run --project src/ClaimFlow.Api --urls http://localhost:5180 > api.log 2>&1 &
+          timeout 180 bash -c 'until curl -sf http://localhost:5180/alive; do sleep 2; done'
+      - name: Start Angular dev server
+        working-directory: web
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          npm start > ../web.log 2>&1 &
+          timeout 180 bash -c 'until curl -sf http://localhost:4200/api/auth/personas; do sleep 2; done'
+      - name: Playwright
+        working-directory: web
+        run: npm run e2e
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          path: |
+            web/playwright-report
+            web/test-results
+            api.log
+            web.log
+
   docker:
     name: API container image
     runs-on: ubuntu-latest

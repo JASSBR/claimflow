@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ClaimsRealtime } from '../../core/realtime/claims-realtime';
+import { reloadWhen } from '../../core/realtime/reload-when';
 import { STATUS_LABELS, TYPE_LABELS } from '../../claims/claim-labels';
 import {
   CLAIM_STATUSES,
@@ -55,7 +56,6 @@ export class ClaimsList {
   });
 
   protected readonly claims = httpResource<PagedResponse<ClaimSummary>>(() => {
-    this.realtime.lastChange();
     const params: Record<string, string | number> = { page: this.page(), pageSize: PAGE_SIZE };
     const status = this.statusFilter();
     const search = this.search().trim();
@@ -64,14 +64,15 @@ export class ClaimsList {
     return { url: CLAIMS_URL, params };
   });
 
-  protected readonly stats = httpResource<ClaimStats>(() => {
-    this.realtime.lastChange();
-    return `${CLAIMS_URL}/stats`;
-  });
+  protected readonly stats = httpResource<ClaimStats>(() => `${CLAIMS_URL}/stats`);
 
   protected readonly capabilities = httpResource<ClaimCapabilities>(
     () => `${CLAIMS_URL}/capabilities`,
   );
+
+  constructor() {
+    reloadWhen(this.realtime.lastChange, this.claims, this.stats);
+  }
 
   protected readonly pageCount = computed(() =>
     Math.max(1, Math.ceil((this.claims.value()?.totalCount ?? 0) / PAGE_SIZE)),

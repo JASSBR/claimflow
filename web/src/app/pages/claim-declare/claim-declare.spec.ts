@@ -76,16 +76,14 @@ describe('ClaimDeclare', () => {
     fillValid();
     await submit();
 
-    http
-      .expectOne('/api/claims')
-      .flush(
-        {
-          errors: {
-            'claim.incident_time_barred': ['Claims are time-barred two years after the incident.'],
-          },
+    http.expectOne('/api/claims').flush(
+      {
+        errors: {
+          'claim.incident_time_barred': ['Claims are time-barred two years after the incident.'],
         },
-        { status: 400, statusText: 'Bad Request' },
-      );
+      },
+      { status: 400, statusText: 'Bad Request' },
+    );
     await settle();
     await fixture.whenStable();
 
