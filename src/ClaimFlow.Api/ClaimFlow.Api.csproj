@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <!-- Composition root: wires modules and cross-cutting HTTP concerns. Contains no business logic. -->
+  <PropertyGroup>
+    <UserSecretsId>claimflow-api</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Scalar.AspNetCore" />
+    <!-- Lets `dotnet ef` use this project as startup project. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClaimFlow.ServiceDefaults\ClaimFlow.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Modules\Claims\ClaimFlow.Claims\ClaimFlow.Claims.csproj" />
+  </ItemGroup>
+</Project>

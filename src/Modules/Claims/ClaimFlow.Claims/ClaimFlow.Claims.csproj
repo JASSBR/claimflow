@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Claims module: application + infrastructure + HTTP surface. Only ClaimsModule and Contracts are public. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClaimFlow.Claims.Domain\ClaimFlow.Claims.Domain.csproj" />
+    <ProjectReference Include="..\..\..\ClaimFlow.BuildingBlocks\ClaimFlow.BuildingBlocks.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="ClaimFlow.IntegrationTests" />
+  </ItemGroup>
+</Project>
