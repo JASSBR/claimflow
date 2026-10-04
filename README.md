@@ -7,7 +7,7 @@
 Declare, review, approve and settle insurance claims, with the safeguards of a regulated business
 and an AI reviewer that backs every finding with a quoted page.
 
-[**▶ Live demo**](https://claimflow-insurance.vercel.app) · [Architecture decisions](docs/adr/README.md) · [Performance](docs/performance.md) · [Français](#-en-français)
+[**▶ Live demo**](https://claimflow.jassbr.me) · [Architecture decisions](docs/adr/README.md) · [Performance](docs/performance.md) · [Français](#-en-français)
 
 [![CI](https://github.com/JASSBR/claimflow/actions/workflows/ci.yml/badge.svg)](https://github.com/JASSBR/claimflow/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/JASSBR/claimflow/actions/workflows/codeql.yml/badge.svg)](https://github.com/JASSBR/claimflow/actions/workflows/codeql.yml)
@@ -33,7 +33,7 @@ and an AI reviewer that backs every finding with a quoted page.
 
 ## Try it in 3 minutes
 
-1. Open the [live demo](https://claimflow-insurance.vercel.app) and pick **Léa Martin** (claims handler). No password: personas are the demo.
+1. Open the [live demo](https://claimflow.jassbr.me) and pick **Léa Martin** (claims handler). No password: personas are the demo.
 2. Open claim **SIN-2026-000001** (the car collision). Three PDFs are attached: a joint accident report, a body-shop
    quote, an insurance certificate. Click **Review the file**: the AI points out that the report describes a *front*
    impact on a roundabout while the declaration says *rear-end at a red light*, and that the quote exceeds the claimed
@@ -157,7 +157,7 @@ ClaimFlow est une application de gestion de sinistres d'assurance : déclaration
 Elle met en œuvre des règles métier réelles (délégation de pouvoir, principe des quatre yeux, prescription biennale,
 piste d'audit), un temps réel fiable (outbox transactionnelle + SignalR) et une revue de dossier par IA dont chaque
 constat cite la page de la pièce source. L'interface est disponible en français et en anglais.
-[Essayer la démo](https://claimflow-insurance.vercel.app/fr/).
+[Essayer la démo](https://claimflow.jassbr.me/fr/).
 
 ---
 
