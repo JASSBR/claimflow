@@ -15,7 +15,7 @@ RG="${RG:-rg-claimflow}"
 ENVIRONMENT="${ENVIRONMENT:-claimflow-env}"
 APP="${APP:-claimflow-api}"
 # Comma-separated origins of the SPA, allowed by the API's CORS policy.
-SPA_ORIGINS="${SPA_ORIGINS:-https://claimflow-insurance.vercel.app,https://claimflow-indol.vercel.app}"
+SPA_ORIGINS="${SPA_ORIGINS:-https://claimflow.jassbr.me,https://claimflow-insurance.vercel.app,https://claimflow-indol.vercel.app}"
 
 # Generated once and kept outside git: re-running must not rotate the database password under a live app.
 STATE=deploy/.azure.env
