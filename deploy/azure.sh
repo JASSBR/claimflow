@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 # Deploys the ClaimFlow API to Azure: PostgreSQL Flexible Server, Blob Storage, Azure Container Apps.
 # Re-runnable: resources are created once, then the app is updated with a fresh image.
-# Prerequisites: `az login`, Docker. Optional: ANTHROPIC_API_KEY (enables the AI review), SPA_ORIGINS (CORS).
+# Prerequisites: `az login`, HEAD pushed (the image is built by GitHub Actions, .github/workflows/images.yml, and
+# published on ghcr.io). Optional: ANTHROPIC_API_KEY (enables the AI review), SPA_ORIGINS (CORS).
 #
 # Azure for Students gotchas encoded here:
 #  - the subscription policy only allows a few regions (italynorth, norwayeast, austriaeast, belgiumcentral, polandcentral);
-#  - ACR Tasks (remote builds) is forbidden, so the image is built locally — for linux/amd64, mandatory on Apple Silicon.
+#  - ACR Tasks (remote builds) is forbidden, hence images built on GitHub's runners and a public registry.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 LOCATION="${LOCATION:-italynorth}"
 RG="${RG:-rg-claimflow}"
-ACR="${ACR:-ca4763678411acr}"            # registry shared with other projects (Basic SKU, admin user enabled)
 ENVIRONMENT="${ENVIRONMENT:-claimflow-env}"
 APP="${APP:-claimflow-api}"
 # Comma-separated origins of the SPA, allowed by the API's CORS policy.
@@ -61,11 +61,9 @@ if ! az storage account show -g "$RG" -n "$STORAGE" --only-show-errors >/dev/nul
 fi
 BLOB_CONNECTION="$(az storage account show-connection-string -g "$RG" -n "$STORAGE" --query connectionString -o tsv)"
 
-SERVER="$(az acr show -n "$ACR" --query loginServer -o tsv)"
-IMAGE="$SERVER/claimflow-api:$(git rev-parse --short HEAD)-$(date +%H%M%S)"
-echo "→ Image $IMAGE (local linux/amd64 build)"
-az acr login -n "$ACR" >/dev/null
-docker buildx build --platform linux/amd64 -t "$IMAGE" --push . >/dev/null
+IMAGE="ghcr.io/jassbr/claimflow-api:sha-$(git rev-parse --short=7 HEAD)"
+source deploy/ghcr.sh
+wait_for_image claimflow-api "${IMAGE##*:}"
 
 echo "→ Container Apps environment $ENVIRONMENT"
 # Recent CLIs default to "Express" environments, which reject revision suffixes and did not reliably roll out
@@ -108,9 +106,6 @@ if az containerapp show -n "$APP" -g "$RG" --only-show-errors >/dev/null 2>&1; t
     --revision-suffix "r$(date +%m%d%H%M%S)" --only-show-errors >/dev/null
 else
   az containerapp create -n "$APP" -g "$RG" --environment "$ENVIRONMENT" --image "$IMAGE" \
-    --registry-server "$SERVER" \
-    --registry-username "$(az acr credential show -n "$ACR" --query username -o tsv)" \
-    --registry-password "$(az acr credential show -n "$ACR" --query 'passwords[0].value' -o tsv)" \
     --target-port 8080 --ingress external \
     --cpu 0.5 --memory 1.0Gi \
     `# At most one replica: SignalR groups live in memory (scaling out needs Azure SignalR Service).` \

@@ -3,9 +3,9 @@ name: Images
 # Builds the API image on GitHub's amd64 runners and publishes it to GitHub Container Registry, tagged with the
 # commit: deploy/azure.sh then only points Azure at a tag that already exists.
 on:
+  # Every commit on main gets its images (unchanged layers come from the cache), so any commit can be deployed.
   push:
     branches: [main]
-    paths: [src/**, Dockerfile, Directory.*.props, global.json, .github/workflows/images.yml]
   workflow_dispatch:
 
 permissions:
