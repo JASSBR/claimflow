@@ -113,8 +113,9 @@ else
     --registry-password "$(az acr credential show -n "$ACR" --query 'passwords[0].value' -o tsv)" \
     --target-port 8080 --ingress external \
     --cpu 0.5 --memory 1.0Gi \
-    `# One replica: SignalR groups live in memory. Scaling out needs Azure SignalR Service as a backplane.` \
-    --min-replicas 1 --max-replicas 1 \
+    `# At most one replica: SignalR groups live in memory (scaling out needs Azure SignalR Service).` \
+    `# Zero when idle: a demo, not a service; the first request after a quiet period wakes it in seconds.` \
+    --min-replicas 0 --max-replicas 1 \
     --secrets "${SECRETS[@]}" --env-vars "${ENV_VARS[@]}" --only-show-errors >/dev/null
 fi
 
