@@ -1,22 +1,44 @@
+/*
+ * The AI review is the one place the gradient lives: a gradient border, a soft aurora behind the heading,
+ * so a reader always knows which words came from the model.
+ */
 .ai {
   position: relative;
   overflow: hidden;
-}
-.ai::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border: 1.5px solid transparent;
+  background:
+    radial-gradient(
+        90% 70% at 100% 0%,
+        color-mix(in srgb, var(--accent-2) 9%, transparent),
+        transparent 60%
+      )
+      padding-box,
+    radial-gradient(
+        70% 60% at 0% 0%,
+        color-mix(in srgb, var(--accent) 8%, transparent),
+        transparent 60%
+      )
+      padding-box,
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--ai) border-box;
+  box-shadow:
+    var(--shadow),
+    0 18px 40px -28px color-mix(in srgb, var(--accent-2) 60%, transparent);
 }
 .spark {
   display: grid;
   place-items: center;
-  width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 8px;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 10px;
   color: #fff;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  background: var(--ai);
+  box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--accent-2) 80%, transparent);
+}
+.ai .card-title .chip {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.72rem;
 }
 
 .intro,
@@ -76,19 +98,28 @@
 }
 
 .report h3 {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--accent);
-  margin: 1.1rem 0 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 1.2rem 0 0.4rem;
+}
+.report h3::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 3px;
+  background: var(--ai);
 }
 .report h3:first-child {
   margin-top: 0;
 }
 .report p {
   margin: 0 0 0.4rem;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.92rem;
+  line-height: 1.65;
 }
 .report p.bullet {
   position: relative;
@@ -131,8 +162,8 @@
 
 .source {
   margin: 0.75rem 0;
-  padding: 0.85rem;
-  border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--surface-2);
   animation: pop 0.15s ease-out;
@@ -153,7 +184,7 @@
 blockquote {
   margin: 0.55rem 0 0.7rem;
   padding-left: 0.75rem;
-  border-left: 3px solid var(--accent);
+  border-left: 3px solid var(--accent-2);
   font-size: 0.86rem;
   color: var(--muted);
   font-style: italic;
@@ -167,9 +198,18 @@ blockquote {
   font-size: 0.75rem;
   color: var(--muted);
 }
-.run {
+.button.run {
   margin-top: 0.75rem;
   width: 100%;
+  border: 0;
+  background: var(--ai);
+  background-size: 140% 100%;
+  transition:
+    background-position 0.4s ease,
+    transform 0.12s;
+}
+.button.run:hover:not(:disabled) {
+  background-position: 100% 0;
 }
 .small {
   font-size: 0.78rem;

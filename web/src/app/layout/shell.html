@@ -19,6 +19,18 @@
       }
     </nav>
 
+    @if (capabilities.value(); as caps) {
+      @if (caps.approvalLimit > 0) {
+        <div class="limit">
+          <span class="limit-icon"><app-icon name="shield" [size]="16" /></span>
+          <span>
+            <small i18n="@@sidebar.limit">Votre plafond de décision</small>
+            <strong>{{ caps.approvalLimit | currency: 'EUR' : 'symbol' : '1.0-0' }}</strong>
+          </span>
+        </div>
+      }
+    }
+
     <div class="sidebar-footer">
       <a [href]="repositoryUrl" target="_blank" rel="noopener"
         ><app-icon name="github" /> <span i18n="@@nav.sourceCode">Code source</span></a

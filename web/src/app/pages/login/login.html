@@ -11,6 +11,33 @@
       d'un vrai métier régulé et un assistant IA qui justifie chacun de ses constats.
     </p>
 
+    <div class="preview" aria-hidden="true">
+      <div class="preview-claim">
+        <div class="preview-head">
+          <span class="preview-type">A</span>
+          <span class="preview-id">
+            <strong class="ref">SIN-2026-000001</strong>
+            <small i18n="@@login.previewType">Automobile · collision</small>
+          </span>
+          <span class="preview-status" i18n="@@status.underReview">En instruction</span>
+        </div>
+        <div class="preview-amount">{{ 2350 | currency: 'EUR' }}</div>
+      </div>
+      <div class="preview-ai">
+        <div class="preview-ai-head">
+          <span class="preview-spark"><app-icon name="sparkles" [size]="14" /></span>
+          <strong i18n="@@analysis.title">Revue IA du dossier</strong>
+        </div>
+        <p i18n="@@login.previewAi">
+          Le constat <span class="preview-cite">1</span> désigne le tiers comme responsable. Le
+          devis <span class="preview-cite">2</span> est cohérent avec les dommages.
+        </p>
+        <p class="preview-reco" i18n="@@login.previewReco">
+          Recommandation : accepter, franchise déduite.
+        </p>
+      </div>
+    </div>
+
     <ul class="highlights">
       @for (item of highlights; track item.title) {
         <li>

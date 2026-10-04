@@ -15,6 +15,10 @@
           <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
           <context context-type="linenumber">5</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">22,24</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="status.informationRequested" datatype="html">
         <source>Pièces demandées</source>
@@ -242,68 +246,75 @@
           <context context-type="linenumber">17,19</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="sidebar.limit" datatype="html">
+        <source>Votre plafond de décision</source>
+        <target>Your decision limit</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/shell.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="nav.sourceCode" datatype="html">
         <source>Code source</source>
         <target>Source code</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/layout/shell.html</context>
-          <context context-type="linenumber">24,26</context>
+          <context context-type="linenumber">36,38</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.html</context>
-          <context context-type="linenumber">34,37</context>
+          <context context-type="linenumber">61,64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.adr" datatype="html">
         <source>Décisions d'architecture</source>
         <target>Architecture decisions</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/layout/shell.html</context>
-          <context context-type="linenumber">27,29</context>
+          <context context-type="linenumber">39,41</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.html</context>
-          <context context-type="linenumber">41,42</context>
+          <context context-type="linenumber">68,69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="live.on" datatype="html">
         <source>Temps réel</source>
         <target>Live</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/layout/shell.html</context>
-          <context context-type="linenumber">37,38</context>
+          <context context-type="linenumber">49,50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="live.off" datatype="html">
         <source>Hors ligne</source>
         <target>Offline</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/layout/shell.html</context>
-          <context context-type="linenumber">39,41</context>
+          <context context-type="linenumber">51,53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="theme.toggle" datatype="html">
         <source>Changer de thème</source>
         <target>Switch theme</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/layout/shell.html</context>
-          <context context-type="linenumber">56,58</context>
+          <context context-type="linenumber">68,70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="menu.switch" datatype="html">
         <source>Changer de profil de démonstration</source>
         <target>Switch demo profile</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/layout/shell.html</context>
-          <context context-type="linenumber">80,81</context>
+          <context context-type="linenumber">92,93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="menu.logout" datatype="html">
         <source>Se déconnecter</source>
         <target>Sign out</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/layout/shell.html</context>
-          <context context-type="linenumber">97,98</context>
+          <context context-type="linenumber">109,110</context>
         </context-group>
       </trans-unit>
       <trans-unit id="banner.readOnly" datatype="html">
         <source>Profil en lecture seule : vous consultez sans pouvoir modifier.</source>
         <target>Read-only profile: you can look but not change anything.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/layout/shell.html</context>
-          <context context-type="linenumber">111,113</context>
+          <context context-type="linenumber">123,125</context>
         </context-group>
       </trans-unit>
       <trans-unit id="declare.eyebrow" datatype="html">
@@ -470,6 +481,10 @@
           <context context-type="sourcefile">src/app/pages/claim-detail/analysis-panel.html</context>
           <context context-type="linenumber">5,7</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="analysis.disabled" datatype="html">
         <source> L'assistant IA n'est pas activé sur cet environnement (clé API absente). Le reste de l'application fonctionne normalement ; l'activation est décrite dans le README. </source>
@@ -587,42 +602,46 @@
         <source> Survenu le <x id="INTERPOLATION" equiv-text="{{ c.incidentDate | date: 'shortDate' }}" /> · déclaré par <x id="INTERPOLATION_1" equiv-text="{{ c.declaredBy }}" /> le <x id="INTERPOLATION_2" equiv-text="{{ c.declaredAt | date: 'shortDate' }}" /> </source>
         <target>Occurred on <x id="INTERPOLATION" equiv-text="{{ c.incidentDate | date: 'shortDate' }}" /> · declared by <x id="INTERPOLATION_1" equiv-text="{{ c.declaredBy }}" /> on <x id="INTERPOLATION_2" equiv-text="{{ c.declaredAt | date: 'shortDate' }}" /></target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
-          <context context-type="linenumber">15,18</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="detail.circumstances" datatype="html">
-        <source>Circonstances</source>
-        <target>Circumstances</target><context-group purpose="location">
-          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
-          <context context-type="linenumber">26,27</context>
+          <context context-type="linenumber">17,20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="detail.claimedAmount" datatype="html">
         <source>Montant réclamé</source>
         <target>Claimed amount</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
-          <context context-type="linenumber">30,31</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detail.circumstances" datatype="html">
+        <source>Circonstances</source>
+        <target>Circumstances</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
+          <context context-type="linenumber">32,33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="detail.approvedAmount" datatype="html">
         <source>Montant accordé</source>
         <target>Approved amount</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
-          <context context-type="linenumber">34,35</context>
+          <context context-type="linenumber">40,41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="detail.history" datatype="html">
         <source>Historique</source>
         <target>History</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
-          <context context-type="linenumber">74,75</context>
+          <context context-type="linenumber">80,81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="detail.auditTrail" datatype="html">
         <source>piste d'audit</source>
         <target>audit trail</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/claim-detail/claim-detail.html</context>
-          <context context-type="linenumber">75,77</context>
+          <context context-type="linenumber">81,83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="toast.decisionDone" datatype="html">
@@ -1101,123 +1120,144 @@
           <context context-type="linenumber">10,14</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="login.previewType" datatype="html">
+        <source>Automobile · collision</source>
+        <target>Motor · collision</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">20,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.previewAi" datatype="html">
+        <source> Le constat <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;preview-cite&quot;&gt;" />1<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;" /> désigne le tiers comme responsable. Le devis <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;preview-cite&quot;&gt;" />2<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;" /> est cohérent avec les dommages. </source>
+        <target>The accident report <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;preview-cite&quot;&gt;" />1<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;" /> names the third party as liable. The quote <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;preview-cite&quot;&gt;" />2<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;" /> is consistent with the damage.</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">32,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.previewReco" datatype="html">
+        <source> Recommandation : accepter, franchise déduite. </source>
+        <target>Recommendation: accept, excess deducted.</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/login/login.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="login.choose" datatype="html">
         <source>Choisissez un profil</source>
         <target>Choose a profile</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.html</context>
-          <context context-type="linenumber">52,53</context>
+          <context context-type="linenumber">79,80</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.chooseHint" datatype="html">
         <source> Chaque profil a des droits différents. Aucun mot de passe : c'est une démo. </source>
         <target>Each profile has different rights. No password: it's a demo.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.html</context>
-          <context context-type="linenumber">54,57</context>
+          <context context-type="linenumber">81,84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.waking" datatype="html">
         <source> L'API de démonstration ne répond pas. Elle se réveille peut-être : réessayez dans quelques secondes. </source>
         <target>The demo API is not answering. It may be waking up: try again in a few seconds.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.html</context>
-          <context context-type="linenumber">68,70</context>
+          <context context-type="linenumber">95,97</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.retry" datatype="html">
         <source> Réessayer </source>
         <target>Try again</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.html</context>
-          <context context-type="linenumber">72,73</context>
+          <context context-type="linenumber">99,100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.connecting" datatype="html">
         <source>Connexion…</source>
         <target>Signing in…</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.html</context>
-          <context context-type="linenumber">95,97</context>
+          <context context-type="linenumber">122,124</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.tip" datatype="html">
         <source>Astuce : ouvrez deux onglets avec deux profils différents pour voir les décisions arriver en direct.</source>
         <target>Tip: open two tabs with two different profiles to watch decisions arrive live.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.html</context>
-          <context context-type="linenumber">109,111</context>
+          <context context-type="linenumber">136,138</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.h1.title" datatype="html">
         <source>Règles métier réelles</source>
         <target>Real business rules</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.h1.text" datatype="html">
         <source>Délégation de pouvoir, principe des quatre yeux, prescription biennale, piste d’audit.</source>
         <target>Delegated authority, four-eyes principle, two-year time bar, audit trail.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.h2.title" datatype="html">
         <source>Temps réel fiable</source>
         <target>Reliable realtime</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.h2.text" datatype="html">
         <source>Chaque décision se propage instantanément, via une outbox transactionnelle et SignalR.</source>
         <target>Every decision propagates instantly, through a transactional outbox and SignalR.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.h3.title" datatype="html">
         <source>IA explicable</source>
         <target>Explainable AI</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.h3.text" datatype="html">
         <source>La revue de dossier cite la page exacte de chaque pièce. L’humain décide.</source>
         <target>The file review quotes the exact page of each document. A human decides.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.h4.title" datatype="html">
         <source>Qualité vérifiée</source>
         <target>Verified quality</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.h4.text" datatype="html">
         <source>Plus de 150 tests automatisés, architecture imposée par des tests, tests de charge publiés.</source>
         <target>Over 150 automated tests, architecture enforced by tests, published load tests.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="role.manager" datatype="html">
         <source>Responsable</source>
         <target>Manager</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="role.auditor" datatype="html">
         <source>Lecture seule</source>
         <target>Read-only</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">74</context>
         </context-group>
       </trans-unit>
       <trans-unit id="role.handler" datatype="html">
         <source>Gestionnaire</source>
         <target>Handler</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.policyNumber" datatype="html">

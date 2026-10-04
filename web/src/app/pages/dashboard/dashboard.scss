@@ -1,52 +1,63 @@
+/* The four figures read as one statement strip, not four look-alike cards. */
 .kpis {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-bottom: 1rem;
-}
-.kpi {
-  position: relative;
-  display: grid;
-  gap: 0.15rem;
-  padding: 1.15rem 1.25rem;
   border-radius: var(--radius);
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   overflow: hidden;
+  animation: rise 0.3s ease-out;
 }
-.kpi::after {
+.kpi {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.2rem;
+  padding: 1.2rem 1.35rem 1.25rem;
+  border-left: 1px solid var(--border);
+}
+.kpi:first-child {
+  border-left: 0;
+}
+/* The first figure is the day's workload: it gets the AI hairline on top. */
+.kpi:first-child::before {
   content: '';
   position: absolute;
-  inset: auto -30% -60% auto;
-  width: 9rem;
-  height: 9rem;
-  border-radius: 50%;
-  background: radial-gradient(color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--ai);
 }
 .kpi-icon {
   display: grid;
   place-items: center;
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 10px;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 9px;
   background: var(--accent-soft);
   color: var(--accent);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.55rem;
 }
 .label {
   font-size: 0.8rem;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 550;
 }
 .kpi strong {
-  font-size: 1.65rem;
-  letter-spacing: -0.03em;
+  font-size: 2rem;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
   font-variant-numeric: tabular-nums;
 }
 .sub {
   font-size: 0.75rem;
   color: var(--muted);
+}
+.kpis > .skeleton {
+  height: 128px;
+  border-radius: 0;
 }
 
 .grid {
@@ -91,9 +102,9 @@
   font-variant-numeric: tabular-nums;
 }
 .swatch {
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 3px;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
 }
 
 .activity .chip.on {
@@ -156,12 +167,16 @@
   display: grid;
   gap: 0.35rem;
 }
+.recent-list {
+  margin: 0 -0.6rem !important;
+}
 .recent-list a {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  padding: 0.55rem 0.6rem;
-  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.6rem;
+  border-radius: 12px;
+  transition: background-color 0.12s;
   color: var(--text);
   text-decoration: none;
 }
@@ -171,13 +186,21 @@
 .type-icon {
   display: grid;
   place-items: center;
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 10px;
-  font-weight: 700;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 11px;
+  font-weight: 750;
   font-size: 0.85rem;
-  background: var(--surface-2);
+  background: var(--accent-soft);
   color: var(--accent);
+}
+.type-icon[data-type='Home'] {
+  background: color-mix(in srgb, var(--status-settled) 13%, transparent);
+  color: var(--status-settled);
+}
+.type-icon[data-type='Liability'] {
+  background: color-mix(in srgb, var(--accent-2) 13%, transparent);
+  color: var(--accent-2);
 }
 .what {
   display: grid;
@@ -196,4 +219,16 @@
   font-variant-numeric: tabular-nums;
   font-size: 0.88rem;
   font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .kpi:nth-child(3) {
+    border-left: 0;
+  }
+  .kpi:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
 }

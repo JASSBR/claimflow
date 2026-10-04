@@ -70,9 +70,9 @@
         @for (claim of claims.value()?.items; track claim.id) {
           <tr>
             <td>
-              <a class="number" [routerLink]="['/claims', claim.id]">{{ claim.number }}</a>
+              <a class="number ref" [routerLink]="['/claims', claim.id]">{{ claim.number }}</a>
             </td>
-            <td>{{ claim.policyNumber }}</td>
+            <td class="ref muted">{{ claim.policyNumber }}</td>
             <td>{{ typeLabels[claim.type] }}</td>
             <td>{{ claim.incidentDate | date: 'shortDate' }}</td>
             <td class="num">{{ claim.claimedAmount | currency: 'EUR' }}</td>

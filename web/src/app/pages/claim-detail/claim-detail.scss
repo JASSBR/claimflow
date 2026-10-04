@@ -4,9 +4,31 @@
   gap: 0.75rem;
   flex-wrap: wrap;
 }
+.title .ref {
+  font-size: 0.92em;
+  letter-spacing: -0.04em;
+}
+.header-amount {
+  display: grid;
+  justify-items: end;
+  padding: 0.75rem 1.1rem;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.header-amount span {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+.header-amount strong {
+  font-size: 1.5rem;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+}
 .stepper-card {
   margin-bottom: 1rem;
-  padding: 1rem 1.25rem;
+  padding: 1rem 1.35rem;
 }
 
 .layout {

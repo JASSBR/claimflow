@@ -40,7 +40,7 @@
     </article>
   } @else {
     @for (i of [1, 2, 3, 4]; track i) {
-      <div class="kpi skeleton" style="height: 128px"></div>
+      <div class="skeleton"></div>
     }
   }
 </section>
@@ -125,7 +125,7 @@
               typeLabels[claim.type][0]
             }}</span>
             <span class="what">
-              <strong>{{ claim.number }}</strong>
+              <strong class="ref">{{ claim.number }}</strong>
               <small>{{ typeLabels[claim.type] }} · {{ claim.declaredAt | date: 'd MMM' }}</small>
             </span>
             <span class="amount">{{

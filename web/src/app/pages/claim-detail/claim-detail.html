@@ -10,11 +10,17 @@
       <span class="eyebrow" i18n="@@detail.eyebrow"
         >{{ typeLabels[c.type] }} · contrat {{ c.policyNumber }}</span
       >
-      <h1 class="title">{{ c.number }} <app-status-badge [status]="c.status" /></h1>
+      <h1 class="title">
+        <span class="ref">{{ c.number }}</span> <app-status-badge [status]="c.status" />
+      </h1>
       <p class="muted" i18n="@@detail.meta">
         Survenu le {{ c.incidentDate | date: 'shortDate' }} · déclaré par {{ c.declaredBy }} le
         {{ c.declaredAt | date: 'shortDate' }}
       </p>
+    </div>
+    <div class="header-amount">
+      <span i18n="@@detail.claimedAmount">Montant réclamé</span>
+      <strong>{{ c.claimedAmount | currency: 'EUR' }}</strong>
     </div>
   </header>
 

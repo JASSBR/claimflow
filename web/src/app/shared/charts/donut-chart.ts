@@ -9,7 +9,8 @@ export interface DonutSlice {
 
 const RADIUS = 42;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-const GAP = 1.2;
+// Round caps reach half a stroke past each end: the gap must exceed one stroke width to stay visible.
+const GAP = 12;
 
 /** Dependency-free SVG donut: each slice is a dashed circle stroke, so it scales crisply and animates in CSS. */
 @Component({
@@ -51,7 +52,10 @@ const GAP = 1.2;
     }
     circle {
       fill: none;
-      stroke-width: 12;
+      stroke-width: 9;
+    }
+    .arc {
+      stroke-linecap: round;
     }
     .track {
       stroke: var(--surface-2);
@@ -69,7 +73,9 @@ const GAP = 1.2;
       text-align: center;
     }
     .center strong {
-      font-size: 1.9rem;
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
       line-height: 1;
     }
     .center span {
@@ -101,7 +107,7 @@ export class DonutChart {
       .filter((slice) => slice.value > 0)
       .map((slice) => {
         const length = (slice.value / total) * CIRCUMFERENCE;
-        const visible = Math.max(length - GAP, 0.5);
+        const visible = Math.max(length - GAP, 0.01);
         const arc = {
           key: slice.key,
           color: slice.color,

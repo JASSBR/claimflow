@@ -1,52 +1,76 @@
-@use '@fontsource-variable/inter';
+@use '@fontsource-variable/plus-jakarta-sans/wght.css' as jakarta;
+@use '@fontsource-variable/jetbrains-mono/wght.css' as jetbrains;
 
-/* ---------- Design tokens ---------- */
+/*
+ * ClaimFlow — "the clear case file".
+ * An insurer's desk should feel calm and legible: an airy light workspace, one cobalt for what can be acted on,
+ * claim and policy numbers set in mono like the references they are, and a single expressive gradient reserved
+ * for the AI review, so the machine's contribution is always recognisable.
+ */
 :root {
-  --bg: #f5f6fa;
+  --bg: #f4f5f8;
   --surface: #ffffff;
-  --surface-2: #eef0f6;
-  --border: #e3e6ef;
-  --text: #0f1424;
-  --muted: #5b6377;
-  --accent: #4f46e5;
-  --accent-2: #0891b2;
-  --accent-soft: #eef0ff;
+  --surface-2: #eff1f5;
+  --border: #e3e6ed;
+  --rule: #edf0f4;
+  --text: #0f1729;
+  --muted: #5e6880;
+  --faint: #9aa3b5;
+
+  --accent: #2b5cff;
+  --accent-strong: #1d47e0;
+  --accent-soft: #ebf0ff;
+  --accent-2: #7c4dff;
   --on-accent: #ffffff;
-  --danger: #dc2626;
-  --success: #059669;
-  --status-declared: #4f46e5;
-  --status-review: #b45309;
-  --status-info: #db2777;
-  --status-approved: #059669;
-  --status-rejected: #dc2626;
-  --status-settled: #0e7490;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 1px 2px rgb(15 20 36 / 5%), 0 1px 3px rgb(15 20 36 / 6%);
-  --shadow-lg: 0 12px 32px -8px rgb(15 20 36 / 18%);
-  --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+  --ai: linear-gradient(120deg, #2b5cff 0%, #7c4dff 50%, #12b5cb 100%);
+
+  --danger: #e0433e;
+  --success: #11a06b;
+  --warning: #d97a06;
+
+  --status-declared: #2b5cff;
+  --status-review: #d97a06;
+  --status-info: #7c4dff;
+  --status-approved: #11a06b;
+  --status-rejected: #e0433e;
+  --status-settled: #0d8c8f;
+
+  --radius: 18px;
+  --radius-sm: 11px;
+  --shadow: 0 1px 2px rgb(15 23 41 / 4%), 0 2px 6px -2px rgb(15 23 41 / 5%);
+  --shadow-lg: 0 24px 50px -24px rgb(15 23 41 / 28%), 0 2px 8px rgb(15 23 41 / 5%);
+  --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent);
+  --sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   color-scheme: light;
 }
 
 [data-theme='dark'] {
-  --bg: #0a0d16;
-  --surface: #111625;
-  --surface-2: #1a2033;
-  --border: #252c42;
-  --text: #e8ebf4;
-  --muted: #99a2b9;
-  --accent: #818cf8;
-  --accent-2: #22d3ee;
-  --accent-soft: #1d2142;
-  --on-accent: #0a0d16;
-  --status-declared: #a5b4fc;
-  --status-review: #fbbf24;
-  --status-info: #f472b6;
-  --status-approved: #34d399;
-  --status-rejected: #f87171;
-  --status-settled: #67e8f9;
+  --bg: #0a0e1a;
+  --surface: #111729;
+  --surface-2: #182036;
+  --border: #232c45;
+  --rule: #1b2339;
+  --text: #e9edf7;
+  --muted: #98a2bd;
+  --faint: #626d89;
+  --accent: #7b9bff;
+  --accent-strong: #9db4ff;
+  --accent-soft: #1a2448;
+  --accent-2: #a98bff;
+  --on-accent: #0a0e1a;
+  --ai: linear-gradient(120deg, #7b9bff 0%, #a98bff 50%, #4fd8e8 100%);
+  --danger: #ff6f6a;
+  --success: #3ccf95;
+  --warning: #f2a93b;
+  --status-declared: #7b9bff;
+  --status-review: #f2a93b;
+  --status-info: #b49bff;
+  --status-approved: #3ccf95;
+  --status-rejected: #ff6f6a;
+  --status-settled: #4fd1d4;
   --shadow: 0 1px 2px rgb(0 0 0 / 40%);
-  --shadow-lg: 0 16px 40px -10px rgb(0 0 0 / 60%);
+  --shadow-lg: 0 24px 50px -20px rgb(0 0 0 / 75%);
   color-scheme: dark;
 }
 
@@ -65,13 +89,8 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font:
-    15px/1.5 'Inter Variable',
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    sans-serif;
-  font-feature-settings: 'cv11', 'ss01';
+  font: 14.5px/1.55 var(--sans);
+  font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   transition:
     background-color 0.2s ease,
@@ -81,36 +100,42 @@ body {
 h1,
 h2,
 h3 {
-  letter-spacing: -0.02em;
+  font-weight: 700;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 h1 {
-  font-size: 1.65rem;
+  font-size: clamp(1.65rem, 3vw, 2.1rem);
+  letter-spacing: -0.035em;
   margin: 0;
 }
 h2 {
-  font-size: 1rem;
+  font-size: 1.02rem;
   margin: 0 0 0.9rem;
 }
 h3 {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   margin: 1rem 0 0.5rem;
 }
 a {
   color: var(--accent);
+  text-underline-offset: 3px;
 }
 :focus-visible {
   outline: none;
   box-shadow: var(--focus);
+  border-radius: 6px;
+}
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 input,
 select,
 textarea {
   font: inherit;
-  font-weight: 400;
   width: 100%;
-  padding: 0.6rem 0.75rem;
+  padding: 0.62rem 0.8rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
@@ -119,6 +144,9 @@ textarea {
     border-color 0.15s,
     box-shadow 0.15s;
 
+  &:hover {
+    border-color: color-mix(in srgb, var(--text) 18%, var(--border));
+  }
   &:focus {
     outline: none;
     border-color: var(--accent);
@@ -128,30 +156,33 @@ textarea {
     border-color: var(--danger);
   }
 }
+textarea {
+  resize: vertical;
+}
 
+/* ---------- Tables ---------- */
 table {
   width: 100%;
   border-collapse: collapse;
 }
 th,
 td {
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 0.9rem;
   text-align: left;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--rule);
 }
 th {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--muted);
+  font-size: 0.76rem;
   font-weight: 600;
-  background: var(--surface);
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
 }
 tbody tr {
   transition: background-color 0.12s;
 }
 tbody tr:hover {
-  background: color-mix(in srgb, var(--accent) 4%, transparent);
+  background: color-mix(in srgb, var(--accent-soft) 45%, transparent);
 }
 tbody tr:last-child td {
   border-bottom: 0;
@@ -159,6 +190,14 @@ tbody tr:last-child td {
 .num {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+/* Claim and policy references read as identifiers, not prose. */
+.ref {
+  font-family: var(--mono);
+  font-size: 0.92em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 /* ---------- Components ---------- */
@@ -169,9 +208,9 @@ button.button {
   justify-content: center;
   gap: 0.45rem;
   font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.55rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 650;
+  padding: 0.58rem 1.05rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: var(--surface);
@@ -179,27 +218,34 @@ button.button {
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
+  box-shadow: var(--shadow);
   transition:
-    transform 0.1s,
+    transform 0.12s,
     background-color 0.15s,
     border-color 0.15s,
     box-shadow 0.15s;
 
   &:hover:not(:disabled) {
-    border-color: color-mix(in srgb, var(--text) 25%, var(--border));
+    border-color: color-mix(in srgb, var(--text) 22%, var(--border));
   }
   &:active:not(:disabled) {
-    transform: translateY(1px);
+    transform: scale(0.98);
   }
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
   }
   &.primary {
     background: var(--accent);
     border-color: var(--accent);
     color: var(--on-accent);
-    box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--accent) 60%, transparent);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 18%) inset,
+      0 6px 16px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+  &.primary:hover:not(:disabled) {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
   }
   &.success {
     background: var(--success);
@@ -207,17 +253,25 @@ button.button {
     color: #fff;
   }
   &.danger {
-    background: transparent;
-    border-color: color-mix(in srgb, var(--danger) 40%, transparent);
+    background: var(--surface);
+    border-color: color-mix(in srgb, var(--danger) 35%, transparent);
     color: var(--danger);
+  }
+  &.danger:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--danger) 7%, var(--surface));
+    border-color: var(--danger);
   }
   &.ghost {
     background: transparent;
     border-color: transparent;
+    box-shadow: none;
+  }
+  &.ghost:hover:not(:disabled) {
+    background: var(--surface-2);
   }
   &.sm {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.82rem;
+    padding: 0.36rem 0.75rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -225,7 +279,7 @@ button.button {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.25rem;
+  padding: 1.35rem;
   box-shadow: var(--shadow);
 }
 
@@ -252,12 +306,12 @@ button.button {
   margin-bottom: 1.5rem;
 }
 .eyebrow {
-  display: block;
-  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
+  color: var(--muted);
   margin-bottom: 0.35rem;
 }
 .muted {
@@ -268,8 +322,9 @@ button.button {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  margin-bottom: 0.75rem;
-  font-size: 0.88rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 500;
   text-decoration: none;
   color: var(--muted);
 }
@@ -278,11 +333,12 @@ button.button {
 }
 .alert {
   margin: 0;
-  padding: 0.75rem 1rem 0.75rem 2rem;
+  padding: 0.8rem 1rem 0.8rem 2rem;
   border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent);
+  background: color-mix(in srgb, var(--danger) 6%, var(--surface));
   color: var(--danger);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 p.alert {
   padding-left: 1rem;
@@ -304,12 +360,13 @@ p.alert {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.2rem 0.6rem;
+  padding: 0.18rem 0.6rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   font-weight: 600;
   background: var(--surface-2);
   color: var(--muted);
+  white-space: nowrap;
 }
 
 .skeleton {
@@ -317,7 +374,7 @@ p.alert {
   background: linear-gradient(
     90deg,
     var(--surface-2) 25%,
-    color-mix(in srgb, var(--surface-2) 50%, var(--surface)) 50%,
+    color-mix(in srgb, var(--surface-2) 40%, var(--surface)) 50%,
     var(--surface-2) 75%
   );
   background-size: 200% 100%;
@@ -327,6 +384,14 @@ p.alert {
 @keyframes shimmer {
   to {
     background-position: -200% 0;
+  }
+}
+
+/* One entrance for every page and panel: a short rise. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
   }
 }
 

@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -17,7 +18,7 @@ interface Highlight {
 
 @Component({
   selector: 'app-login',
-  imports: [Avatar, Icon],
+  imports: [Avatar, Icon, CurrencyPipe],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
