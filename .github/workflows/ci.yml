@@ -39,7 +39,7 @@ jobs:
         run: |
           dotnet tool restore
           dotnet ef migrations bundle --project src/Modules/Claims/ClaimFlow.Claims --startup-project src/Modules/Claims/ClaimFlow.Claims --self-contained -r linux-x64 -o efbundle --configuration Release
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: efbundle
           path: efbundle
@@ -112,7 +112,7 @@ jobs:
         working-directory: web
         run: npm run e2e
       - if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-report
           path: |
