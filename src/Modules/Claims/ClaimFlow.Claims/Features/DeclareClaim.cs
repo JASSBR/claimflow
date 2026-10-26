@@ -42,6 +42,6 @@ internal static class DeclareClaim
 
         return TypedResults.Created(
             $"/api/claims/{result.Value.Id}",
-            ClaimDetailsResponse.From(result.Value, ClaimPermissions.AllowedActions(result.Value, user)));
+            ClaimDetailsResponse.From(result.Value, ClaimPermissions.AllowedActions(result.Value, user, now)));
     }
 }

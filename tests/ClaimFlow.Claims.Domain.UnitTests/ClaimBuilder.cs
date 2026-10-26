@@ -36,4 +36,18 @@ internal static class ClaimBuilder
         claim.Approve(claimedAmount, Unlimited, Now).IsSuccess.ShouldBeTrue();
         return claim;
     }
+
+    public static Claim Rejected(DateTimeOffset? rejectedAt = null)
+    {
+        var claim = UnderReview();
+        claim.Reject(Handler, "Damage predates policy inception.", rejectedAt ?? Now).IsSuccess.ShouldBeTrue();
+        return claim;
+    }
+
+    public static Claim Settled(decimal claimedAmount = 1_000m)
+    {
+        var claim = Approved(claimedAmount);
+        claim.Settle(OtherManager, Now).IsSuccess.ShouldBeTrue();
+        return claim;
+    }
 }

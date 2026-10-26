@@ -49,7 +49,7 @@ and an AI reviewer that backs every finding with a quoted page.
 
 | If you care about… | Look at |
 |---|---|
-| **Domain modelling** | [`Claim.cs`](src/Modules/Claims/ClaimFlow.Claims.Domain/Claim.cs): the workflow is one table; delegated authority, four-eyes and the 2-year time bar (L114-1) are *domain* rules |
+| **Domain modelling** | [`Claim.cs`](src/Modules/Claims/ClaimFlow.Claims.Domain/Claim.cs): the workflow is one table; delegated authority, four-eyes, the 30-day reopen window and the 2-year time bar (L114-1) are *domain* rules |
 | **Reliability** | [Transactional outbox](src/ClaimFlow.BuildingBlocks/Outbox): state and event commit together, `FOR UPDATE SKIP LOCKED`, poison messages parked — [ADR 0002](docs/adr/0002-transactional-outbox.md) |
 | **Concurrency** | `xmin` optimistic concurrency → 409 and a UI that reloads the fresh version — [ADR 0003](docs/adr/0003-postgresql-optimistic-concurrency.md) |
 | **Architecture** | Modular monolith (Claims, Documents) talking through contracts only, **enforced by tests** — [ADR 0001](docs/adr/0001-modular-monolith.md) |
@@ -104,7 +104,7 @@ src/
   Modules/Documents/              Domain (pure) · uploads · Blob storage · AI review · demo PDF generation
 tests/                            unit · architecture · integration (Testcontainers) · k6 load
 web/                              Angular 22 SPA, Vitest unit tests, Playwright e2e
-docs/adr/                         9 architecture decision records
+docs/adr/                         10 architecture decision records
 deploy/                           Azure + Vercel deployment scripts
 ```
 

@@ -24,6 +24,7 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
     public const int DescriptionMinLength = 10;
     public const int DescriptionMaxLength = 2000;
     public const decimal MaxClaimedAmount = 1_000_000m;
+    public const int ReopenWindowDays = 30;
 
     // L114-1 Code des assurances: actions arising from an insurance contract are time-barred after two years.
     private const int LimitationPeriodYears = 2;
@@ -36,6 +37,7 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
             [ClaimAction.ResumeReview] = ([ClaimStatus.InformationRequested], ClaimStatus.UnderReview),
             [ClaimAction.Approve] = ([ClaimStatus.UnderReview], ClaimStatus.Approved),
             [ClaimAction.Reject] = ([ClaimStatus.UnderReview, ClaimStatus.InformationRequested], ClaimStatus.Rejected),
+            [ClaimAction.Reopen] = ([ClaimStatus.Rejected], ClaimStatus.UnderReview),
             [ClaimAction.Settle] = ([ClaimStatus.Approved], ClaimStatus.Settled),
         }.ToFrozenDictionary();
 
@@ -82,11 +84,19 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
     public IReadOnlyList<ClaimAction> AllowedActions =>
         [.. Workflow.Where(step => step.Value.From.Contains(Status)).Select(step => step.Key).Order()];
 
-    /// <summary>The workflow actions this person may take now, segregation of duties included (role permissions are applied by the caller).</summary>
-    public IReadOnlyList<ClaimAction> AllowedActionsFor(Actor actor)
+    /// <summary>The workflow actions this person may take now, segregation of duties and reopen eligibility included (role permissions are applied by the caller).</summary>
+    public IReadOnlyList<ClaimAction> AllowedActionsFor(Actor actor, DateTimeOffset now)
     {
         ArgumentNullException.ThrowIfNull(actor);
-        return [.. AllowedActions.Where(action => action != ClaimAction.Settle || !IsApprover(actor))];
+        return
+        [
+            .. AllowedActions.Where(action => action switch
+            {
+                ClaimAction.Settle => !IsApprover(actor),
+                ClaimAction.Reopen => !HasBeenReopened() && IsWithinReopenWindow(now),
+                _ => true,
+            }),
+        ];
     }
 
     /// <param name="number">Business reference allocated by the caller from a database sequence: guaranteed unique and gap-tolerant.</param>
@@ -161,6 +171,32 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
             ? ClaimErrors.ReasonRequired
             : Transition(ClaimAction.Reject, actor, reason.Trim(), now);
 
+    public Result Reopen(Actor actor, string? reason, DateTimeOffset now)
+    {
+        ArgumentNullException.ThrowIfNull(actor);
+        if (Status != ClaimStatus.Rejected)
+        {
+            return ClaimErrors.TransitionNotAllowed(ClaimAction.Reopen, Status);
+        }
+
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            return ClaimErrors.ReasonRequired;
+        }
+
+        if (HasBeenReopened())
+        {
+            return ClaimErrors.AlreadyReopened;
+        }
+
+        if (!IsWithinReopenWindow(now))
+        {
+            return ClaimErrors.ReopenWindowExpired;
+        }
+
+        return Transition(ClaimAction.Reopen, actor, reason.Trim(), now);
+    }
+
     /// <summary>Releases the payment. Four-eyes principle: the person who approved the amount cannot also pay it out.</summary>
     public Result Settle(Actor actor, DateTimeOffset now)
     {
@@ -210,6 +246,14 @@ public sealed partial class Claim : AggregateRoot<ClaimId>
     private static decimal RoundAmount(decimal amount) => decimal.Round(amount, 2, MidpointRounding.ToEven);
 
     private bool IsApprover(Actor actor) => string.Equals(ApprovedById, actor.Id, StringComparison.Ordinal);
+
+    private bool HasBeenReopened() => _history.Exists(change => change.Action == ClaimAction.Reopen);
+
+    private bool IsWithinReopenWindow(DateTimeOffset now)
+    {
+        var lastRejection = _history.FindLast(change => change.Action == ClaimAction.Reject);
+        return lastRejection is not null && now - lastRejection.OccurredAt <= TimeSpan.FromDays(ReopenWindowDays);
+    }
 
     private Result Transition(ClaimAction action, Actor actor, string? reason, DateTimeOffset now)
     {

@@ -48,7 +48,7 @@ public class ClaimWorkflowTests
         claim.Reject(Handler, "No answer after 30 days.", Later).IsSuccess.ShouldBeTrue();
 
         claim.Status.ShouldBe(ClaimStatus.Rejected);
-        claim.AllowedActions.ShouldBeEmpty();
+        claim.AllowedActions.ShouldBe([ClaimAction.Reopen]);
     }
 
     [Fact]
@@ -122,6 +122,8 @@ public class ClaimWorkflowTests
         { ClaimStatus.UnderReview, [ClaimAction.RequestInformation, ClaimAction.Approve, ClaimAction.Reject] },
         { ClaimStatus.InformationRequested, [ClaimAction.ResumeReview, ClaimAction.Reject] },
         { ClaimStatus.Approved, [ClaimAction.Settle] },
+        { ClaimStatus.Rejected, [ClaimAction.Reopen] },
+        { ClaimStatus.Settled, [] },
     };
 
     [Theory]
@@ -133,6 +135,8 @@ public class ClaimWorkflowTests
             ClaimStatus.Declared => Declared(),
             ClaimStatus.UnderReview => UnderReview(),
             ClaimStatus.Approved => Approved(),
+            ClaimStatus.Rejected => Rejected(),
+            ClaimStatus.Settled => Settled(),
             _ => WithInformationRequested(),
         };
 
@@ -187,8 +191,8 @@ public class ClaimWorkflowTests
     {
         var claim = Approved();
 
-        claim.AllowedActionsFor(Manager).ShouldBeEmpty();
-        claim.AllowedActionsFor(OtherManager).ShouldBe([ClaimAction.Settle]);
+        claim.AllowedActionsFor(Manager, Later).ShouldBeEmpty();
+        claim.AllowedActionsFor(OtherManager, Later).ShouldBe([ClaimAction.Settle]);
     }
 
     [Fact]
@@ -201,5 +205,115 @@ public class ClaimWorkflowTests
 
         claim.History[^1].ActorId.ShouldBe(Manager.Id);
         claim.DomainEvents.ShouldHaveSingleItem().ShouldBeOfType<ClaimStatusChanged>().ActorName.ShouldBe(Manager.Name);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(10)]
+    [InlineData(30)]
+    public void Reopen_WithinThirtyDays_TransitionsToUnderReview_AndRecordsHistory(int daysAfterRejection)
+    {
+        var rejectedAt = Now.AddHours(1);
+        var claim = Rejected(rejectedAt);
+        claim.ClearDomainEvents();
+        var reopenAt = rejectedAt.AddDays(daysAfterRejection);
+
+        var result = claim.Reopen(Handler, "  Counter-expertise report received.  ", reopenAt);
+
+        result.IsSuccess.ShouldBeTrue();
+        claim.Status.ShouldBe(ClaimStatus.UnderReview);
+        claim.LastUpdatedAt.ShouldBe(reopenAt);
+        var change = claim.History[^1];
+        change.From.ShouldBe(ClaimStatus.Rejected);
+        change.To.ShouldBe(ClaimStatus.UnderReview);
+        change.Action.ShouldBe(ClaimAction.Reopen);
+        change.ActorId.ShouldBe(Handler.Id);
+        change.ActorName.ShouldBe(Handler.Name);
+        change.Reason.ShouldBe("Counter-expertise report received.");
+        change.OccurredAt.ShouldBe(reopenAt);
+        var domainEvent = claim.DomainEvents.ShouldHaveSingleItem().ShouldBeOfType<ClaimStatusChanged>();
+        domainEvent.From.ShouldBe(ClaimStatus.Rejected);
+        domainEvent.To.ShouldBe(ClaimStatus.UnderReview);
+        domainEvent.ActorName.ShouldBe(Handler.Name);
+        domainEvent.OccurredAt.ShouldBe(reopenAt);
+    }
+
+    [Fact]
+    public void Reopen_FromDayThirtyOne_FailsWithReopenWindowExpired()
+    {
+        var rejectedAt = Now.AddHours(1);
+        var claim = Rejected(rejectedAt);
+        claim.ClearDomainEvents();
+
+        var day31 = claim.Reopen(Handler, "Late evidence", rejectedAt.AddDays(31));
+        var justPastDay30 = claim.Reopen(Handler, "Late evidence", rejectedAt.AddDays(30).AddTicks(1));
+
+        day31.Errors.ShouldBe([ClaimErrors.ReopenWindowExpired]);
+        day31.Errors[0].Type.ShouldBe(ErrorType.Conflict);
+        justPastDay30.Errors.ShouldBe([ClaimErrors.ReopenWindowExpired]);
+        claim.Status.ShouldBe(ClaimStatus.Rejected);
+        claim.DomainEvents.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Reopen_OnSettledClaim_IsRefused()
+    {
+        var claim = Settled();
+        claim.ClearDomainEvents();
+
+        claim.AllowedActions.ShouldBeEmpty();
+        claim.AllowedActionsFor(Handler, Later).ShouldBeEmpty();
+        var result = claim.Reopen(Handler, "New invoice", Later);
+
+        result.Errors.ShouldHaveSingleItem().Code.ShouldBe("claim.transition_not_allowed");
+        result.Errors[0].Type.ShouldBe(ErrorType.Conflict);
+        claim.Status.ShouldBe(ClaimStatus.Settled);
+        claim.DomainEvents.ShouldBeEmpty();
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Reopen_WithoutReason_FailsWithReasonRequired(string? reason)
+    {
+        var claim = Rejected(Now.AddHours(1));
+
+        var result = claim.Reopen(Handler, reason, Now.AddDays(5));
+
+        result.Errors.ShouldBe([ClaimErrors.ReasonRequired]);
+        claim.Status.ShouldBe(ClaimStatus.Rejected);
+    }
+
+    [Fact]
+    public void Reopen_SecondTimeAfterSubsequentRejection_FailsWithAlreadyReopened()
+    {
+        var rejectedAt = Now.AddHours(1);
+        var claim = Rejected(rejectedAt);
+        claim.Reopen(Handler, "First new evidence", rejectedAt.AddDays(5)).IsSuccess.ShouldBeTrue();
+        var secondRejectAt = rejectedAt.AddDays(6);
+        claim.Reject(Handler, "Still not covered", secondRejectAt).IsSuccess.ShouldBeTrue();
+
+        var secondReopen = claim.Reopen(Handler, "Second attempt", secondRejectAt.AddDays(1));
+
+        secondReopen.Errors.ShouldBe([ClaimErrors.AlreadyReopened]);
+        secondReopen.Errors[0].Type.ShouldBe(ErrorType.Conflict);
+        claim.Status.ShouldBe(ClaimStatus.Rejected);
+    }
+
+    [Fact]
+    public void AllowedActionsFor_OffersReopenWithinThirtyDays_AndHidesItAfterDayThirtyOrAfterOneReopen()
+    {
+        var rejectedAt = Now.AddHours(1);
+        var claim = Rejected(rejectedAt);
+
+        claim.AllowedActionsFor(Handler, rejectedAt.AddDays(30)).ShouldBe([ClaimAction.Reopen]);
+        claim.AllowedActionsFor(Handler, rejectedAt.AddDays(30).AddTicks(1)).ShouldBeEmpty();
+        claim.AllowedActionsFor(Handler, rejectedAt.AddDays(31)).ShouldBeEmpty();
+
+        claim.Reopen(Handler, "New evidence", rejectedAt.AddDays(10)).IsSuccess.ShouldBeTrue();
+        claim.Reject(Handler, "Rejected again", rejectedAt.AddDays(12)).IsSuccess.ShouldBeTrue();
+
+        claim.AllowedActionsFor(Handler, rejectedAt.AddDays(13)).ShouldBeEmpty();
     }
 }

@@ -14,7 +14,13 @@ export const CLAIM_TYPES = ['Auto', 'Home', 'Liability'] as const;
 export type ClaimType = (typeof CLAIM_TYPES)[number];
 
 export type ClaimAction =
-  'StartReview' | 'RequestInformation' | 'ResumeReview' | 'Approve' | 'Reject' | 'Settle';
+  | 'StartReview'
+  | 'RequestInformation'
+  | 'ResumeReview'
+  | 'Approve'
+  | 'Reject'
+  | 'Reopen'
+  | 'Settle';
 
 export interface ClaimSummary {
   readonly id: string;

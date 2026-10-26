@@ -59,6 +59,7 @@ internal static class ApplyClaimAction
             ClaimAction.ResumeReview => claim.ResumeReview(actor, now),
             ClaimAction.Approve => claim.Approve(request.ApprovedAmount ?? 0, permissions.AuthorityOf(user), now),
             ClaimAction.Reject => claim.Reject(actor, request.Reason, now),
+            ClaimAction.Reopen => claim.Reopen(actor, request.Reason, now),
             ClaimAction.Settle => claim.Settle(actor, now),
             _ => Result.Failure(Error.Validation("claim.unknown_action", $"Unknown action '{request.Action}'.")),
         };
@@ -76,6 +77,6 @@ internal static class ApplyClaimAction
             return Result.Failure(ClaimErrors.ConcurrentUpdate).ToProblem();
         }
 
-        return TypedResults.Ok(ClaimDetailsResponse.From(claim, ClaimPermissions.AllowedActions(claim, user)));
+        return TypedResults.Ok(ClaimDetailsResponse.From(claim, ClaimPermissions.AllowedActions(claim, user, now)));
     }
 }

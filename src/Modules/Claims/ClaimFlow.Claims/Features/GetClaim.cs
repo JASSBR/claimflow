@@ -22,13 +22,18 @@ internal static class GetClaim
             .Produces<ClaimDetailsResponse>()
             .ProducesProblem(StatusCodes.Status404NotFound);
 
-    private static async Task<IResult> HandleAsync(Guid id, ClaimsPrincipal user, ClaimsDbContext dbContext, CancellationToken cancellationToken)
+    private static async Task<IResult> HandleAsync(
+        Guid id,
+        ClaimsPrincipal user,
+        ClaimsDbContext dbContext,
+        TimeProvider timeProvider,
+        CancellationToken cancellationToken)
     {
         var claim = await dbContext.Claims.AsNoTracking()
             .SingleOrDefaultAsync(c => c.Id == new ClaimId(id), cancellationToken);
 
         return claim is null
             ? Result.Failure(ClaimErrors.NotFound).ToProblem()
-            : TypedResults.Ok(ClaimDetailsResponse.From(claim, ClaimPermissions.AllowedActions(claim, user)));
+            : TypedResults.Ok(ClaimDetailsResponse.From(claim, ClaimPermissions.AllowedActions(claim, user, timeProvider.GetUtcNow())));
     }
 }

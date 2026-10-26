@@ -10,35 +10,35 @@
 
 ## Testability of Clarified Business Rules
 
-- [ ] CHK001 Are the exact source status (`Rejected`) and target status (`UnderReview`) for the `Reopen` transition unambiguously specified? [Clarity, Spec §FR-002, §User Story 1]
-- [ ] CHK002 Is the 30-day reopening window quantified with an exact reference timestamp (`OccurredAt` of the most recent `Reject` history entry) and boundary condition (`now - rejectedAt <= 30 days` allowed vs `> 30 days` refused)? [Measurability, Spec §FR-003, §Edge Cases]
-- [ ] CHK003 Does the specification require time evaluation to use a deterministic clock source (`TimeProvider`) for both action execution and `allowedActions` calculation? [Measurability, Spec §FR-003, §FR-007]
-- [ ] CHK004 Is the single-reopen limit clearly defined in terms of observable domain history (`History` containing a prior `Reopen` transition) rather than external state? [Clarity, Spec §FR-004, §Edge Cases]
-- [ ] CHK005 Are role permissions for `Reopen` explicitly partitioned between permitted writer roles (`claims.handler`, `claims.manager`) and refused reader roles (`claims.auditor`)? [Completeness, Spec §FR-006, §User Story 1]
-- [ ] CHK006 Are the mandatory audit trail fields (`From`, `To`, `Action`, actor, trimmed reason, timestamp) and realtime outbox notification requirements specified for a successful reopen? [Completeness, Spec §FR-008, §User Story 1]
-- [ ] CHK007 Is the handling of new evidence clearly bounded so that document attachment uses the existing documents panel while the reopen command itself requires only the text reason? [Clarity, Spec §Clarifications, §Out of Scope]
+- [x] CHK001 Are the exact source status (`Rejected`) and target status (`UnderReview`) for the `Reopen` transition unambiguously specified? [Clarity, Spec §FR-002, §User Story 1]
+- [x] CHK002 Is the 30-day reopening window quantified with an exact reference timestamp (`OccurredAt` of the most recent `Reject` history entry) and boundary condition (`now - rejectedAt <= 30 days` allowed vs `> 30 days` refused)? [Measurability, Spec §FR-003, §Edge Cases]
+- [x] CHK003 Does the specification require time evaluation to use a deterministic clock source (`TimeProvider`) for both action execution and `allowedActions` calculation? [Measurability, Spec §FR-003, §FR-007]
+- [x] CHK004 Is the single-reopen limit clearly defined in terms of observable domain history (`History` containing a prior `Reopen` transition) rather than external state? [Clarity, Spec §FR-004, §Edge Cases]
+- [x] CHK005 Are role permissions for `Reopen` explicitly partitioned between permitted writer roles (`claims.handler`, `claims.manager`) and refused reader roles (`claims.auditor`)? [Completeness, Spec §FR-006, §User Story 1]
+- [x] CHK006 Are the mandatory audit trail fields (`From`, `To`, `Action`, actor, trimmed reason, timestamp) and realtime outbox notification requirements specified for a successful reopen? [Completeness, Spec §FR-008, §User Story 1]
+- [x] CHK007 Is the handling of new evidence clearly bounded so that document attachment uses the existing documents panel while the reopen command itself requires only the text reason? [Clarity, Spec §Clarifications, §Out of Scope]
 
 ## Refusal & Error Code Completeness
 
-- [ ] CHK008 Is a specific validation error code (`claim.reason_required`, HTTP 400) defined when a reopen request omits a reason or provides only whitespace? [Completeness, Spec §FR-005, §Edge Cases]
-- [ ] CHK009 Is a distinct conflict error code (`claim.reopen_window_expired`, HTTP 409) specified when a reopen attempt occurs after the 30-day window (day 31 onward)? [Completeness, Spec §FR-003, §Edge Cases]
-- [ ] CHK010 Is a distinct conflict error code (`claim.already_reopened`, HTTP 409) specified when attempting to reopen a claim that was already reopened once before? [Completeness, Spec §FR-004, §Edge Cases]
-- [ ] CHK011 Is the error code (`claim.transition_not_allowed`, HTTP 409) specified when `Reopen` is attempted on a claim in `Settled` or any non-`Rejected` status? [Completeness, Spec §FR-001, Contracts §1]
-- [ ] CHK012 Are authorization refusal semantics (`403 Forbidden` / `claim.action_forbidden`) specified for callers lacking writer permissions (such as `claims.auditor`)? [Completeness, Spec §FR-006, Contracts §1]
-- [ ] CHK013 Is optimistic concurrency failure handling (`claim.concurrent_update`, HTTP 409 on `expectedVersion` mismatch) specified for concurrent reopen attempts? [Coverage, Spec §Edge Cases, Contracts §1]
+- [x] CHK008 Is a specific validation error code (`claim.reason_required`, HTTP 400) defined when a reopen request omits a reason or provides only whitespace? [Completeness, Spec §FR-005, §Edge Cases]
+- [x] CHK009 Is a distinct conflict error code (`claim.reopen_window_expired`, HTTP 409) specified when a reopen attempt occurs after the 30-day window (day 31 onward)? [Completeness, Spec §FR-003, §Edge Cases]
+- [x] CHK010 Is a distinct conflict error code (`claim.already_reopened`, HTTP 409) specified when attempting to reopen a claim that was already reopened once before? [Completeness, Spec §FR-004, §Edge Cases]
+- [x] CHK011 Is the error code (`claim.transition_not_allowed`, HTTP 409) specified when `Reopen` is attempted on a claim in `Settled` or any non-`Rejected` status? [Completeness, Spec §FR-001, Contracts §1]
+- [x] CHK012 Are authorization refusal semantics (`403 Forbidden` / `claim.action_forbidden`) specified for callers lacking writer permissions (such as `claims.auditor`)? [Completeness, Spec §FR-006, Contracts §1]
+- [x] CHK013 Is optimistic concurrency failure handling (`claim.concurrent_update`, HTTP 409 on `expectedVersion` mismatch) specified for concurrent reopen attempts? [Coverage, Spec §Edge Cases, Contracts §1]
 
 ## Bilingual UI & Localization Specification (FR / EN)
 
-- [ ] CHK014 Are both the French (`"Rouvrir le dossier"`) and English (`"Reopen"`) button labels explicitly specified with a stable localization ID (`@@action.reopen`)? [Completeness, Spec §FR-009, Plan §Design Details]
-- [ ] CHK015 Are both the French (`"Nouvelles pièces reçues dans les 30 jours suivant le refus."`) and English (`"New evidence received within 30 days of rejection."`) action hints specified with a stable localization ID (`@@action.reopen.hint`)? [Completeness, Plan §Design Details, Contracts §4]
-- [ ] CHK016 Are client-side French and English error translations specified for both new domain error codes (`claim.reopen_window_expired` and `claim.already_reopened`) in the problem-details registry and translation catalog? [Completeness, Spec §FR-009, Contracts §4]
-- [ ] CHK017 Are UI interaction requirements for the decision panel (`needsReason: true`, `needsAmount: false`, `tone: 'primary'`) consistent between `spec.md`, `plan.md`, and `contracts/reopen-claim.md`? [Consistency, Spec §FR-009, Contracts §4]
+- [x] CHK014 Are both the French (`"Rouvrir le dossier"`) and English (`"Reopen"`) button labels explicitly specified with a stable localization ID (`@@action.reopen`)? [Completeness, Spec §FR-009, Plan §Design Details]
+- [x] CHK015 Are both the French (`"Nouvelles pièces reçues dans les 30 jours suivant le refus."`) and English (`"New evidence received within 30 days of rejection."`) action hints specified with a stable localization ID (`@@action.reopen.hint`)? [Completeness, Plan §Design Details, Contracts §4]
+- [x] CHK016 Are client-side French and English error translations specified for both new domain error codes (`claim.reopen_window_expired` and `claim.already_reopened`) in the problem-details registry and translation catalog? [Completeness, Spec §FR-009, Contracts §4]
+- [x] CHK017 Are UI interaction requirements for the decision panel (`needsReason: true`, `needsAmount: false`, `tone: 'primary'`) consistent between `spec.md`, `plan.md`, and `contracts/reopen-claim.md`? [Consistency, Spec §FR-009, Contracts §4]
 
 ## Estate Governance & Rule Alignment
 
-- [ ] CHK018 Does the specification preserve the approved rule that `Settled` claims permit no actions (`gradera:2246c819-8075-4173-a11d-4187dc882147`, approved)? [Consistency, Spec §FR-001, §Estate Context]
-- [ ] CHK019 Are the intentional overrides of `ko_b31a` (`gradera:b31a7f0c-4be0-409b-9ce4-f54c141aa429`, approved) and `ko_8b9d` (`gradera:8b9d4e71-e5df-4eca-907d-68e211227613`, approved) explicitly acknowledged and scoped to `Rejected` claims within 30 days in the portal? [Traceability, Spec §Estate Context, Constitution §III]
-- [ ] CHK020 Does the specification explicitly state that downstream approved rules—delegated approval authority limits (`gradera:3aff2147-43bf-44d2-b1fd-f0c78b8a1041`, approved), four-eyes settlement (`gradera:c7c74113-1b8b-46f8-bc31-3df9ea3fa38e`, approved), and the 2-year incident time bar (`gradera:f479f3df-d99f-4370-bd16-04f77f4cb3d2`, approved)—remain unchanged after reopening? [Consistency, Spec §FR-010, §Estate Context]
+- [x] CHK018 Does the specification preserve the approved rule that `Settled` claims permit no actions (`gradera:2246c819-8075-4173-a11d-4187dc882147`, approved)? [Consistency, Spec §FR-001, §Estate Context]
+- [x] CHK019 Are the intentional overrides of `ko_b31a` (`gradera:b31a7f0c-4be0-409b-9ce4-f54c141aa429`, approved) and `ko_8b9d` (`gradera:8b9d4e71-e5df-4eca-907d-68e211227613`, approved) explicitly acknowledged and scoped to `Rejected` claims within 30 days in the portal? [Traceability, Spec §Estate Context, Constitution §III]
+- [x] CHK020 Does the specification explicitly state that downstream approved rules—delegated approval authority limits (`gradera:3aff2147-43bf-44d2-b1fd-f0c78b8a1041`, approved), four-eyes settlement (`gradera:c7c74113-1b8b-46f8-bc31-3df9ea3fa38e`, approved), and the 2-year incident time bar (`gradera:f479f3df-d99f-4370-bd16-04f77f4cb3d2`, approved)—remain unchanged after reopening? [Consistency, Spec §FR-010, §Estate Context]
 
 ## Notes
 

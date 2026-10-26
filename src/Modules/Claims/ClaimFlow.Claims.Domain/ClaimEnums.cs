@@ -24,5 +24,6 @@ public enum ClaimAction
     ResumeReview,
     Approve,
     Reject,
+    Reopen,
     Settle,
 }

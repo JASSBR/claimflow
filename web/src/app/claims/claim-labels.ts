@@ -69,6 +69,13 @@ export const ACTION_META: Readonly<Record<ClaimAction, ActionMeta>> = {
     needsAmount: false,
     tone: 'danger',
   },
+  Reopen: {
+    label: $localize`:@@action.reopen:Rouvrir le dossier`,
+    hint: $localize`:@@action.reopen.hint:Nouvelles pièces reçues dans les 30 jours suivant le refus.`,
+    needsReason: true,
+    needsAmount: false,
+    tone: 'primary',
+  },
   Settle: {
     label: $localize`:@@action.settle:Verser l'indemnité`,
     hint: $localize`:@@action.settle.hint:Seconde signature : libère le paiement.`,

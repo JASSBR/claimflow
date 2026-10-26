@@ -20,6 +20,7 @@ internal static class ClaimsSeeder
         ("POL-104233", ClaimType.Auto, 45, "Pare-brise fissuré par un gravillon sur l'autoroute.", 650m, [ClaimAction.StartReview, ClaimAction.Approve]),
         ("POL-412560", ClaimType.Home, 60, "Cambriolage : ordinateur, télévision et bijoux volés, porte arrière forcée.", 9_200m, [ClaimAction.StartReview, ClaimAction.Approve, ClaimAction.Settle]),
         ("POL-509114", ClaimType.Auto, 90, "Dégâts de grêle déclarés, mais les photos sont antérieures au début du contrat.", 3_100m, [ClaimAction.StartReview, ClaimAction.Reject]),
+        ("POL-804195", ClaimType.Home, 10, "Infiltration par la toiture après un orage, facture du couvreur manquante lors de la déclaration.", 1_850m, [ClaimAction.StartReview, ClaimAction.Reject]),
         ("POL-611478", ClaimType.Home, 5, "Tempête : tuiles arrachées, bâche posée en urgence.", 12_400m, []),
         ("POL-702338", ClaimType.Liability, 20, "Un enfant a cassé la fenêtre du voisin avec un ballon.", 380m, [ClaimAction.StartReview, ClaimAction.Approve]),
     ];

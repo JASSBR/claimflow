@@ -35,7 +35,7 @@ internal sealed class ClaimPermissions(IOptions<ClaimsOptions> options)
 
     public ApprovalAuthority AuthorityOf(ClaimsPrincipal user) => new(user.ToActor(), ApprovalLimitOf(user));
 
-    /// <summary>What this user can do on this claim right now: workflow ∩ role ∩ segregation of duties.</summary>
-    public static IReadOnlyList<ClaimAction> AllowedActions(Claim claim, ClaimsPrincipal user) =>
-        [.. claim.AllowedActionsFor(user.ToActor()).Where(action => CanPerform(user, action))];
+    /// <summary>What this user can do on this claim right now: workflow ∩ role ∩ segregation of duties ∩ reopen window.</summary>
+    public static IReadOnlyList<ClaimAction> AllowedActions(Claim claim, ClaimsPrincipal user, DateTimeOffset now) =>
+        [.. claim.AllowedActionsFor(user.ToActor(), now).Where(action => CanPerform(user, action))];
 }

@@ -214,4 +214,69 @@ public sealed class ClaimsApiTests(ClaimFlowApiFactory factory) : IAsyncLifetime
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         (await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken)).ShouldBe("Healthy");
     }
+
+    [Fact]
+    public async Task Reopen_WithinThirtyDays_Returns200WithUnderReview_AndRefusesSecondReopen()
+    {
+        var claim = await _client.DeclareAsync();
+        claim = await (await _client.ActAsync(claim, ClaimAction.StartReview)).ReadAsync<ClaimDetailsResponse>();
+        claim = await (await _client.ActAsync(claim, ClaimAction.Reject, reason: "Missing repair invoice.")).ReadAsync<ClaimDetailsResponse>();
+
+        claim.Status.ShouldBe(ClaimStatus.Rejected);
+        claim.AllowedActions.ShouldBe([ClaimAction.Reopen]);
+
+        var missingReason = await _client.ActAsync(claim, ClaimAction.Reopen, reason: "   ");
+        missingReason.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        (await missingReason.ReadAsync<ValidationProblemDetails>()).Errors.Keys.ShouldBe(["claim.reason_required"]);
+
+        using var sophie = await factory.ClientForAsync("sophie");
+        (await sophie.ActAsync(claim, ClaimAction.Reopen, reason: "Auditor attempt")).StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+
+        var reopenedResponse = await _client.ActAsync(claim, ClaimAction.Reopen, reason: "Repair invoice received.");
+        reopenedResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var reopened = await reopenedResponse.ReadAsync<ClaimDetailsResponse>();
+        reopened.Status.ShouldBe(ClaimStatus.UnderReview);
+        reopened.AllowedActions.ShouldBe([ClaimAction.RequestInformation, ClaimAction.Approve, ClaimAction.Reject], ignoreOrder: true);
+        reopened.History[^1].Action.ShouldBe(ClaimAction.Reopen);
+        reopened.History[^1].Reason.ShouldBe("Repair invoice received.");
+        reopened.History[^1].ActorName.ShouldBe("Léa Martin");
+
+        var rejectedAgain = await (await _client.ActAsync(reopened, ClaimAction.Reject, reason: "Invoice does not match policy.")).ReadAsync<ClaimDetailsResponse>();
+        rejectedAgain.Status.ShouldBe(ClaimStatus.Rejected);
+        rejectedAgain.AllowedActions.ShouldBeEmpty();
+
+        var secondReopen = await _client.ActAsync(rejectedAgain, ClaimAction.Reopen, reason: "Another invoice");
+        secondReopen.StatusCode.ShouldBe(HttpStatusCode.Conflict);
+        (await secondReopen.ReadAsync<JsonElement>()).GetProperty("code").GetString().ShouldBe("claim.already_reopened");
+    }
+
+    [Fact]
+    public async Task Reopen_AfterThirtyDays_OrOnSettledClaim_Returns409WithSpecificCode()
+    {
+        // Seeded claim POL-509114 was rejected ~90 days ago: outside the 30-day reopen window.
+        var expiredSummary = (await _client.GetFromJsonAsync<PagedResponse<ClaimSummaryResponse>>(
+            "/api/claims?search=POL-509114&pageSize=10", ApiClient.Json, TestContext.Current.CancellationToken))!.Items.Single();
+        var expired = (await _client.GetFromJsonAsync<ClaimDetailsResponse>(
+            $"/api/claims/{expiredSummary.Id}", ApiClient.Json, TestContext.Current.CancellationToken))!;
+
+        expired.Status.ShouldBe(ClaimStatus.Rejected);
+        expired.AllowedActions.ShouldBeEmpty();
+
+        var expiredAttempt = await _client.ActAsync(expired, ClaimAction.Reopen, reason: "Too late evidence");
+        expiredAttempt.StatusCode.ShouldBe(HttpStatusCode.Conflict);
+        (await expiredAttempt.ReadAsync<JsonElement>()).GetProperty("code").GetString().ShouldBe("claim.reopen_window_expired");
+
+        // Seeded claim POL-412560 is Settled: no actions allowed and Reopen is refused as transition_not_allowed.
+        var settledSummary = (await _client.GetFromJsonAsync<PagedResponse<ClaimSummaryResponse>>(
+            "/api/claims?search=POL-412560&pageSize=10", ApiClient.Json, TestContext.Current.CancellationToken))!.Items.Single();
+        var settled = (await _client.GetFromJsonAsync<ClaimDetailsResponse>(
+            $"/api/claims/{settledSummary.Id}", ApiClient.Json, TestContext.Current.CancellationToken))!;
+
+        settled.Status.ShouldBe(ClaimStatus.Settled);
+        settled.AllowedActions.ShouldBeEmpty();
+
+        var settledAttempt = await _client.ActAsync(settled, ClaimAction.Reopen, reason: "Try reopen settled");
+        settledAttempt.StatusCode.ShouldBe(HttpStatusCode.Conflict);
+        (await settledAttempt.ReadAsync<JsonElement>()).GetProperty("code").GetString().ShouldBe("claim.transition_not_allowed");
+    }
 }

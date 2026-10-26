@@ -13,3 +13,4 @@ Each record captures one decision, the context that forced it, and what it costs
 | [0007](0007-frontend-signals-server-driven-workflow.md) | Zoneless Angular, signals end-to-end, server-driven workflow | Accepted |
 | [0008](0008-authentication-and-segregation-of-duties.md) | Authentication, roles and segregation of duties | Accepted |
 | [0009](0009-ai-file-review-with-citations.md) | AI file review: long context with citations, no vector database | Accepted |
+| [0010](0010-time-dependent-allowed-actions.md) | Time-dependent allowed actions and history-derived reopen eligibility | Accepted |

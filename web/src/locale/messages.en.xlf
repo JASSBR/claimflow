@@ -181,18 +181,32 @@
           <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="action.reopen" datatype="html">
+        <source>Rouvrir le dossier</source>
+        <target>Reopen</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="action.reopen.hint" datatype="html">
+        <source>Nouvelles pièces reçues dans les 30 jours suivant le refus.</source>
+        <target>New evidence received within 30 days of rejection.</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="action.settle" datatype="html">
         <source>Verser l'indemnité</source>
         <target>Release payment</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">80</context>
         </context-group>
       </trans-unit>
       <trans-unit id="action.settle.hint" datatype="html">
         <source>Seconde signature : libère le paiement.</source>
         <target>Second signature: releases the payment.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/claims/claim-labels.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="toast.colleague" datatype="html">
@@ -1344,95 +1358,109 @@
           <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="error.reopenWindowExpired" datatype="html">
+        <source>Ce dossier ne peut plus être rouvert : le délai de 30 jours après le refus est dépassé.</source>
+        <target>This claim can no longer be reopened: the 30-day window after rejection has expired.</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.alreadyReopened" datatype="html">
+        <source>Ce dossier a déjà été rouvert une fois et ne peut pas l'être à nouveau.</source>
+        <target>This claim has already been reopened once and cannot be reopened again.</target><context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="error.concurrent" datatype="html">
         <source>Le dossier vient d'être modifié par quelqu'un d'autre. Sa nouvelle version est affichée : vérifiez-la avant de décider.</source>
         <target>Someone else just changed this claim. Its new version is shown: check it before deciding.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.claimNotFound" datatype="html">
         <source>Ce sinistre n'existe pas.</source>
         <target>This claim does not exist.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.documentFormat" datatype="html">
         <source>Seuls les PDF, PNG et JPEG sont acceptés (format vérifié sur le contenu du fichier, pas sur son nom).</source>
         <target>Only PDF, PNG and JPEG are accepted (checked from the file content, not its name).</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.documentSize" datatype="html">
         <source>Un document ne peut pas dépasser 10 Mo.</source>
         <target>A document cannot exceed 10 MB.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.documentEmpty" datatype="html">
         <source>Le fichier est vide.</source>
         <target>The file is empty.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.documentCount" datatype="html">
         <source>Le dossier a atteint le nombre maximal de pièces.</source>
         <target>The claim has reached the maximum number of documents.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.documentNotFound" datatype="html">
         <source>Cette pièce n'existe pas sur ce dossier.</source>
         <target>This document does not exist on this claim.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.aiDisabled" datatype="html">
         <source>L'assistant IA n'est pas configuré sur cet environnement.</source>
         <target>The AI assistant is not configured on this environment.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.noDocuments" datatype="html">
         <source>Ajoutez au moins une pièce avant de lancer la revue.</source>
         <target>Attach at least one document before asking for a review.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.unexpected" datatype="html">
         <source>Erreur inattendue.</source>
         <target>Unexpected error.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.network" datatype="html">
         <source>L'API est injoignable. Vérifiez votre connexion.</source>
         <target>The API cannot be reached. Check your connection.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.rateLimited" datatype="html">
         <source>Trop de demandes en peu de temps. Réessayez dans quelques minutes.</source>
         <target>Too many requests in a short time. Try again in a few minutes.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error.status" datatype="html">
         <source>Erreur <x id="status" equiv-text="error.status" />.</source>
         <target>Error <x id="status" equiv-text="error.status" />.</target><context-group purpose="location">
           <context context-type="sourcefile">src/app/shared/problem-details.ts</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="toast.region" datatype="html">

@@ -25,6 +25,8 @@ const MESSAGES: Readonly<Record<string, string>> = {
   'claim.four_eyes_violation': $localize`:@@error.fourEyes:Principe des quatre yeux : la personne qui a accepté un dossier ne peut pas en verser l'indemnité.`,
   'claim.action_forbidden': $localize`:@@error.actionForbidden:Votre rôle ne permet pas cette action.`,
   'claim.transition_not_allowed': $localize`:@@error.transition:Cette action n'est pas possible dans l'état actuel du dossier.`,
+  'claim.reopen_window_expired': $localize`:@@error.reopenWindowExpired:Ce dossier ne peut plus être rouvert : le délai de 30 jours après le refus est dépassé.`,
+  'claim.already_reopened': $localize`:@@error.alreadyReopened:Ce dossier a déjà été rouvert une fois et ne peut pas l'être à nouveau.`,
   'claim.concurrent_update': $localize`:@@error.concurrent:Le dossier vient d'être modifié par quelqu'un d'autre. Sa nouvelle version est affichée : vérifiez-la avant de décider.`,
   'claim.not_found': $localize`:@@error.claimNotFound:Ce sinistre n'existe pas.`,
   'document.unsupported_format': $localize`:@@error.documentFormat:Seuls les PDF, PNG et JPEG sont acceptés (format vérifié sur le contenu du fichier, pas sur son nom).`,

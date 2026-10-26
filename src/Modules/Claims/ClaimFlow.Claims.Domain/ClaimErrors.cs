@@ -42,4 +42,10 @@ public static class ClaimErrors
 
     public static Error TransitionNotAllowed(ClaimAction action, ClaimStatus status) =>
         Error.Conflict("claim.transition_not_allowed", $"Action '{action}' is not allowed while the claim is '{status}'.");
+
+    public static readonly Error ReopenWindowExpired =
+        Error.Conflict("claim.reopen_window_expired", "A rejected claim can only be reopened within 30 days of rejection.");
+
+    public static readonly Error AlreadyReopened =
+        Error.Conflict("claim.already_reopened", "A claim can only be reopened once.");
 }

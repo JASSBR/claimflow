@@ -90,4 +90,30 @@ describe('DecisionPanel', () => {
     expect(element.querySelector('.actions')).toBeNull();
     expect(element.textContent).toContain('lecture seule');
   });
+
+  it('shows Reopen with a reason field when allowedActions contains it', () => {
+    const { fixture, element, emitted, button } = render({
+      claim: claimDetails({ status: 'Rejected', allowedActions: ['Reopen'] }),
+    });
+
+    const reopenButton = button('Rouvrir le dossier');
+    expect(reopenButton).toBeTruthy();
+    reopenButton.click();
+    fixture.detectChanges();
+
+    const textarea = element.querySelector('textarea')!;
+    expect(textarea).toBeTruthy();
+    textarea.value = '  Contre-expertise reçue.  ';
+    textarea.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    button('Rouvrir le dossier').click();
+    expect(emitted).toEqual([
+      {
+        action: 'Reopen',
+        reason: 'Contre-expertise reçue.',
+        approvedAmount: undefined,
+      },
+    ]);
+  });
 });
